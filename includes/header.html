@@ -1,18 +1,18 @@
 <header
-    class="sticky top-0 z-50 flex items-center justify-between border-b border-white/10 bg-background-dark/80 backdrop-blur-md px-6 py-4 md:px-10">
+    class="sticky top-0 z-50 flex items-center justify-between border-b border-white/10 bg-background-dark/80 dark:bg-background-dark/80 backdrop-blur-md px-6 py-4 md:px-10">
     <div class="flex items-center gap-8">
         <a class="flex items-center gap-2 text-white hover:opacity-80 transition-opacity" href="index.html">
-            <div class="size-8 text-primary">
+            <div class="size-8 text-primary animate-float">
                 <span class="material-symbols-outlined text-[32px] filled">movie</span>
             </div>
             <h2 class="text-white text-xl font-bold tracking-tight">CineScope</h2>
         </a>
         <!-- Desktop Nav Links -->
         <nav class="hidden lg:flex items-center gap-6">
-            <a class="text-white text-sm font-medium hover:text-primary transition-colors" href="index.html">Movies</a>
-            <a class="text-white text-sm font-medium hover:text-primary transition-colors" href="search.html">TV
+            <a class="text-white text-sm font-medium hover:text-primary smooth-transition" href="index.html">Movies</a>
+            <a class="text-white text-sm font-medium hover:text-primary smooth-transition" href="search.html">TV
                 Shows</a>
-            <a class="text-white text-sm font-medium hover:text-primary transition-colors" href="search.html">New &amp;
+            <a class="text-white text-sm font-medium hover:text-primary smooth-transition" href="search.html">New &amp;
                 Popular</a>
         </nav>
     </div>
@@ -21,22 +21,29 @@
         <div
             class="flex w-full items-center rounded-full bg-surface-dark border border-white/10 focus-within:border-primary/50 transition-colors h-10 px-4">
             <span class="material-symbols-outlined text-gray-400 text-[20px]">search</span>
-            <input class="flex-1 bg-transparent border-none text-sm text-white placeholder-gray-400 focus:ring-0 px-3"
+            <input id="global-search"
+                class="flex-1 bg-transparent border-none text-sm text-white placeholder-gray-400 focus:ring-0 px-3"
                 placeholder="Find movies, TV shows..." type="text" />
         </div>
     </div>
     <div class="flex items-center gap-4">
+        <!-- Theme Toggle -->
+        <button id="theme-toggle"
+            class="flex items-center justify-center size-10 rounded-full hover:bg-white/10 transition-colors text-white btn-ripple"
+            title="Toggle Theme">
+            <span class="material-symbols-outlined text-[24px]">dark_mode</span>
+        </button>
         <button
-            class="flex items-center justify-center size-10 rounded-full hover:bg-white/10 transition-colors text-white relative group"
+            class="flex items-center justify-center size-10 rounded-full hover:bg-white/10 transition-colors text-white relative group btn-ripple"
             onclick="window.location.href='watchlist.html'">
             <span class="material-symbols-outlined text-[24px]">bookmark</span>
             <span class="absolute top-2 right-2 size-2 bg-primary rounded-full hidden group-hover:block"></span>
         </button>
         <button
-            class="flex items-center justify-center size-10 rounded-full hover:bg-white/10 transition-colors text-white">
+            class="flex items-center justify-center size-10 rounded-full hover:bg-white/10 transition-colors text-white btn-ripple">
             <span class="material-symbols-outlined text-[24px]">notifications</span>
         </button>
-        <button class="size-9 rounded-full overflow-hidden border border-white/10 ml-2">
+        <button class="size-9 rounded-full overflow-hidden border border-white/10 ml-2 hover-scale">
             <img alt="User Avatar" class="w-full h-full object-cover"
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfHF17cBeovN5ziToKN9DvwFzoKt6MPZrKiuqskvZRyeMzGbV-_0nOFUS9vBPQsq0zwrNKA18KYkuf-aYVt5mg81ySgRWfVIHYnz8f0liMAsFO4JOoXVHqCr1actiDJDjSfxFOU2b5Ws7AvGhe62xqqcG-e0epnIxIJrqpVTeMYj1mZ3ouxDFoYsYSlK9WX4Ktnz85A8oHiyZVbmJFsg05RAhMla1q0KZuSp2s-9jKwLiDUcOiMzktdG9JF8lVXBXg7Pm48PoAuZ9p" />
         </button>

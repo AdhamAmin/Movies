@@ -43,6 +43,7 @@
         }
     </script>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
 </head>
 
 <body
@@ -57,7 +58,8 @@
             <div class="p-6 pb-2">
                 <div class="flex items-center justify-between mb-6">
                     <h3 class="text-white tracking-tight text-lg font-bold">Filters</h3>
-                    <button class="text-xs font-medium text-primary hover:text-white transition-colors">Reset
+                    <button data-reset-filters
+                        class="text-xs font-medium text-primary hover:text-white transition-colors btn-ripple">Reset
                         All</button>
                 </div>
             </div>
@@ -73,28 +75,28 @@
                     </summary>
                     <div class="pt-2 pb-3 flex flex-col gap-3">
                         <label class="flex items-center gap-3 cursor-pointer group/item">
-                            <input checked=""
+                            <input data-genre="Action" checked=""
                                 class="rounded border-border-dark bg-surface-dark text-primary focus:ring-0 focus:ring-offset-0 w-4 h-4 cursor-pointer"
                                 type="checkbox" />
                             <span
                                 class="text-text-secondary text-sm group-hover/item:text-white transition-colors">Action</span>
                         </label>
                         <label class="flex items-center gap-3 cursor-pointer group/item">
-                            <input
+                            <input data-genre="Sci-Fi"
                                 class="rounded border-border-dark bg-surface-dark text-primary focus:ring-0 focus:ring-offset-0 w-4 h-4 cursor-pointer"
                                 type="checkbox" />
                             <span
                                 class="text-text-secondary text-sm group-hover/item:text-white transition-colors">Sci-Fi</span>
                         </label>
                         <label class="flex items-center gap-3 cursor-pointer group/item">
-                            <input
+                            <input data-genre="Drama"
                                 class="rounded border-border-dark bg-surface-dark text-primary focus:ring-0 focus:ring-offset-0 w-4 h-4 cursor-pointer"
                                 type="checkbox" />
                             <span
                                 class="text-text-secondary text-sm group-hover/item:text-white transition-colors">Drama</span>
                         </label>
                         <label class="flex items-center gap-3 cursor-pointer group/item">
-                            <input
+                            <input data-genre="Thriller"
                                 class="rounded border-border-dark bg-surface-dark text-primary focus:ring-0 focus:ring-offset-0 w-4 h-4 cursor-pointer"
                                 type="checkbox" />
                             <span
@@ -513,7 +515,9 @@
             </div>
         </main>
     </div>
+    <script src="js/theme.js"></script>
     <script src="js/loader.js"></script>
+    <script src="js/app.js"></script>
 </body>
 
 </html>
