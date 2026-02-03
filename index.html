@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -18,28 +17,108 @@
         <img src="assets/background.jpg" alt="Background" class="bg-image">
     </div>
 
-    <main class="content-wrapper">
-        <div class="header-badge">
-            <i class="fa-solid fa-bolt"></i> Waitlist
-        </div>
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>CineScope - Movie Discovery</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#e60a15",
+                        "background-light": "#f8f5f6",
+                        "background-dark": "#0D0D0D", // Updated to match user request better
+                        "surface-dark": "#1A1A1A",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.375rem", // rounded-md
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <link rel="stylesheet" href="css/style.css">
 
-        <h1 class="main-title">Coming soon!</h1>
+</head>
 
-        <div class="glass-card">
-            <h2>Join our waitlist!</h2>
-            <p>Sign up for our newsletter to receive the latest updates and insights straight to your inbox.</p>
-
-            <form id="waitlist-form" class="waitlist-form">
-                <div class="input-group">
-                    <input type="text" id="name" placeholder="Full Name" required class="input-field">
-                    <input type="email" id="email" placeholder="Email Address" required class="input-field">
-                    <button type="submit">Join Waitlist</button>
+<body
+    class="bg-background-light dark:bg-background-dark font-display text-[#111418] dark:text-white overflow-x-hidden antialiased">
+    <div class="flex min-h-screen w-full flex-col">
+        <!-- Top Navigation Bar -->
+        <header>
+            <div id="header-placeholder"></div>
+        </header>
+        <main class="flex-1 flex flex-col">
+            <!-- Hero Section -->
+            <section class="relative w-full h-[85vh] min-h-[600px] overflow-hidden">
+                <!-- Background Image -->
+                <div class="absolute inset-0 bg-cover bg-center"
+                    data-alt="Dune Part Two cinematic movie scene with desert landscape and characters"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDIBmrBmM3RsMBW_MIacWH1S9fIGhOkfJSuWutcrxfkjebULVAolDkfbJh1nLVAeLeefziJ32l_Lx4S_wUI0G7zKnTWDKXgpj2waRwHDgAaJrhDiHglSMBnqGx4rOW398xfn6WLpLDWb-8Ya3gyuRfWT0NtTdWLCaInUvE5Qh5Ps5jHWtc8s_1d0c5kHtPxkx9DQRTkLRv_wp8RMJVrMs8-YGI0ac9DefJoLqm-BTNwR0kpWId7wx4wh1pvTC1bCbRAlyxXOAcE6Wo0");'>
+                    <!-- Gradient Overlay -->
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/50 to-transparent">
+                    </div>
+                    <div
+                        class="absolute inset-0 bg-gradient-to-r from-background-dark via-background-dark/60 to-transparent">
+                    </div>
                 </div>
-            </form>
-
-            <div class="success-message" style="display: none;">
-                <div class="checkmark-circle">
-                    <div class="tick-mark"></div>
+                <!-- Content -->
+                <div class="relative h-full flex items-end pb-24 px-6 md:px-16 max-w-7xl mx-auto w-full">
+                    <div class="flex flex-col gap-6 max-w-2xl animate-fade-in-up">
+                        <div class="flex flex-col gap-2">
+                            <h1
+                                class="text-white text-5xl md:text-7xl font-black leading-none tracking-tight drop-shadow-xl">
+                                Dune: Part Two
+                            </h1>
+                            <!-- Metadata Row -->
+                            <div class="flex items-center gap-4 text-gray-300 text-sm md:text-base font-medium mt-2">
+                                <span class="text-[#FFD700] flex items-center gap-1 font-bold">
+                                    <span class="material-symbols-outlined text-[18px] filled">star</span> 4.8
+                                </span>
+                                <span>•</span>
+                                <span>2024</span>
+                                <span>•</span>
+                                <span>2h 46m</span>
+                                <span>•</span>
+                                <span class="px-2 py-0.5 rounded border border-white/20 text-xs">PG-13</span>
+                            </div>
+                            <p
+                                class="text-gray-200 text-base md:text-lg leading-relaxed line-clamp-3 md:line-clamp-none max-w-xl mt-2 drop-shadow-md">
+                                Paul Atreides unites with Chani and the Fremen while on a warpath of revenge against the
+                                conspirators who destroyed his family. Facing a choice between the love of his life and
+                                the fate of the known universe, he endeavors to prevent a terrible future only he can
+                                foresee.
+                            </p>
+                        </div>
+                        <div class="flex flex-wrap gap-4 mt-4">
+                            <button
+                                class="flex items-center justify-center gap-2 h-12 px-8 rounded-md bg-primary hover:bg-red-700 text-white font-bold tracking-wide transition-all shadow-lg hover:shadow-red-900/40">
+                                <span class="material-symbols-outlined text-[24px] filled">play_arrow</span>
+                                <span>Watch Trailer</span>
+                            </button>
+                            <button
+                                class="flex items-center justify-center gap-2 h-12 px-8 rounded-md bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold tracking-wide transition-all border border-white/10">
+                                <span class="material-symbols-outlined text-[24px]">info</span>
+                                <span>More Info</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <h2>Thank you!</h2>
                 <p>You've been added to the waitlist. We'll be in touch soon.</p>

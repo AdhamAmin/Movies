@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Movie Discovery - Search</title>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Material Symbols -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Theme Config -->
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#e60a15",
+                        "background-light": "#f8f5f6",
+                        "background-dark": "#221011",
+                        "surface-dark": "#2a1617",
+                        "border-dark": "#392829",
+                        "text-secondary": "#ba9c9d",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark font-display text-white overflow-hidden h-screen flex flex-col">
+    <!-- Top Navigation Bar -->
+    <div id="header-placeholder"></div>
+    <!-- Main Layout -->
+    <div class="flex flex-1 overflow-hidden relative">
+        <!-- Left Sidebar (Filters) -->
+        <aside
+            class="w-72 flex-col border-r border-border-dark bg-[#1a0c0d] overflow-y-auto hidden lg:flex shrink-0 pb-10">
+            <div class="p-6 pb-2">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-white tracking-tight text-lg font-bold">Filters</h3>
+                    <button class="text-xs font-medium text-primary hover:text-white transition-colors">Reset
+                        All</button>
+                </div>
+            </div>
+            <!-- Accordions Container -->
+            <div class="flex flex-col px-4 gap-3">
+                <!-- Genre -->
+                <details class="flex flex-col rounded-lg border border-border-dark bg-background-dark px-4 py-2 group"
+                    open="">
+                    <summary class="flex cursor-pointer items-center justify-between py-2 list-none outline-none">
+                        <p class="text-white text-sm font-medium leading-normal">Genre</p>
+                        <span
+                            class="material-symbols-outlined text-text-secondary group-open:rotate-180 transition-transform text-lg">expand_more</span>
+                    </summary>
+                    <div class="pt-2 pb-3 flex flex-col gap-3">
+                        <label class="flex items-center gap-3 cursor-pointer group/item">
+                            <input checked=""
+                                class="rounded border-border-dark bg-surface-dark text-primary focus:ring-0 focus:ring-offset-0 w-4 h-4 cursor-pointer"
+                                type="checkbox" />
+                            <span
+                                class="text-text-secondary text-sm group-hover/item:text-white transition-colors">Action</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group/item">
+                            <input
+                                class="rounded border-border-dark bg-surface-dark text-primary focus:ring-0 focus:ring-offset-0 w-4 h-4 cursor-pointer"
+                                type="checkbox" />
+                            <span
+                                class="text-text-secondary text-sm group-hover/item:text-white transition-colors">Sci-Fi</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group/item">
+                            <input
+                                class="rounded border-border-dark bg-surface-dark text-primary focus:ring-0 focus:ring-offset-0 w-4 h-4 cursor-pointer"
+                                type="checkbox" />
+                            <span
+                                class="text-text-secondary text-sm group-hover/item:text-white transition-colors">Drama</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group/item">
+                            <input
+                                class="rounded border-border-dark bg-surface-dark text-primary focus:ring-0 focus:ring-offset-0 w-4 h-4 cursor-pointer"
+                                type="checkbox" />
+                            <span
+                                class="text-text-secondary text-sm group-hover/item:text-white transition-colors">Thriller</span>
+                        </label>
+                    </div>
+                </details>
+                <!-- Release Year -->
+                <details class="flex flex-col rounded-lg border border-border-dark bg-background-dark px-4 py-2 group"
+                    open="">
+                    <summary class="flex cursor-pointer items-center justify-between py-2 list-none outline-none">
+                        <p class="text-white text-sm font-medium leading-normal">Release Year</p>
+                        <span
+                            class="material-symbols-outlined text-text-secondary group-open:rotate-180 transition-transform text-lg">expand_more</span>
+                    </summary>
+                    <div class="pt-2 pb-3 flex flex-col gap-3">
+                        <div class="flex items-center gap-2">
+                            <input
+                                class="w-full bg-surface-dark border border-border-dark rounded px-2 py-1.5 text-sm text-white focus:border-primary focus:outline-none focus:ring-0 placeholder:text-text-secondary/50"
+                                placeholder="1990" type="number" />
+                            <span class="text-text-secondary text-xs">to</span>
+                            <input
+                                class="w-full bg-surface-dark border border-border-dark rounded px-2 py-1.5 text-sm text-white focus:border-primary focus:outline-none focus:ring-0 placeholder:text-text-secondary/50"
+                                placeholder="2024" type="number" />
+                        </div>
+                    </div>
+                </details>
+                <!-- Rating -->
+                <details class="flex flex-col rounded-lg border border-border-dark bg-background-dark px-4 py-2 group"
+                    open="">
+                    <summary class="flex cursor-pointer items-center justify-between py-2 list-none outline-none">
+                        <p class="text-white text-sm font-medium leading-normal">IMDb Rating</p>
+                        <span
+                            class="material-symbols-outlined text-text-secondary group-open:rotate-180 transition-transform text-lg">expand_more</span>
+                    </summary>
+                    <div class="pt-4 pb-3 px-1">
+                        <div class="relative h-1 w-full bg-border-dark rounded-full">
+                            <div class="absolute left-0 top-0 h-full w-[70%] bg-primary rounded-full"></div>
+                            <div
+                                class="absolute left-[70%] top-1/2 -translate-y-1/2 size-3 bg-white rounded-full cursor-pointer shadow-lg hover:scale-125 transition-transform">
+                            </div>
+                        </div>
+                        <div class="flex justify-between mt-2 text-xs text-text-secondary font-medium">
+                            <span>0</span>
+                            <span class="text-white">7.0+</span>
+                            <span>10</span>
+                        </div>
+                    </div>
+                </details>
+                <!-- Language -->
+                <details class="flex flex-col rounded-lg border border-border-dark bg-background-dark px-4 py-2 group">
+                    <summary class="flex cursor-pointer items-center justify-between py-2 list-none outline-none">
+                        <p class="text-white text-sm font-medium leading-normal">Language</p>
+                        <span
+                            class="material-symbols-outlined text-text-secondary group-open:rotate-180 transition-transform text-lg">expand_more</span>
+                    </summary>
+                    <div class="pt-2 pb-3">
+                        <p class="text-text-secondary text-sm">Any Language</p>
+                    </div>
+                </details>
+            </div>
+        </aside>
+        <!-- Main Content Area -->
+        <main class="flex-1 flex flex-col h-full overflow-hidden bg-background-dark relative">
+            <!-- Sticky Header Section -->
+            <div
+                class="px-6 md:px-10 py-6 sticky top-0 z-10 bg-background-dark/95 backdrop-blur-sm border-b border-border-dark/50">
+                <!-- Search Bar -->
+                <div class="max-w-4xl mx-auto mb-4">
+                    <label class="flex flex-col w-full h-14 relative group">
+                        <div
+                            class="flex w-full flex-1 items-stretch rounded-xl overflow-hidden ring-1 ring-border-dark focus-within:ring-primary/50 bg-[#150a0a] transition-all shadow-lg">
+                            <div class="text-text-secondary flex items-center justify-center pl-4 pr-2">
+                                <span class="material-symbols-outlined">search</span>
+                            </div>
+                            <input
+                                class="flex w-full min-w-0 flex-1 resize-none bg-transparent text-white focus:outline-0 border-none h-full placeholder:text-text-secondary/60 px-2 text-lg font-normal leading-normal"
+                                placeholder="Search movies, actors, or genres..." value="Action" />
+                            <button
+                                class="pr-4 pl-2 text-text-secondary hover:text-white transition-colors flex items-center"
+                                type="button">
+                                <span class="material-symbols-outlined" style="font-size: 20px;">close</span>
+                            </button>
+                        </div>
+                    </label>
+                </div>
+                <!-- Breadcrumbs & Count -->
+                <div class="max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-4">
+                    <div class="flex items-center gap-2 text-sm">
+                        <a class="text-text-secondary hover:text-primary transition-colors font-medium"
+                            href="#">Home</a>
+                        <span class="text-text-secondary">/</span>
+                        <a class="text-text-secondary hover:text-primary transition-colors font-medium"
+                            href="#">Browse</a>
+                        <span class="text-text-secondary">/</span>
+                        <span class="text-white font-medium">Search Results</span>
+                    </div>
+                    <div class="text-sm font-medium text-text-secondary">
+                        Showing <span class="text-white">124</span> results for "Action"
+                    </div>
+                </div>
+            </div>
+            <!-- Scrollable Grid Area -->
+            <div class="flex-1 overflow-y-auto p-6 md:px-10 pb-20 scroll-smooth">
+                <div class="max-w-[1600px] mx-auto">
+                    <!-- Content Grid -->
+                    <div
+                        class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-x-5 gap-y-8">
+                        <!-- Movie Card 1 -->
+                        <div class="group relative flex flex-col gap-2 cursor-pointer">
+                            <div
+                                class="relative aspect-[2/3] w-full overflow-hidden rounded-lg bg-surface-dark shadow-xl ring-1 ring-white/5 transition-all duration-300 group-hover:ring-primary/50 group-hover:shadow-primary/10 group-hover:shadow-2xl group-hover:-translate-y-1">
+                                <img alt="Dune Poster"
+                                    class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    data-alt="Dark moody movie poster of a futuristic city"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuA13bpPw-JAPFBCruysMRhmlO6D61iyT9Zy9L33HniXYyB0Y3UgeKvJaAlMrqOnQkyNhjoiRl6qQOf9MT-hqffvdUC_yjg3xAOuvjpYo-TXYMVTiNYdcDg7c2NfKY4FRdUfprtAbux7FOvuat1Ic3tHXJ4t2tKbyQgWkHbxbbKRkZ2vlBpQFPvizaBdWIfRT_siKNlnmqlaZ7u4uosnRVvpWhJ99Bopfo3yVn92A_a7uUTgkUUmRBF8dbWe0z7AgtolpsSfCtVp803U" />
+                                <!-- Rating Badge -->
+                                <div
+                                    class="absolute top-2 right-2 bg-background-dark/80 backdrop-blur-md border border-white/10 text-white text-xs font-bold px-2 py-1 rounded-md flex items-center gap-1 shadow-lg z-10">
+                                    <span
+                                        class="material-symbols-outlined text-yellow-500 text-[14px] fill-current">star</span>
+                                    8.8
+                                </div>
+                                <!-- Hover Overlay -->
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                                    <button
+                                        class="w-full bg-primary hover:bg-red-600 text-white text-sm font-bold py-2 rounded-md transition-colors flex items-center justify-center gap-2">
+                                        <span class="material-symbols-outlined text-lg">play_arrow</span>
+                                        Watch Trailer
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex flex-col px-1">
+                                <h3
+                                    class="text-white font-semibold text-base truncate group-hover:text-primary transition-colors">
+                                    Dune: Part Two</h3>
+                                <div class="flex items-center justify-between mt-1">
+                                    <span class="text-text-secondary text-xs">2024</span>
+                                    <span
+                                        class="text-text-secondary text-xs border border-border-dark px-1 rounded">PG-13</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Movie Card 2 -->
+                        <div class="group relative flex flex-col gap-2 cursor-pointer">
+                            <div
+                                class="relative aspect-[2/3] w-full overflow-hidden rounded-lg bg-surface-dark shadow-xl ring-1 ring-white/5 transition-all duration-300 group-hover:ring-primary/50 group-hover:shadow-primary/10 group-hover:shadow-2xl group-hover:-translate-y-1">
+                                <img alt="Action Movie"
+                                    class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    data-alt="Action movie scene showing a car chase"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXUj7guffXXRo8YvJ5VplKDXnEBnzjukL_I2FnIufzW-8f74KB_6m6fJ2uEQve_rgQQCcO11IkAqtTi35MtJ3CfwTjbIF2YwG-Wm8lTRJ47peGPLqi4KrQ7CiJbsbVqpIDcX4hYU_JQRwNpe_POOZIRfOob5VKyt8VrwhAOLEw1SriewkWCJgZ9WaciHJm7vanNtcO1mHAh8C-Px9I0WmMwaq7U_DIt06ulQnqTvHV2QshFyncWcW1qy2sNq5ReeaMeti5edYfVuME" />
+                                <div
+                                    class="absolute top-2 right-2 bg-background-dark/80 backdrop-blur-md border border-white/10 text-white text-xs font-bold px-2 py-1 rounded-md flex items-center gap-1 shadow-lg z-10">
+                                    <span
+                                        class="material-symbols-outlined text-yellow-500 text-[14px] fill-current">star</span>
+                                    7.4
+                                </div>
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                                    <button
+                                        class="w-full bg-primary hover:bg-red-600 text-white text-sm font-bold py-2 rounded-md transition-colors flex items-center justify-center gap-2">
+                                        <span class="material-symbols-outlined text-lg">play_arrow</span>
+                                        Watch Trailer
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex flex-col px-1">
+                                <h3
+                                    class="text-white font-semibold text-base truncate group-hover:text-primary transition-colors">
+                                    Fast X</h3>
+                                <div class="flex items-center justify-between mt-1">
+                                    <span class="text-text-secondary text-xs">2023</span>
+                                    <span
+                                        class="text-text-secondary text-xs border border-border-dark px-1 rounded">PG-13</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Movie Card 3 -->
+                        <div class="group relative flex flex-col gap-2 cursor-pointer">
+                            <div
+                                class="relative aspect-[2/3] w-full overflow-hidden rounded-lg bg-surface-dark shadow-xl ring-1 ring-white/5 transition-all duration-300 group-hover:ring-primary/50 group-hover:shadow-primary/10 group-hover:shadow-2xl group-hover:-translate-y-1">
+                                <img alt="Sci Fi Movie"
+                                    class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    data-alt="Abstract sci-fi geometric patterns neon blue"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbNeM2cFEzFirFUC4adauq9vYbStMMoLWQxwut6nv46Z058_L9dtxpQ2MyYe_5ZTccaWxljvBB4-hmORtuq6GZmxYu3Wvpcxoy6ZI6ebGzRg2_j_-DZIy74XqBswGMPbHahTIUHZ9Os5b5woa6rsPGZbOUOXWl77sJrmVwB_Nn02TZyi_QtkegYRED9DXHZpyp_ZA-tK2AKZtDsdcQIgAznqhQ-mvF5D-FxmgE5WVoOXNnz0GcECMXmRTBo2T9baXdFvNkVZjPa_N6" />
+                                <div
+                                    class="absolute top-2 right-2 bg-background-dark/80 backdrop-blur-md border border-white/10 text-white text-xs font-bold px-2 py-1 rounded-md flex items-center gap-1 shadow-lg z-10">
+                                    <span
+                                        class="material-symbols-outlined text-yellow-500 text-[14px] fill-current">star</span>
+                                    9.1
+                                </div>
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                                    <button
+                                        class="w-full bg-primary hover:bg-red-600 text-white text-sm font-bold py-2 rounded-md transition-colors flex items-center justify-center gap-2">
+                                        <span class="material-symbols-outlined text-lg">play_arrow</span>
+                                        Watch Trailer
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex flex-col px-1">
+                                <h3
+                                    class="text-white font-semibold text-base truncate group-hover:text-primary transition-colors">
+                                    Cyberpunk: Edgerunners</h3>
+                                <div class="flex items-center justify-between mt-1">
+                                    <span class="text-text-secondary text-xs">2022</span>
+                                    <span
+                                        class="text-text-secondary text-xs border border-border-dark px-1 rounded">TV-MA</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Movie Card 4 -->
+                        <div class="group relative flex flex-col gap-2 cursor-pointer">
+                            <div
+                                class="relative aspect-[2/3] w-full overflow-hidden rounded-lg bg-surface-dark shadow-xl ring-1 ring-white/5 transition-all duration-300 group-hover:ring-primary/50 group-hover:shadow-primary/10 group-hover:shadow-2xl group-hover:-translate-y-1">
+                                <img alt="Warrior Movie"
+                                    class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    data-alt="Dark silhouette of a warrior in the rain"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBV4N961Zrgs2ZwhraZUXBaDvDXHG1m7qXknQDxbNJKbda2c5TVSKhhnfdU_cd2iCpA_PXHziwY4sYVJUYMXhXxBIeh_CvOmJ4sjExZfN-Vz7kIHXzmBhGaSlWSM422o-P5xdytAtNkBlOaD7dN_fHpqaElekLkP-bHkutRL5fk6pTR9raT-QrNNQS_Hcmv5Lm_00n6DEC6ko_zEFLaG4xujhhTGkkZJIdEG9TSq3I44TSVt8efTe_LcPy_jzEGjStIyPqXarBjaWKW" />
+                                <div
+                                    class="absolute top-2 right-2 bg-background-dark/80 backdrop-blur-md border border-white/10 text-white text-xs font-bold px-2 py-1 rounded-md flex items-center gap-1 shadow-lg z-10">
+                                    <span
+                                        class="material-symbols-outlined text-yellow-500 text-[14px] fill-current">star</span>
+                                    8.2
+                                </div>
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                                    <button
+                                        class="w-full bg-primary hover:bg-red-600 text-white text-sm font-bold py-2 rounded-md transition-colors flex items-center justify-center gap-2">
+                                        <span class="material-symbols-outlined text-lg">play_arrow</span>
+                                        Watch Trailer
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex flex-col px-1">
+                                <h3
+                                    class="text-white font-semibold text-base truncate group-hover:text-primary transition-colors">
+                                    The Last Ronin</h3>
+                                <div class="flex items-center justify-between mt-1">
+                                    <span class="text-text-secondary text-xs">2024</span>
+                                    <span
+                                        class="text-text-secondary text-xs border border-border-dark px-1 rounded">R</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Movie Card 5 -->
+                        <div class="group relative flex flex-col gap-2 cursor-pointer">
+                            <div
+                                class="relative aspect-[2/3] w-full overflow-hidden rounded-lg bg-surface-dark shadow-xl ring-1 ring-white/5 transition-all duration-300 group-hover:ring-primary/50 group-hover:shadow-primary/10 group-hover:shadow-2xl group-hover:-translate-y-1">
+                                <img alt="Space Movie"
+                                    class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    data-alt="Space station orbiting a blue planet"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOu1vKfQp3u8YjH28vInzL126X643MNxFS5rtSFOR7qSU9UL8-oZmOKX5hUHZNoouJO4P8ZtnnLHFxlM53yV5gVz9gcqE6WPnkGJbDekXScsLHOce_Hv2EfZdq6X6gg5VYA9S93FbeTS1RfF9RFk6Z5ibM2nxwjUznoqebJ-7vZsF7f5U2z74fWCKKw-Du47q-l4zvP5UANI9qpsLlTHOrmXCMHiGkjSLoD4clhAe76Wb9F5Yb7lqZQj5CkayhGwpk_fmoIRlTEJjd" />
+                                <div
+                                    class="absolute top-2 right-2 bg-background-dark/80 backdrop-blur-md border border-white/10 text-white text-xs font-bold px-2 py-1 rounded-md flex items-center gap-1 shadow-lg z-10">
+                                    <span
+                                        class="material-symbols-outlined text-yellow-500 text-[14px] fill-current">star</span>
+                                    7.8
+                                </div>
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                                    <button
+                                        class="w-full bg-primary hover:bg-red-600 text-white text-sm font-bold py-2 rounded-md transition-colors flex items-center justify-center gap-2">
+                                        <span class="material-symbols-outlined text-lg">play_arrow</span>
+                                        Watch Trailer
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex flex-col px-1">
+                                <h3
+                                    class="text-white font-semibold text-base truncate group-hover:text-primary transition-colors">
+                                    Orbital Drift</h3>
+                                <div class="flex items-center justify-between mt-1">
+                                    <span class="text-text-secondary text-xs">2023</span>
+                                    <span
+                                        class="text-text-secondary text-xs border border-border-dark px-1 rounded">PG</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Movie Card 6 -->
+                        <div class="group relative flex flex-col gap-2 cursor-pointer">
+                            <div
+                                class="relative aspect-[2/3] w-full overflow-hidden rounded-lg bg-surface-dark shadow-xl ring-1 ring-white/5 transition-all duration-300 group-hover:ring-primary/50 group-hover:shadow-primary/10 group-hover:shadow-2xl group-hover:-translate-y-1">
+                                <img alt="Action Set"
+                                    class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    data-alt="Action film set with explosion in background"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBn6MVhXs7q7YnBv6sfR5dPJr3yAPuRjJ5Al9c96NWPmGW0JoitavAWaWx_OnTwikXE1ufwMl1tM0HnIbX1A_rinsInLtZ12pwutbh2u4Rqzu_NTNEAM7O1lj0Uw2N7KmqP04hVg_ObbjQLkDdTHbd2waW9hVVVrUs2aXonE0zo6WikRY_IRANaWlrYv4K4bVQW2OkrPxTPia0whRtpteghiMFybX7Ktw2put7bw0KzcjRKxaGi1PRxOfN2rtpnLEkMNTfF3CDLaTGp" />
+                                <div
+                                    class="absolute top-2 right-2 bg-background-dark/80 backdrop-blur-md border border-white/10 text-white text-xs font-bold px-2 py-1 rounded-md flex items-center gap-1 shadow-lg z-10">
+                                    <span
+                                        class="material-symbols-outlined text-yellow-500 text-[14px] fill-current">star</span>
+                                    6.5
+                                </div>
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                                    <button
+                                        class="w-full bg-primary hover:bg-red-600 text-white text-sm font-bold py-2 rounded-md transition-colors flex items-center justify-center gap-2">
+                                        <span class="material-symbols-outlined text-lg">play_arrow</span>
+                                        Watch Trailer
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex flex-col px-1">
+                                <h3
+                                    class="text-white font-semibold text-base truncate group-hover:text-primary transition-colors">
+                                    Rescue Mission</h3>
+                                <div class="flex items-center justify-between mt-1">
+                                    <span class="text-text-secondary text-xs">2021</span>
+                                    <span
+                                        class="text-text-secondary text-xs border border-border-dark px-1 rounded">R</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Movie Card 7 -->
+                        <div class="group relative flex flex-col gap-2 cursor-pointer">
+                            <div
+                                class="relative aspect-[2/3] w-full overflow-hidden rounded-lg bg-surface-dark shadow-xl ring-1 ring-white/5 transition-all duration-300 group-hover:ring-primary/50 group-hover:shadow-primary/10 group-hover:shadow-2xl group-hover:-translate-y-1">
+                                <img alt="Neon City"
+                                    class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    data-alt="Cyberpunk city street at night with neon lights"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9GNbDPPzTGoKLrKHK_9XDR01w0boc6T2EFbTSR67TOBWj6bbk4QEayznguQcwoY82Vz5dIJ5XL6ozZsuJGNs1cVwAebLiJdO-ibxjfvPSKZ8Hb-NMyNo69am-DxTSMxEvrwJZHMqZW7u5mKMlBgzgLyabeFGL_vt0tJS6pWVO62vEfhhpNxLPMFBKZfZu1r8r-K1MuTpaCpsO6iHqg4OiK-Bqeo_-WVDuT1itZZhxSSFJySbUG-Wd_rXdvwV3GsXwelOJY0vAACt2" />
+                                <div
+                                    class="absolute top-2 right-2 bg-background-dark/80 backdrop-blur-md border border-white/10 text-white text-xs font-bold px-2 py-1 rounded-md flex items-center gap-1 shadow-lg z-10">
+                                    <span
+                                        class="material-symbols-outlined text-yellow-500 text-[14px] fill-current">star</span>
+                                    8.5
+                                </div>
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                                    <button
+                                        class="w-full bg-primary hover:bg-red-600 text-white text-sm font-bold py-2 rounded-md transition-colors flex items-center justify-center gap-2">
+                                        <span class="material-symbols-outlined text-lg">play_arrow</span>
+                                        Watch Trailer
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex flex-col px-1">
+                                <h3
+                                    class="text-white font-semibold text-base truncate group-hover:text-primary transition-colors">
+                                    Neo Tokyo 2055</h3>
+                                <div class="flex items-center justify-between mt-1">
+                                    <span class="text-text-secondary text-xs">2025</span>
+                                    <span
+                                        class="text-text-secondary text-xs border border-border-dark px-1 rounded">R</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Movie Card 8 -->
+                        <div class="group relative flex flex-col gap-2 cursor-pointer">
+                            <div
+                                class="relative aspect-[2/3] w-full overflow-hidden rounded-lg bg-surface-dark shadow-xl ring-1 ring-white/5 transition-all duration-300 group-hover:ring-primary/50 group-hover:shadow-primary/10 group-hover:shadow-2xl group-hover:-translate-y-1">
+                                <img alt="Forest Mystery"
+                                    class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    data-alt="Misty forest with mysterious figure"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-dkbMAYh6HfCevhCIh2owkNo8ccW10j2Nf2SBpwc6bTMnvgJcZcYZc7Mx9b1dIygFRkguCqXPb879uYYMCml3ttkdxG2vhKxHp8pK1vw1rUOkHUjBRe19sBJf9uscWASzPZV2Qif2osN-zr6j-Jj3YVgNd0mztlPZi40fG5-Gw8k751OMw_vLb8lOBASYmsfCRz0qlLAgEmQU_bBgQ9KFEG_RONLMibB2FuI9Bkr55eUXftVRqYmnbv1n9tvQ2qMh9b36-7uzUsib" />
+                                <div
+                                    class="absolute top-2 right-2 bg-background-dark/80 backdrop-blur-md border border-white/10 text-white text-xs font-bold px-2 py-1 rounded-md flex items-center gap-1 shadow-lg z-10">
+                                    <span
+                                        class="material-symbols-outlined text-yellow-500 text-[14px] fill-current">star</span>
+                                    7.1
+                                </div>
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                                    <button
+                                        class="w-full bg-primary hover:bg-red-600 text-white text-sm font-bold py-2 rounded-md transition-colors flex items-center justify-center gap-2">
+                                        <span class="material-symbols-outlined text-lg">play_arrow</span>
+                                        Watch Trailer
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex flex-col px-1">
+                                <h3
+                                    class="text-white font-semibold text-base truncate group-hover:text-primary transition-colors">
+                                    Silent Woods</h3>
+                                <div class="flex items-center justify-between mt-1">
+                                    <span class="text-text-secondary text-xs">2020</span>
+                                    <span
+                                        class="text-text-secondary text-xs border border-border-dark px-1 rounded">PG-13</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Infinite Scroll Skeletons (Visual Simluation) -->
+                        <div class="flex flex-col gap-2 animate-pulse">
+                            <div class="relative aspect-[2/3] w-full rounded-lg bg-surface-dark border border-white/5">
+                            </div>
+                            <div class="h-4 bg-surface-dark rounded w-3/4 mt-1"></div>
+                            <div class="h-3 bg-surface-dark rounded w-1/4"></div>
+                        </div>
+                        <div class="flex flex-col gap-2 animate-pulse delay-75">
+                            <div class="relative aspect-[2/3] w-full rounded-lg bg-surface-dark border border-white/5">
+                            </div>
+                            <div class="h-4 bg-surface-dark rounded w-3/4 mt-1"></div>
+                            <div class="h-3 bg-surface-dark rounded w-1/4"></div>
+                        </div>
+                        <div class="flex flex-col gap-2 animate-pulse delay-100">
+                            <div class="relative aspect-[2/3] w-full rounded-lg bg-surface-dark border border-white/5">
+                            </div>
+                            <div class="h-4 bg-surface-dark rounded w-3/4 mt-1"></div>
+                            <div class="h-3 bg-surface-dark rounded w-1/4"></div>
+                        </div>
+                        <div class="flex flex-col gap-2 animate-pulse delay-150">
+                            <div class="relative aspect-[2/3] w-full rounded-lg bg-surface-dark border border-white/5">
+                            </div>
+                            <div class="h-4 bg-surface-dark rounded w-3/4 mt-1"></div>
+                            <div class="h-3 bg-surface-dark rounded w-1/4"></div>
+                        </div>
+                    </div>
+                    <!-- Loading Indicator -->
+                    <div class="w-full py-10 flex flex-col items-center justify-center text-text-secondary gap-3">
+                        <div class="size-8 border-2 border-border-dark border-t-primary rounded-full animate-spin">
+                        </div>
+                        <span class="text-sm font-medium">Loading more cinematic experiences...</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="js/loader.js"></script>
+</body>
+
+</html>
