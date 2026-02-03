@@ -1,0 +1,51 @@
+/* Global Font */
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Custom Scrollbar Global */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #221011;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #392829;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #543b3c;
+}
+
+/* Hide scrollbar utilities */
+.no-scrollbar::-webkit-scrollbar,
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar,
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Select Chevron for Watchlist */
+.select-chevron {
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuDYq3fkl8eVdUHzpC8sH3ZpnaDPqU3XYpoZwbWJBV080cErGbOXo4AaTJ32Tlb_2epEGFCtPvg9HTkuepEFPy0NUKmNAI4P2ZdNAGR6VRcKTALroApb6Yr23K3pN9JIjHtwI2T1-MU3Mxb6UTwuNYdv07HErXT_0K1Gv1zVRv84beLXe3Ccn43p4qF0Qhyqvp1fE8ySDL4Dsp5Y557jGDSfbtCCG6L47pzJ3nLF3KI0-Qyn3J6_oVBubHBRyb32QjQDVMzyP0ireq4O);
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+/* Fade Bottom Effect */
+.fade-bottom {
+    mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+}
