@@ -44,6 +44,7 @@ class MovieApp {
 
         this.initFilters();
         this.initCustomSliders();
+        this.initGridControls();
         this.updateWatchlistUI();
 
         // Trigger page fade-in
@@ -521,7 +522,7 @@ class MovieApp {
     initCustomSliders() {
         // ... (existing slider logic remains)
         // Adding initialization for grid controls here as well for convenience
-        this.initGridControls();
+        // this.initGridControls(); // Moved to boot()
 
         const sliders = document.querySelectorAll('.snap-x');
         sliders.forEach(slider => {
@@ -580,26 +581,27 @@ class MovieApp {
         ];
 
         const classesToRemove = [
-            'grid-cols-1', 'grid-cols-2', 'grid-cols-3', 'grid-cols-4', 'grid-cols-5', 'grid-cols-6', 'grid-cols-7', 'grid-cols-8',
-            'md:grid-cols-2', 'md:grid-cols-3', 'md:grid-cols-4', 'md:grid-cols-5', 'md:grid-cols-6',
+            'grid-cols-1', 'grid-cols-2', 'grid-cols-3', 'grid-cols-4', 'grid-cols-5', 'grid-cols-6', 'grid-cols-7', 'grid-cols-8', 'grid-cols-9', 'grid-cols-10',
+            'md:grid-cols-2', 'md:grid-cols-3', 'md:grid-cols-4', 'md:grid-cols-5', 'md:grid-cols-6', 'md:grid-cols-7', 'md:grid-cols-8',
             'lg:grid-cols-3', 'lg:grid-cols-4', 'lg:grid-cols-5', 'lg:grid-cols-6', 'lg:grid-cols-7', 'lg:grid-cols-8',
-            'xl:grid-cols-4', 'xl:grid-cols-5', 'xl:grid-cols-6', 'xl:grid-cols-7', 'xl:grid-cols-8'
+            'xl:grid-cols-4', 'xl:grid-cols-5', 'xl:grid-cols-6', 'xl:grid-cols-7', 'xl:grid-cols-8', 'xl:grid-cols-9', 'xl:grid-cols-10',
+            '2xl:grid-cols-4', '2xl:grid-cols-5', '2xl:grid-cols-6', '2xl:grid-cols-7', '2xl:grid-cols-8', '2xl:grid-cols-10', '2xl:grid-cols-12'
         ];
 
         let newClasses = [];
         switch (density) {
             case 'compact':
                 // Dense: more columns
-                newClasses = ['grid-cols-3', 'md:grid-cols-5', 'lg:grid-cols-7', 'xl:grid-cols-8'];
+                newClasses = ['grid-cols-3', 'md:grid-cols-5', 'lg:grid-cols-7', 'xl:grid-cols-8', '2xl:grid-cols-10'];
                 break;
             case 'large':
                 // Large: fewer columns
-                newClasses = ['grid-cols-1', 'md:grid-cols-3', 'lg:grid-cols-4'];
+                newClasses = ['grid-cols-1', 'md:grid-cols-3', 'lg:grid-cols-4', 'xl:grid-cols-5', '2xl:grid-cols-6'];
                 break;
             case 'normal':
             default:
                 // Default
-                newClasses = ['grid-cols-2', 'md:grid-cols-4', 'lg:grid-cols-5', 'xl:grid-cols-6'];
+                newClasses = ['grid-cols-2', 'md:grid-cols-4', 'lg:grid-cols-5', 'xl:grid-cols-6', '2xl:grid-cols-8'];
                 break;
         }
 
