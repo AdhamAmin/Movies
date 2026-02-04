@@ -138,54 +138,155 @@ class MovieApp {
         }).join('');
     }
 
-    // ... (rest of the file) ...
+    // --- Missing Methods Implementation ---
 
-    populateTrending(movies) {
-        const container = document.getElementById('trending-container');
-        if (!container || !movies || !movies.length) return;
-
-        container.innerHTML = movies.map(movie => `
-            <div data-movie-id="${movie.id}" class="stagger-item group relative flex-none w-[180px] md:w-[220px] aspect-[2/3] rounded-lg overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105 hover:z-10 snap-start">
-                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style="background-image: url('${tmdbService.getImageUrl(movie.poster_path)}')"></div>
-                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                    <h3 class="text-white font-bold text-lg leading-tight">${movie.title}</h3>
-                    <div class="flex items-center justify-between mt-2">
-                        <span class="text-yellow-400 text-sm flex items-center gap-1">
-                            <span class="material-symbols-outlined text-[14px] filled">star</span> ${movie.vote_average.toFixed(1)}
-                        </span>
-                        <button class="size-8 rounded-full bg-primary flex items-center justify-center text-white">
-                            <span class="material-symbols-outlined text-[16px]">add</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `).join('');
+    initPageTransitions() {
+        // Handle internal links for smooth transitions
+        document.addEventListener('click', e => {
+            const link = e.target.closest('a');
+            if (link && link.href && link.href.startsWith(window.location.origin) && !link.hash && !link.dataset.noTransition) {
+                e.preventDefault();
+                document.body.classList.remove('loaded');
+                setTimeout(() => {
+                    window.location.href = link.href;
+                }, 400); // Wait for fade out
+            }
+        });
     }
 
-    populateRecommended(movies) {
-        const container = document.getElementById('recommended-container');
-        if (!container || !movies || !movies.length) return;
+    initSearch() {
+        const searchInput = document.getElementById('global-search');
+        if (!searchInput) return;
 
-        container.innerHTML = movies.map(movie => `
-            <div data-movie-id="${movie.id}" class="stagger-item flex flex-col gap-2 group cursor-pointer">
-                <div class="relative aspect-[2/3] w-full rounded-lg overflow-hidden shadow-lg shadow-black/50 hover-glow">
-                    <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style="background-image: url('${tmdbService.getImageUrl(movie.poster_path)}')"></div>
-                    <div class="absolute top-2 right-2 bg-black/60 backdrop-blur-md px-1.5 py-0.5 rounded flex items-center gap-1">
-                        <span class="material-symbols-outlined text-[12px] text-[#FFD700] filled">star</span>
-                        <span class="text-xs font-bold text-white">${movie.vote_average.toFixed(1)}</span>
-                    </div>
-                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <div class="size-12 rounded-full bg-primary/90 flex items-center justify-center text-white shadow-lg transform scale-0 group-hover:scale-100 transition-transform duration-300 delay-75">
-                            <span class="material-symbols-outlined filled">play_arrow</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex flex-col">
-                    <h3 class="text-gray-900 dark:text-white font-semibold truncate group-hover:text-primary transition-colors">${movie.title}</h3>
-                    <span class="text-gray-600 dark:text-gray-500 text-xs">${movie.release_date?.split('-')[0] || 'N/A'}</span>
-                </div>
-            </div>
-        `).join('');
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const query = searchInput.value.trim();
+                if (query) {
+                    window.location.href = `search.html?q=${encodeURIComponent(query)}`;
+                }
+            }
+        });
+    }
+
+    initWatchlist() {
+        // Event delegation for watchlist toggles
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('.watchlist-btn'); // Assuming buttons have this class
+            if (btn) {
+                e.stopPropagation();
+                const movieData = JSON.parse(btn.dataset.movie || '{}');
+                this.toggleWatchlist(movieData);
+            }
+        });
+    }
+
+    toggleWatchlist(movie) {
+        if (!movie || !movie.id) return;
+        const index = this.watchlist.findIndex(m => m.id === movie.id);
+        if (index === -1) {
+            this.watchlist.push(movie);
+            this.showNotification('Added to Watchlist');
+        } else {
+            this.watchlist.splice(index, 1);
+            this.showNotification('Removed from Watchlist');
+        }
+        localStorage.setItem('watchlist', JSON.stringify(this.watchlist));
+        this.updateWatchlistUI();
+    }
+
+    initFilters() {
+        // Placeholder for filter logic if needed
+        const genreSelect = document.getElementById('genre-select');
+        if (genreSelect) {
+            genreSelect.addEventListener('change', (e) => {
+                // Implement filtering logic here
+                console.log('Filter changed:', e.target.value);
+            });
+        }
+    }
+
+    initCustomSliders() {
+        // Logic for custom drag scrolling is handled by CSS snap-x mostly, 
+        // but we can add button controls here
+        const sliders = document.querySelectorAll('.snap-x');
+        sliders.forEach(slider => {
+            slider.style.cursor = 'grab';
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            slider.addEventListener('mousedown', (e) => {
+                isDown = true;
+                slider.style.cursor = 'grabbing';
+                startX = e.pageX - slider.offsetLeft;
+                scrollLeft = slider.scrollLeft;
+            });
+            slider.addEventListener('mouseleave', () => {
+                isDown = false;
+                slider.style.cursor = 'grab';
+            });
+            slider.addEventListener('mouseup', () => {
+                isDown = false;
+                slider.style.cursor = 'grab';
+            });
+            slider.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - slider.offsetLeft;
+                const walk = (x - startX) * 2;
+                slider.scrollLeft = scrollLeft - walk;
+            });
+        });
+    }
+
+    updateWatchlistUI() {
+        // Update header counter or icon if exists
+        const countBadge = document.getElementById('watchlist-count');
+        if (countBadge) {
+            countBadge.textContent = this.watchlist.length;
+            countBadge.style.display = this.watchlist.length > 0 ? 'flex' : 'none';
+        }
+    }
+
+    async handleSearchPage() {
+        const params = new URLSearchParams(window.location.search);
+        const query = params.get('q');
+        const container = document.getElementById('search-results-container'); // Ensure this ID exists in search.html
+
+        if (!container) return; // Not on search result area
+
+        // Update title/header
+        const titleEl = document.getElementById('search-title');
+        if (titleEl && query) titleEl.textContent = `Results for "${query}"`;
+
+        if (!query) {
+            container.innerHTML = '<p class="text-center text-gray-500">Please enter a search term.</p>';
+            return;
+        }
+
+        try {
+            const results = await tmdbService.searchMovies(query);
+            if (results && results.results && results.results.length > 0) {
+                this.populateSection('search-results-container', results.results);
+            } else {
+                container.innerHTML = '<p class="text-center text-gray-500">No results found.</p>';
+            }
+        } catch (e) {
+            console.error(e);
+            container.innerHTML = '<p class="text-center text-red-500">Error searching movies.</p>';
+        }
+    }
+
+    showNotification(msg) {
+        // Simple alert or custom toast
+        // Creating a simple toast for now
+        const offset = document.querySelectorAll('.toast-notif').length * 60;
+        const toast = document.createElement('div');
+        toast.className = 'toast-notif fixed bottom-4 right-4 bg-primary text-white px-4 py-2 rounded shadow-lg animate-fade-in z-50';
+        toast.style.bottom = `${20 + offset}px`;
+        toast.textContent = msg;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
     }
 }
 
