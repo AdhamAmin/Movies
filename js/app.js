@@ -31,7 +31,7 @@ class MovieApp {
         this.initSearch();
         this.initWatchlist();
         this.initFilters();
-        this.initSortControls();
+        this.initCustomSliders();
         this.updateWatchlistUI();
 
         // Trigger page fade-in
