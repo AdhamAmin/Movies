@@ -90,6 +90,10 @@ class MovieApp {
             ]);
 
             if (trending && trending.results) {
+                // Populate Hero with #1 Trending
+                if (trending.results.length > 0) {
+                    this.populateHero(trending.results[0], 'movie');
+                }
                 this.populateSection('trending-container', trending.results);
             }
             if (topRated && topRated.results) {
@@ -119,6 +123,10 @@ class MovieApp {
             }));
 
             if (trending && trending.results) {
+                // Populate Hero with #1 Trending
+                if (trending.results.length > 0) {
+                    this.populateHero(trending.results[0], 'tv');
+                }
                 this.populateSection('trending-container', normalize(trending.results));
             }
             if (topRated && topRated.results) {
@@ -132,6 +140,109 @@ class MovieApp {
         } catch (e) {
             console.error('Error loading TV shows:', e);
             this.showNotification('Failed to load TV shows.');
+        }
+    }
+
+    async populateHero(item, type) {
+        if (!item) return;
+
+        // Fetch full details to get extra info like runtime, proper genres, etc.
+        // Note: For Trending items, we have some info, but details gave us videos and runtime.
+        let details = item;
+        try {
+            // We need a method in service to get TV details similar to movie details if we want parity, 
+            // but let's use what we have or generic getMovieDetails if it handles TV (likely needs separation or update).
+            // Currently tmdb-service only has getMovieDetails. Let's assume we use basic info for now + fetch video if possible.
+            // Or better, let's assume we display what we have and maybe fetch video on click or lazy load.
+            // For better "real movie" feel, let's try to get details if it's a movie.
+            if (type === 'movie') {
+                const fullDetails = await tmdbService.getMovieDetails(item.id);
+                if (fullDetails) details = fullDetails;
+            } else if (tmdbService.baseUrl) {
+                // naive check if we can fetch tv details? Service doesn't have explicit getTVDetails.
+                // Let's stick to basic item for now and just set background/title.
+                // If we want trailer, we definitely need video endpoint. 
+                // Let's assume playTrailer will handle fetching video on demand.
+            }
+        } catch (e) { console.warn('Hero details fetch failed', e); }
+
+        const bgEl = document.getElementById('hero-bg');
+        const titleEl = document.getElementById('hero-title');
+        const ratingEl = document.getElementById('hero-rating');
+        const yearEl = document.getElementById('hero-year');
+        const descriptionEl = document.getElementById('hero-description');
+        const watchBtn = document.getElementById('hero-watch-btn');
+        const infoBtn = document.getElementById('hero-info-btn');
+        const genresEl = document.getElementById('hero-genres');
+        const durationEl = document.getElementById('hero-duration');
+
+        if (bgEl) {
+            // Prefer original for hero
+            const bgPath = details.backdrop_path || details.poster_path;
+            bgEl.style.backgroundImage = `url('${tmdbService.getImageUrl(bgPath, 'original')}')`;
+        }
+
+        if (titleEl) titleEl.textContent = details.title || details.name;
+        if (ratingEl) ratingEl.innerHTML = `<span class="material-symbols-outlined text-[18px] filled">star</span> ${details.vote_average ? details.vote_average.toFixed(1) : 'N/A'}`;
+        if (yearEl) yearEl.textContent = (details.release_date || details.first_air_date || '').split('-')[0];
+        if (descriptionEl) descriptionEl.textContent = details.overview;
+
+        // Genres
+        if (genresEl) {
+            // If details has genres array (detail endpoint) use it, else use generic IDs map?
+            // Trending result only has genre_ids.
+            if (details.genres && details.genres.length) {
+                genresEl.textContent = details.genres.map(g => g.name).slice(0, 2).join(' / ');
+            } else {
+                genresEl.textContent = 'Trending'; // Fallback
+            }
+        }
+
+        // Duration / Seasons
+        if (durationEl) {
+            if (type === 'movie' && details.runtime) {
+                const h = Math.floor(details.runtime / 60);
+                const m = details.runtime % 60;
+                durationEl.textContent = `${h}h ${m}m`;
+            } else if (type === 'tv') {
+                // If we didn't fetch details, we might not have seasons. Trending result doesn't usually have it.
+                // We could just clear it or put "Series".
+                durationEl.textContent = 'Series';
+            }
+        }
+
+        // Action Buttons
+        if (watchBtn) {
+            watchBtn.onclick = () => this.playTrailer(item.id, type);
+        }
+        if (infoBtn) {
+            infoBtn.onclick = () => window.location.href = `movie-details.html?id=${item.id}`; // Note: details page might need update for TV
+        }
+    }
+
+    async playTrailer(id, type) {
+        // Simple trailer player: fetch video, open in new tab or modal
+        try {
+            const endpoint = type === 'tv' ? 'tv' : 'movie';
+            // We need a way to fetch videos since tmdbService only has getMovieDetails (which appends videos).
+            // Let's force a fetch using raw fetch here or add a method. 
+            // Quickest: construct URL manually since we have API Key key access via tmdbService property? 
+            // tmdbService.apiKey is accessible.
+
+            const response = await fetch(`${tmdbService.baseUrl}/${endpoint}/${id}/videos?api_key=${tmdbService.apiKey}`);
+            const data = await response.json();
+
+            if (data && data.results) {
+                const trailer = data.results.find(v => v.type === 'Trailer' && v.site === 'YouTube') || data.results.find(v => v.site === 'YouTube');
+                if (trailer) {
+                    window.open(`https://www.youtube.com/watch?v=${trailer.key}`, '_blank');
+                } else {
+                    this.showNotification('No trailer available');
+                }
+            }
+        } catch (e) {
+            console.error('Trailer error:', e);
+            this.showNotification('Error loading trailer');
         }
     }
 
@@ -558,8 +669,10 @@ class MovieApp {
 
     initGridControls() {
         const buttons = document.querySelectorAll('.grid-view-btn');
+        console.log('Grid controls found:', buttons.length);
         buttons.forEach(btn => {
             btn.addEventListener('click', () => {
+                console.log('Grid button clicked:', btn.dataset.cols);
                 this.setGridDensity(btn.dataset.cols);
 
                 // Update active state
@@ -574,12 +687,14 @@ class MovieApp {
     }
 
     setGridDensity(density) {
+        console.log('Setting density to:', density);
         const containers = [
             document.getElementById('recommended-container'),
             document.getElementById('action-container'),
             document.getElementById('search-results-container')
         ];
 
+        // ... (rest of the function)
         const classesToRemove = [
             'grid-cols-1', 'grid-cols-2', 'grid-cols-3', 'grid-cols-4', 'grid-cols-5', 'grid-cols-6', 'grid-cols-7', 'grid-cols-8',
             'md:grid-cols-2', 'md:grid-cols-3', 'md:grid-cols-4', 'md:grid-cols-5', 'md:grid-cols-6',
@@ -604,9 +719,14 @@ class MovieApp {
                 break;
         }
 
+        console.log('Applying classes:', newClasses);
+
         containers.forEach(container => {
             if (container) {
-                container.classList.remove(...classesToRemove);
+                console.log('Updating container:', container.id);
+                // Safe remove spread
+                classesToRemove.forEach(cls => container.classList.remove(cls));
+                // Add new
                 container.classList.add(...newClasses);
             }
         });
