@@ -243,3 +243,12 @@ button, select, input {
         font-size: 1.5rem;
     }
 }
+/* Watchlist Animated Background */
+@keyframes gradient-shift {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(10%, -10%) scale(1.1); }
+    66% { transform: translate(-10%, 10%) scale(0.9); }
+}
+.animate-gradient-shift { animation: gradient-shift 20s ease-in-out infinite; }
+.watchlist-bg { background: radial-gradient(circle at 50% 50%, rgba(230, 10, 21, 0.1), transparent 70%); }
+

@@ -5,51 +5,184 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>CinemaVault - My Watchlist</title>
-    <link href="https://fonts.googleapis.com" rel="preconnect" />
-    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script id="tailwind-config">
-        tailwind.config = { darkMode: "class", theme: { extend: { colors: { "primary": "#e60a15", "background-light": "#f8f5f6", "background-dark": "#221011", "surface-dark": "#2d1b1c", "surface-highlight": "#3a2526" }, fontFamily: { "display": ["Inter", "sans-serif"] }, borderRadius: { "DEFAULT": "0.25rem" } } } }
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#e60a15",
+                        "background-light": "#f8f5f6",
+                        "background-dark": "#0D0D0D",
+                        "surface-dark": "#1A1A1A",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                },
+            },
+        }
     </script>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/animations.css">
 </head>
 
-<body class="bg-background-light dark:bg-background-dark font-display text-white overflow-hidden antialiased">
-
-    <main class="flex-1 flex flex-col h-full overflow-hidden relative pt-6">
-        <div class="max-w-7xl mx-auto px-6 md:px-10">
-            <div class="flex flex-col gap-2 mb-6">
-                <div class="flex items-end justify-between gap-4">
-                    <div>
-                        <h2 class="text-3xl md:text-4xl font-black tracking-tight text-white mb-2">My Watchlist</h2>
-                        <p class="text-[#ba9c9d] text-base font-normal flex items-center gap-2">
-                            <span class="material-symbols-outlined text-[18px]">movie_filter</span>
-                            <span id="watchlist-count">0</span> movies saved
-                        </p>
+<body
+    class="bg-background-light dark:bg-background-dark font-display text-[#111418] dark:text-white overflow-x-hidden antialiased">
+    <div class="flex min-h-screen w-full flex-col">
+        <!-- Top nav Bar -->
+        <header>
+            <div id="header-placeholder"></div>
+        </header>
+        <main class="flex-1 flex flex-col">
+            <!-- Hero Section (Smaller than others) -->
+            <section class="relative w-full min-h-[60vh] overflow-hidden flex items-end">
+                <!-- Animated Background -->
+                <div class="absolute inset-0 watchlist-bg">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-br from-primary/20 via-purple-900/20 to-blue-900/20 animate-gradient-shift">
                     </div>
-                    <div class="w-full md:w-auto md:min-w-[300px]">
-                        <input id="watchlist-search"
-                            class="w-full bg-surface-dark border border-[#3a2526] text-white text-sm rounded-lg block pl-4 p-2.5 placeholder-[#665253]"
-                            placeholder="Search watchlist..." type="text" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/60 to-transparent">
                     </div>
                 </div>
+
+                <!-- Content -->
+                <div class="relative w-full px-6 md:px-16 pb-20 max-w-[1600px] mx-auto z-10 flex flex-col gap-6">
+                    <span
+                        class="inline-block px-3 py-1 rounded-full bg-primary/20 border border-primary/30 text-primary text-xs font-bold tracking-wider uppercase backdrop-blur-sm self-start">
+                        Your Collection
+                    </span>
+                    <h1
+                        class="text-white text-4xl md:text-7xl font-black leading-tight tracking-tighter drop-shadow-2xl max-w-4xl">
+                        My Watchlist
+                    </h1>
+                    <p class="text-gray-300 text-base md:text-xl leading-relaxed max-w-2xl font-light drop-shadow-lg">
+                        Your personal collection of movies and shows to watch later. <span
+                            id="watchlist-count-hero">0</span> items saved.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Main Content -->
+            <div class="relative z-20 w-full max-w-[1600px] mx-auto px-6 md:px-16 -mt-16 flex flex-col gap-12 pb-20">
+
+                <!-- Filter/View Bar -->
+                <div
+                    class="glass-heavy rounded-2xl p-4 flex flex-wrap gap-4 items-center justify-between border border-white/10 shadow-xl backdrop-blur-md">
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">bookmark</span>
+                        <span class="font-bold text-gray-900 dark:text-white">My Library</span>
+                    </div>
+
+                    <!-- View Options -->
+                    <div class="flex items-center gap-2 border-l border-gray-300 dark:border-white/10 pl-4">
+                        <span
+                            class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wider">View</span>
+                        <div
+                            class="flex bg-white/10 dark:bg-black/40 rounded-lg p-1 border border-gray-200 dark:border-white/10">
+                            <button
+                                class="grid-view-btn p-1.5 rounded hover:bg-gray-200 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors active"
+                                data-cols="normal" title="Comfortable">
+                                <span class="material-symbols-outlined text-[20px]">grid_view</span>
+                            </button>
+                            <button
+                                class="grid-view-btn p-1.5 rounded hover:bg-gray-200 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                                data-cols="compact" title="Compact">
+                                <span class="material-symbols-outlined text-[20px]">view_comfy</span>
+                            </button>
+                            <button
+                                class="grid-view-btn p-1.5 rounded hover:bg-gray-200 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                                data-cols="large" title="Large">
+                                <span class="material-symbols-outlined text-[20px]">crop_square</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Watchlist Grid -->
+                <section>
+                    <div id="watchlist-container"
+                        class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+                        <!-- JS will populate -->
+                    </div>
+                    <!-- Empty State -->
+                    <div id="empty-state" class="hidden text-center py-20">
+                        <div class="flex flex-col items-center gap-6">
+                            <div class="size-24 rounded-full bg-white/5 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-[48px] text-gray-400">bookmark_border</span>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-white mb-2">Your watchlist is empty</h3>
+                                <p class="text-gray-400">Start adding movies and shows you want to watch later!</p>
+                            </div>
+                            <a href="index.html"
+                                class="px-8 py-3 bg-primary hover:bg-red-700 text-white font-bold rounded-full transition-colors">
+                                Browse Movies
+                            </a>
+                        </div>
+                    </div>
+                </section>
             </div>
-            <div id="watchlist-grid"
-                class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-x-4 gap-y-8">
+        </main>
+
+        <!-- Animated Background Blobs -->
+        <div class="fixed inset-0 z-[-1] pointer-events-none overflow-hidden hidden dark:block">
+            <div
+                class="metocean-blob absolute top-[20%] left-[-5%] w-[40%] h-[40%] bg-primary/10 blur-[100px] rounded-full animate-float">
+            </div>
+            <div class="metocean-blob absolute bottom-[10%] right-[-5%] w-[35%] h-[35%] bg-purple-600/10 blur-[100px] rounded-full animate-float"
+                style="animation-delay: -3s;"></div>
+            <div class="metocean-blob absolute top-[50%] right-[20%] w-[30%] h-[30%] bg-blue-600/10 blur-[100px] rounded-full animate-float"
+                style="animation-delay: -6s;"></div>
+        </div>
+
+        <!-- Footer -->
+        <div id="footer-placeholder"></div>
+
+        <!-- Credits Modal (First Time) -->
+        <div id="credits-modal"
+            class="hidden fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-sm animate-fade-in">
+            <div
+                class="glass-heavy border border-white/10 rounded-3xl p-8 md:p-12 w-full max-w-lg m-4 shadow-2xl relative animate-fade-in">
+                <div class="flex flex-col items-center gap-6 text-center">
+                    <div
+                        class="size-20 rounded-full bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-[40px] text-white filled">celebration</span>
+                    </div>
+                    <div>
+                        <h2 class="text-3xl md:text-4xl font-black text-white mb-3">Welcome to CinemaVault!</h2>
+                        <p class="text-gray-300 text-sm md:text-base leading-relaxed">
+                            This website is created and designed by<br>
+                            <span class="text-white font-bold">Adham Amin</span> and <span
+                                class="text-white font-bold">Abdelrahman Hossam</span>
+                        </p>
+                        <p class="text-gray-400 text-sm mt-4">
+                            With great thanks to our tutor<br>
+                            <span class="text-primary font-bold">Eng. Mahmoud</span>
+                        </p>
+                    </div>
+                    <button id="credits-close-btn"
+                        class="w-full py-4 bg-primary hover:bg-red-700 text-white font-bold rounded-full transition-all shadow-lg hover:shadow-red-900/50 hover:-translate-y-1 flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-[24px] filled">play_arrow</span>
+                        Watch Now
+                    </button>
+                </div>
             </div>
         </div>
-    </main>
 
-    <script src="config.js"></script>
-    <script src="js/tmdb-service.js"></script>
-    <script src="js/theme.js"></script>
-    <script src="js/loader.js"></script>
-    <script src="js/watchlist.js"></script>
+        <!-- Scripts -->
+        <script src="config.js"></script>
+        <script src="js/tmdb-service.js"></script>
+        <script src="js/theme.js"></script>
+        <script src="js/loader.js"></script>
+        <script src="js/mobile-menu.js"></script>
+        <script src="js/app.js"></script>
+        <script src="js/controls.js"></script>
+    </div>
+</body>
 
 </html>
