@@ -246,3 +246,23 @@
 .hover-brightness:hover {
     filter: brightness(1.1);
 }
+/* Toast Notifications */
+@keyframes slideUpFade {
+    from { opacity: 0; transform: translate(-50%, 20px) scale(0.95); }
+    to { opacity: 1; transform: translate(-50%, 0) scale(1); }
+}
+@keyframes slideDownFade {
+    from { opacity: 1; transform: translate(-50%, 0) scale(1); }
+    to { opacity: 0; transform: translate(-50%, 10px) scale(0.95); }
+}
+.toast-enter { animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.toast-exit { animation: slideDownFade 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.glass-toast {
+    background: rgba(20, 20, 20, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+.dark .glass-toast { background: rgba(10, 10, 10, 0.9); border: 1px solid rgba(255, 255, 255, 0.15); }
+

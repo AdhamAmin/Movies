@@ -770,16 +770,38 @@ class MovieApp {
         }
     }
 
-    showNotification(msg) {
-        // Simple alert or custom toast
-        // Creating a simple toast for now
-        const offset = document.querySelectorAll('.toast-notif').length * 60;
+    showNotification(msg, type = 'success') {
+        // Remove existing toasts to prevent stacking (optional, or stack them)
+        const existing = document.querySelector('.toast-notification');
+        if (existing) {
+            existing.classList.remove('toast-enter');
+            existing.classList.add('toast-exit');
+            setTimeout(() => existing.remove(), 300);
+        }
+
+        const icon = type === 'success' ? 'check_circle' : 'info';
+        const colorClass = type === 'success' ? 'text-green-500' : 'text-blue-500';
+
         const toast = document.createElement('div');
-        toast.className = 'toast-notif fixed bottom-4 right-4 bg-primary text-white px-4 py-2 rounded shadow-lg animate-fade-in z-50';
-        toast.style.bottom = `${20 + offset}px`;
-        toast.textContent = msg;
+        toast.className = 'toast-notification fixed bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3 px-6 py-4 rounded-2xl glass-toast z-[100] toast-enter';
+
+        toast.innerHTML = `
+            <div class="flex items-center justify-center size-8 rounded-full bg-white/10 ${colorClass}">
+                <span class="material-symbols-outlined text-[20px]">${icon}</span>
+            </div>
+            <span class="text-white font-medium text-sm md:text-base tracking-wide">${msg}</span>
+        `;
+
         document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 3000);
+
+        // Auto remove
+        setTimeout(() => {
+            if (toast.parentElement) {
+                toast.classList.remove('toast-enter');
+                toast.classList.add('toast-exit');
+                setTimeout(() => toast.remove(), 300);
+            }
+        }, 3000);
     }
 }
 
