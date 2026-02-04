@@ -45,8 +45,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <div class="absolute top-2 left-2 bg-black/70 px-1.5 py-0.5 rounded text-xs text-white flex items-center gap-1">${rating}</div>
                     </div>
                     <div>
-                        <h3 class="text-white text-base font-medium truncate">${movie.title}</h3>
-                        <p class="text-[#ba9c9d] text-sm mt-1">${(movie.release_date||'').split('-')[0] || '—'} • ${(movie.genres&&movie.genres[0]&&movie.genres[0].name) || ''}</p>
+                        <h3 class="text-gray-900 dark:text-white text-base font-medium truncate">${movie.title}</h3>
+                        <p class="text-gray-600 dark:text-[#ba9c9d] text-sm mt-1">${(movie.release_date || '').split('-')[0] || '—'} • ${(movie.genres && movie.genres[0] && movie.genres[0].name) || ''}</p>
                     </div>
                 </div>
             `;
@@ -58,10 +58,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         const search = (searchInput && searchInput.value || '').toLowerCase().trim();
         const sorted = raw.slice();
         const sort = sortSelect?.value || 'date_added';
-        if (sort === 'rating') sorted.sort((a,b)=> (b.vote_average||0)-(a.vote_average||0));
-        else if (sort === 'alphabetical') sorted.sort((a,b)=> (a.title||'').localeCompare(b.title||''));
+        if (sort === 'rating') sorted.sort((a, b) => (b.vote_average || 0) - (a.vote_average || 0));
+        else if (sort === 'alphabetical') sorted.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
         const details = await fetchDetailsFor(sorted);
-        const filtered = details.filter(m => !search || (m.title||'').toLowerCase().includes(search));
+        const filtered = details.filter(m => !search || (m.title || '').toLowerCase().includes(search));
         renderCards(filtered);
         attachCardHandlers();
     }

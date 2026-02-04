@@ -3,7 +3,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const id = params.get('id');
     if (!id) return;
 
-    const tmdb = new TMDBService(TMDB_API_KEY);
+    const apiKey = typeof TMDB_API_KEY !== 'undefined' ? TMDB_API_KEY : window.TMDB_API_KEY;
+    const tmdb = new TMDBService(apiKey);
     const data = await tmdb.getMovieDetails(id);
     if (!data) return;
 
@@ -37,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (title) title.textContent = data.title || data.original_title || 'Untitled';
     if (genresEl) genresEl.innerHTML = (data.genres || []).map(g => `<span class="px-2 py-1 rounded bg-white/10 backdrop-blur-md border border-white/10 text-xs font-medium uppercase tracking-wider">${g.name}</span>`).join(' ');
     if (year) year.textContent = (data.release_date || '').split('-')[0] || '—';
-    if (runtime) runtime.textContent = data.runtime ? `${Math.floor(data.runtime/60)}h ${data.runtime%60}m` : '—';
+    if (runtime) runtime.textContent = data.runtime ? `${Math.floor(data.runtime / 60)}h ${data.runtime % 60}m` : '—';
     if (ratingNum) ratingNum.textContent = `${(data.vote_average || 0).toFixed(1)}/10`;
     if (votes) votes.textContent = `${(data.vote_count || 0).toLocaleString()} votes`;
     if (overview) overview.textContent = data.overview || 'No overview available.';

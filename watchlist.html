@@ -1,22 +1,27 @@
 <!DOCTYPE html>
 <html class="dark" lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>User Watchlist - Movie Discovery</title>
+    <title>CinemaVault - My Watchlist</title>
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script id="tailwind-config">
-        tailwind.config = { darkMode: "class", theme: { extend: { colors: { "primary": "#e60a15", "background-light": "#f8f5f6", "background-dark": "#221011", "surface-dark": "#2d1b1c", "surface-highlight": "#3a2526" }, fontFamily: { "display": ["Inter","sans-serif"] }, borderRadius:{ "DEFAULT":"0.25rem" } } } }
+        tailwind.config = { darkMode: "class", theme: { extend: { colors: { "primary": "#e60a15", "background-light": "#f8f5f6", "background-dark": "#221011", "surface-dark": "#2d1b1c", "surface-highlight": "#3a2526" }, fontFamily: { "display": ["Inter", "sans-serif"] }, borderRadius: { "DEFAULT": "0.25rem" } } } }
     </script>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/animations.css">
 </head>
+
 <body class="bg-background-light dark:bg-background-dark font-display text-white overflow-hidden antialiased">
-    
+
     <main class="flex-1 flex flex-col h-full overflow-hidden relative pt-6">
         <div class="max-w-7xl mx-auto px-6 md:px-10">
             <div class="flex flex-col gap-2 mb-6">
@@ -29,36 +34,22 @@
                         </p>
                     </div>
                     <div class="w-full md:w-auto md:min-w-[300px]">
-                        <input id="watchlist-search" class="w-full bg-surface-dark border border-[#3a2526] text-white text-sm rounded-lg block pl-4 p-2.5 placeholder-[#665253]" placeholder="Search watchlist..." type="text" />
+                        <input id="watchlist-search"
+                            class="w-full bg-surface-dark border border-[#3a2526] text-white text-sm rounded-lg block pl-4 p-2.5 placeholder-[#665253]"
+                            placeholder="Search watchlist..." type="text" />
                     </div>
                 </div>
             </div>
-
-            <div class="flex items-center justify-between gap-4 mb-6">
-                <div class="flex items-center gap-3">
-                    <label class="text-[#ba9c9d] text-sm font-medium whitespace-nowrap mr-2">Sort by:</label>
-                    <select id="watchlist-sort" class="bg-transparent text-white text-sm font-medium border-none pr-8 py-1">
-                        <option value="date_added">Date Added (Newest)</option>
-                        <option value="rating">Rating (High to Low)</option>
-                        <option value="release_date">Release Date</option>
-                        <option value="alphabetical">Alphabetical</option>
-                    </select>
-                </div>
-                <div class="flex gap-2">
-                    <button id="view-grid" class="px-3 py-1 bg-surface-dark rounded">Grid</button>
-                    <button id="view-list" class="px-3 py-1 bg-surface-dark rounded">List</button>
-                </div>
+            <div id="watchlist-grid"
+                class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-x-4 gap-y-8">
             </div>
-
-            
-            <div id="watchlist-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-x-4 gap-y-8"></div>
         </div>
     </main>
 
     <script src="config.js"></script>
     <script src="js/tmdb-service.js"></script>
     <script src="js/theme.js"></script>
-    <script src="js/header.js"></script>
+    <script src="js/loader.js"></script>
     <script src="js/watchlist.js"></script>
-</body>
+
 </html>

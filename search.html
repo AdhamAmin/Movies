@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html class="dark" lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Movie Discovery - Search</title>
+    <title>CinemaVault - Search</title>
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script id="tailwind-config">
         tailwind.config = {
@@ -30,22 +33,97 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/animations.css">
 </head>
-<body class="bg-background-light dark:bg-background-dark font-display text-white overflow-hidden h-screen flex flex-col">
+
+<body
+    class="bg-background-light dark:bg-background-dark font-display text-white overflow-hidden h-screen flex flex-col">
     <div id="header-placeholder"></div>
 
     <div class="flex flex-1 overflow-hidden relative">
-        <aside class="w-72 hidden lg:flex ..."> <!-- unchanged aside --> </aside>
+        <aside
+            class="w-72 hidden lg:flex flex-col border-r border-border-dark bg-background-dark/50 backdrop-blur-xl h-full overflow-hidden">
+            <div class="p-6 overflow-y-auto h-full space-y-8">
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">filter_list</span> Filters
+                    </h3>
+
+                    <div class="space-y-6">
+                        <!-- Genres -->
+                        <div>
+                            <h4 class="text-text-secondary text-xs font-bold uppercase tracking-wider mb-3">Genres</h4>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input type="checkbox" data-genre="28"
+                                        class="w-4 h-4 rounded bg-surface-dark border-border-dark text-primary focus:ring-primary focus:ring-offset-0 transition-all checked:bg-primary checked:border-primary">
+                                    <span
+                                        class="text-sm text-gray-400 group-hover:text-white transition-colors">Action</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input type="checkbox" data-genre="35"
+                                        class="w-4 h-4 rounded bg-surface-dark border-border-dark text-primary focus:ring-primary focus:ring-offset-0 transition-all">
+                                    <span
+                                        class="text-sm text-gray-400 group-hover:text-white transition-colors">Comedy</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input type="checkbox" data-genre="18"
+                                        class="w-4 h-4 rounded bg-surface-dark border-border-dark text-primary focus:ring-primary focus:ring-offset-0 transition-all">
+                                    <span
+                                        class="text-sm text-gray-400 group-hover:text-white transition-colors">Drama</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input type="checkbox" data-genre="878"
+                                        class="w-4 h-4 rounded bg-surface-dark border-border-dark text-primary focus:ring-primary focus:ring-offset-0 transition-all">
+                                    <span
+                                        class="text-sm text-gray-400 group-hover:text-white transition-colors">Sci-Fi</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input type="checkbox" data-genre="27"
+                                        class="w-4 h-4 rounded bg-surface-dark border-border-dark text-primary focus:ring-primary focus:ring-offset-0 transition-all">
+                                    <span
+                                        class="text-sm text-gray-400 group-hover:text-white transition-colors">Horror</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Rating Slider -->
+                        <div>
+                            <h4
+                                class="text-text-secondary text-xs font-bold uppercase tracking-wider mb-3 flex justify-between">
+                                Min Rating <span class="text-white">0+</span>
+                            </h4>
+                            <input type="range" min="0" max="10" step="1" value="0"
+                                class="w-full accent-primary h-1 bg-surface-dark rounded-lg cursor-pointer"
+                                data-rating-slider>
+                            <div class="flex justify-between text-[10px] text-text-secondary mt-1">
+                                <span>0</span><span>5</span><span>10</span>
+                            </div>
+                        </div>
+
+                        <button data-reset-filters
+                            class="w-full py-2 rounded-lg border border-border-dark text-sm font-medium text-text-secondary hover:text-white hover:bg-surface-dark transition-all">
+                            Reset Filters
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </aside>
 
         <main class="flex-1 flex flex-col h-full overflow-hidden bg-background-dark relative">
-            <div class="px-6 md:px-10 py-6 sticky top-0 z-10 bg-background-dark/95 backdrop-blur-sm border-b border-border-dark/50">
+            <div
+                class="px-6 md:px-10 py-6 sticky top-0 z-10 bg-background-dark/95 backdrop-blur-sm border-b border-border-dark/50">
                 <div class="max-w-4xl mx-auto mb-4">
                     <label class="flex flex-col w-full h-14 relative group">
-                        <div class="flex w-full items-stretch rounded-xl overflow-hidden ring-1 ring-border-dark focus-within:ring-primary/50 bg-[#150a0a] transition-all shadow-lg">
+                        <div
+                            class="flex w-full items-stretch rounded-xl overflow-hidden ring-1 ring-border-dark focus-within:ring-primary/50 bg-[#150a0a] transition-all shadow-lg">
                             <div class="text-text-secondary flex items-center justify-center pl-4 pr-2">
                                 <span class="material-symbols-outlined">search</span>
                             </div>
-                            <input id="search-input" class="flex w-full min-w-0 flex-1 resize-none bg-transparent text-white focus:outline-0 border-none h-full placeholder:text-text-secondary/60 px-2 text-lg font-normal leading-normal" placeholder="Search movies, actors, or genres..." value="Action" />
-                            <button class="pr-4 pl-2 text-text-secondary hover:text-white transition-colors flex items-center" type="button">
+                            <input id="search-input"
+                                class="flex w-full min-w-0 flex-1 resize-none bg-transparent text-white focus:outline-0 border-none h-full placeholder:text-text-secondary/60 px-2 text-lg font-normal leading-normal"
+                                placeholder="Search movies, actors, or genres..." value="Action" />
+                            <button
+                                class="pr-4 pl-2 text-text-secondary hover:text-white transition-colors flex items-center"
+                                type="button">
                                 <span class="material-symbols-outlined" style="font-size: 20px;">close</span>
                             </button>
                         </div>
@@ -55,7 +133,8 @@
 
             <div class="flex-1 overflow-y-auto p-6 md:px-10 pb-20 scroll-smooth">
                 <div class="max-w-[1600px] mx-auto">
-                    <div id="search-results" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-x-5 gap-y-8">
+                    <div id="search-results"
+                        class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-x-5 gap-y-8">
                         <!-- JS will populate results here -->
                     </div>
                 </div>
@@ -66,8 +145,9 @@
     <script src="config.js"></script>
     <script src="js/tmdb-service.js"></script>
     <script src="js/theme.js"></script>
-    <script src="js/head.js"></script>
     <script src="js/loader.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/controls.js"></script>
 </body>
+
 </html>

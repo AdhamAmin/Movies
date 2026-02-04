@@ -1,51 +1,189 @@
 /* Global Font */
 body {
     font-family: 'Inter', sans-serif;
+    transition: background-color 0.5s ease, color 0.5s ease, opacity 0.4s ease;
+    /* Default hidden for page transition */
 }
 
-/* Custom Scrollbar Global */
+body.loaded {
+    opacity: 1;
+}
+
+/* Light Theme Variables & Backgrounds */
+:root {
+    --text-primary: #111418;
+    --text-secondary: #637588;
+    --bg-card: #ffffff;
+    --bg-card-hover: #f0f0f0;
+}
+
+.dark {
+    --text-primary: #ffffff;
+    --text-secondary: #9ca3af;
+    --bg-card: #1a1a1a;
+    --bg-card-hover: #262626;
+}
+
+.bg-background-light {
+    background-color: #f8f5f6;
+    color: var(--text-primary);
+}
+
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
 }
 
-::-webkit-scrollbar-track {
-    background: #221011;
+:root:not(.dark) ::-webkit-scrollbar-track {
+    background: #e5e5e5;
 }
 
-::-webkit-scrollbar-thumb {
-    background: #392829;
-    border-radius: 4px;
+:root:not(.dark) ::-webkit-scrollbar-thumb {
+    background: #c0c0c0;
+    border-radius: 5px;
+    border: 2px solid #e5e5e5;
 }
 
-::-webkit-scrollbar-thumb:hover {
-    background: #543b3c;
+:root:not(.dark) ::-webkit-scrollbar-thumb:hover {
+    background: #a0a0a0;
 }
 
-/* Hide scrollbar utilities */
-.no-scrollbar::-webkit-scrollbar,
-.hide-scrollbar::-webkit-scrollbar {
+.dark ::-webkit-scrollbar-track {
+    background: #0d0d0d;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 5px;
+    border: 2px solid #0d0d0d;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+    background: #4d4d4d;
+}
+
+.no-scrollbar::-webkit-scrollbar {
     display: none;
 }
 
-.no-scrollbar,
-.hide-scrollbar {
+.no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
 
 /* Select Chevron for Watchlist */
 .select-chevron {
-    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuDYq3fkl8eVdUHzpC8sH3ZpnaDPqU3XYpoZwbWJBV080cErGbOXo4AaTJ32Tlb_2epEGFCtPvg9HTkuepEFPy0NUKmNAI4P2ZdNAGR6VRcKTALroApb6Yr23K3pN9JIjHtwI2T1-MU3Mxb6UTwuNYdv07HErXT_0K1Gv1zVRv84beLXe3Ccn43p4qF0Qhyqvp1fE8ySDL4Dsp5Y557jGDSfbtCCG6L47pzJ3nLF3KI0-Qyn3J6_oVBubHBRyb32QjQDVMzyP0ireq4O);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
     background-position: right 0.5rem center;
     background-repeat: no-repeat;
-    background-size: 1.5em 1.5em;
+    background-size: 1.25em 1.25em;
     padding-right: 2.5rem;
     -webkit-appearance: none;
     appearance: none;
 }
 
-/* Fade Bottom Effect */
-.fade-bottom {
-    mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+:root:not(.dark) .select-chevron {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='black'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+}
+
+/* Animations & Effects */
+
+/* 1. Floating Animation */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.animate-float {
+    animation: float 6s ease-in-out infinite;
+}
+
+/* 2. Fade In */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+}
+
+.animate-fade-in-up {
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+/* 3. Hover Glow & Scale */
+.hover-glow {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-glow:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 30px -10px rgba(230, 10, 21, 0.3);
+    /* Primary color shadow */
+}
+
+/* 4. Button Ripple */
+.btn-ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-ripple::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-ripple:active::after {
+    width: 300px;
+    height: 300px;
+}
+
+/* 5. Mobile Menu Slide */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+.mobile-menu-enter {
+    animation: slideInRight 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Responsive Text Utility */
+@media (max-width: 768px) {
+    .text-responsive-h1 {
+        font-size: 2.25rem;
+    }
+
+    .text-responsive-h2 {
+        font-size: 1.5rem;
+    }
 }

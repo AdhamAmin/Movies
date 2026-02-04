@@ -1,8 +1,9 @@
 class TMDBService {
     constructor(apiKey) {
         this.apiKey = apiKey;
-        this.baseUrl = 'https://api.themoviedb.org/3';
-        this.imageBase = 'https://image.tmdb.org/t/p';
+        const config = (typeof CONFIG !== 'undefined' ? CONFIG : window.CONFIG) || {};
+        this.baseUrl = config.BASE_URL || 'https://api.themoviedb.org/3';
+        this.imageBase = (config.IMG_URL || 'https://image.tmdb.org/t/p/w500').replace('/w500', ''); // Base for images
     }
 
     async getTrendingMovies(timeWindow = 'week') {
