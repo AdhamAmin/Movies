@@ -459,8 +459,11 @@ class MovieApp {
         }
 
         // Hide other sections to focus on results
-        const otherSection = document.querySelector('#action-container')?.parentElement;
-        if (otherSection) otherSection.style.display = 'none';
+        const actionSection = document.querySelector('#action-container')?.parentElement;
+        const trendSection = document.querySelector('#trending-container')?.parentElement;
+
+        if (actionSection) actionSection.style.display = 'none';
+        if (trendSection) trendSection.style.display = 'none';
 
         // Reset page state for infinite scroll on filtered results
         this.pageState.filtered = 1;
@@ -468,6 +471,17 @@ class MovieApp {
 
         const container = document.getElementById('recommended-container');
         if (container) container.innerHTML = '<div class="col-span-full text-center py-10"><div class="animate-spin rounded-full h-10 w-10 border-b-2 border-primary mx-auto"></div></div>';
+
+        // Add a "Clear Filters" button if not exists (reusing search clear style)
+        const clearBtnId = 'clear-filter-btn';
+        if (!document.getElementById(clearBtnId)) {
+            const clearBtn = document.createElement('button');
+            clearBtn.id = clearBtnId;
+            clearBtn.className = 'fixed bottom-8 right-8 bg-gray-800 hover:bg-gray-700 text-white rounded-full p-4 shadow-2xl z-50 animate-bounce flex items-center gap-2 font-bold border border-white/10';
+            clearBtn.innerHTML = '<span class="material-symbols-outlined">restart_alt</span> Reset View';
+            clearBtn.onclick = () => window.location.reload();
+            document.body.appendChild(clearBtn);
+        }
 
         try {
             const results = await tmdbService.discover(type, { genre, minRating });
@@ -493,8 +507,9 @@ class MovieApp {
                 const loadMoreBtn = container.parentElement.querySelector('.load-more-btn');
                 if (loadMoreBtn) {
                     loadMoreBtn.dataset.section = 'filtered';
-                    // Remove old listeners to avoid stacking? 
-                    // Actually initLoadMore adds listener once. We need to handle 'filtered' case in loadMore.
+                    // Reset listener by cloning (simple trick) or just rely on the boolean logic inside loadMore? 
+                    // Actually initLoadMore only adds one listener that calls loadMore(btn.dataset.section). 
+                    // Since we updated dataset.section, it will work!
                 }
             }
         } catch (e) {
@@ -504,10 +519,13 @@ class MovieApp {
     }
 
     initCustomSliders() {
-        // Logic for custom drag scrolling is handled by CSS snap-x mostly, 
-        // but we can add button controls here
+        // ... (existing slider logic remains)
+        // Adding initialization for grid controls here as well for convenience
+        this.initGridControls();
+
         const sliders = document.querySelectorAll('.snap-x');
         sliders.forEach(slider => {
+            // ... (existing slider code)
             slider.style.cursor = 'grab';
             let isDown = false;
             let startX;
@@ -534,6 +552,62 @@ class MovieApp {
                 const walk = (x - startX) * 2;
                 slider.scrollLeft = scrollLeft - walk;
             });
+        });
+    }
+
+    initGridControls() {
+        const buttons = document.querySelectorAll('.grid-view-btn');
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                this.setGridDensity(btn.dataset.cols);
+
+                // Update active state
+                buttons.forEach(b => {
+                    b.classList.remove('active', 'text-white', 'bg-white/10');
+                    b.classList.add('text-gray-400');
+                });
+                btn.classList.add('active', 'text-white', 'bg-white/10');
+                btn.classList.remove('text-gray-400');
+            });
+        });
+    }
+
+    setGridDensity(density) {
+        const containers = [
+            document.getElementById('recommended-container'),
+            document.getElementById('action-container'),
+            document.getElementById('search-results-container')
+        ];
+
+        const classesToRemove = [
+            'grid-cols-1', 'grid-cols-2', 'grid-cols-3', 'grid-cols-4', 'grid-cols-5', 'grid-cols-6', 'grid-cols-7', 'grid-cols-8',
+            'md:grid-cols-2', 'md:grid-cols-3', 'md:grid-cols-4', 'md:grid-cols-5', 'md:grid-cols-6',
+            'lg:grid-cols-3', 'lg:grid-cols-4', 'lg:grid-cols-5', 'lg:grid-cols-6', 'lg:grid-cols-7', 'lg:grid-cols-8',
+            'xl:grid-cols-4', 'xl:grid-cols-5', 'xl:grid-cols-6', 'xl:grid-cols-7', 'xl:grid-cols-8'
+        ];
+
+        let newClasses = [];
+        switch (density) {
+            case 'compact':
+                // Dense: more columns
+                newClasses = ['grid-cols-3', 'md:grid-cols-5', 'lg:grid-cols-7', 'xl:grid-cols-8'];
+                break;
+            case 'large':
+                // Large: fewer columns
+                newClasses = ['grid-cols-1', 'md:grid-cols-3', 'lg:grid-cols-4'];
+                break;
+            case 'normal':
+            default:
+                // Default
+                newClasses = ['grid-cols-2', 'md:grid-cols-4', 'lg:grid-cols-5', 'xl:grid-cols-6'];
+                break;
+        }
+
+        containers.forEach(container => {
+            if (container) {
+                container.classList.remove(...classesToRemove);
+                container.classList.add(...newClasses);
+            }
         });
     }
 

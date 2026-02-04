@@ -94,11 +94,11 @@
                     class="glass-heavy rounded-2xl p-4 flex flex-wrap gap-4 items-center justify-between border border-white/10 shadow-xl backdrop-blur-md">
                     <div class="flex items-center gap-2">
                         <span class="material-symbols-outlined text-primary">filter_list</span>
-                        <span class="font-bold text-white">Filters</span>
+                        <span class="font-bold text-gray-900 dark:text-white">Filters</span>
                     </div>
-                    <div class="flex flex-wrap gap-4">
+                    <div class="flex flex-wrap gap-4 items-center">
                         <select id="genre-filter"
-                            class="bg-black/40 border border-white/10 text-white text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5">
+                            class="bg-white/10 dark:bg-black/40 border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5">
                             <option value="">All Genres</option>
                             <option value="28">Action</option>
                             <option value="12">Adventure</option>
@@ -108,7 +108,7 @@
                             <option value="878">Sci-Fi</option>
                         </select>
                         <select id="rating-filter"
-                            class="bg-black/40 border border-white/10 text-white text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5">
+                            class="bg-white/10 dark:bg-black/40 border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5">
                             <option value="">Any Rating</option>
                             <option value="5">5+ Stars</option>
                             <option value="7">7+ Stars</option>
@@ -120,12 +120,37 @@
                             Apply
                         </button>
                     </div>
+
+                    <!-- View Options -->
+                    <div class="flex items-center gap-2 border-l border-gray-300 dark:border-white/10 pl-4">
+                        <span
+                            class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wider">View</span>
+                        <div
+                            class="flex bg-white/10 dark:bg-black/40 rounded-lg p-1 border border-gray-200 dark:border-white/10">
+                            <button
+                                class="grid-view-btn p-1.5 rounded hover:bg-gray-200 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors active"
+                                data-cols="normal" title="Comfortable">
+                                <span class="material-symbols-outlined text-[20px]">grid_view</span>
+                            </button>
+                            <button
+                                class="grid-view-btn p-1.5 rounded hover:bg-gray-200 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                                data-cols="compact" title="Compact">
+                                <span class="material-symbols-outlined text-[20px]">view_comfy</span>
+                            </button>
+                            <button
+                                class="grid-view-btn p-1.5 rounded hover:bg-gray-200 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                                data-cols="large" title="Large">
+                                <span class="material-symbols-outlined text-[20px]">crop_square</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Trending (Horizontal) -->
                 <section>
                     <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-white text-2xl md:text-3xl font-bold tracking-tight flex items-center gap-3">
+                        <h2
+                            class="text-gray-900 dark:text-white text-2xl md:text-3xl font-bold tracking-tight flex items-center gap-3">
                             Trending Now <span class="material-symbols-outlined text-primary">trending_up</span>
                         </h2>
                     </div>
@@ -136,7 +161,8 @@
 
                 <!-- Top Rated -->
                 <section>
-                    <h2 class="text-white text-2xl md:text-3xl font-bold tracking-tight mb-8 flex items-center gap-3">
+                    <h2
+                        class="text-gray-900 dark:text-white text-2xl md:text-3xl font-bold tracking-tight mb-8 flex items-center gap-3">
                         Top Rated Gems <span class="material-symbols-outlined text-yellow-500 filled">star</span>
                     </h2>
                     <div id="recommended-container"
@@ -154,7 +180,8 @@
 
                 <!-- Action -->
                 <section>
-                    <h2 class="text-white text-2xl md:text-3xl font-bold tracking-tight mb-8 flex items-center gap-3">
+                    <h2
+                        class="text-gray-900 dark:text-white text-2xl md:text-3xl font-bold tracking-tight mb-8 flex items-center gap-3">
                         Action Hits <span
                             class="material-symbols-outlined text-red-500 filled">local_fire_department</span>
                     </h2>
