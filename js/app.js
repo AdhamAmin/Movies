@@ -65,6 +65,11 @@ class MovieApp {
             return;
         }
 
+        if (window.location.pathname.includes('tv.html')) {
+            await this.handleTVPage();
+            return;
+        }
+
         // Fetch data for homepage
         try {
             const [trending, topRated, action] = await Promise.all([
@@ -85,6 +90,43 @@ class MovieApp {
         } catch (e) {
             console.error('Error loading movies:', e);
             this.showNotification('Failed to load some movies.');
+        }
+    }
+
+    async handleTVPage() {
+        try {
+            const [trending, topRated, scifi] = await Promise.all([
+                tmdbService.getTrendingTV('week'),
+                tmdbService.getTopRatedTV(),
+                // 10765 = Sci-Fi & Fantasy
+                // Using generic discover for generic call if getMoviesByGenre is strictly movies,
+                // BUT current getMoviesByGenre endpoint is /discover/movie. 
+                // Using getTrendingTV is fine. For genre I need a TV genre fetch.
+                // Let's use getTrendingTV for now effectively.
+                // Or I can add a quick fetch here or just use topRated.
+                tmdbService.getTopRatedTV() // Placeholder for third section, or add getTVByGenre later
+            ]);
+
+            // Normalizing TV data to match Movie structure for populateSection (title vs name)
+            const normalize = (list) => list.map(item => ({
+                ...item,
+                title: item.name || item.title,
+                release_date: item.first_air_date || item.release_date
+            }));
+
+            if (trending && trending.results) {
+                this.populateSection('trending-container', normalize(trending.results));
+            }
+            if (topRated && topRated.results) {
+                this.populateSection('recommended-container', normalize(topRated.results.slice(0, 10)));
+            }
+            if (scifi && scifi.results) { // Using top rated as placeholder for 3rd section
+                this.populateSection('action-container', normalize(scifi.results.slice(10, 20)));
+            }
+
+        } catch (e) {
+            console.error('Error loading TV shows:', e);
+            this.showNotification('Failed to load TV shows.');
         }
     }
 

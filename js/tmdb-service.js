@@ -60,6 +60,25 @@ class TMDBService {
         } catch (error) { return null; }
     }
 
+    async getTrendingTV(timeWindow = 'week') {
+        try {
+            const response = await fetch(
+                `${this.baseUrl}/trending/tv/${timeWindow}?api_key=${this.apiKey}`
+            );
+            return await response.json();
+        } catch (error) {
+            console.error('Error fetching trending TV:', error);
+            return null;
+        }
+    }
+
+    async getTopRatedTV() {
+        try {
+            const response = await fetch(`${this.baseUrl}/tv/top_rated?api_key=${this.apiKey}`);
+            return await response.json();
+        } catch (error) { return null; }
+    }
+
     getImageUrl(path, size = 'w500') {
         if (!path) return null;
         return `${this.imageBase}/${size}${path}`;
