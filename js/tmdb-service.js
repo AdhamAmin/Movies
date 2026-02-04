@@ -6,10 +6,10 @@ class TMDBService {
         this.imageBase = (config.IMG_URL || 'https://image.tmdb.org/t/p/w500').replace('/w500', ''); // Base for images
     }
 
-    async getTrendingMovies(timeWindow = 'week') {
+    async getTrendingMovies(timeWindow = 'week', page = 1) {
         try {
             const response = await fetch(
-                `${this.baseUrl}/trending/movie/${timeWindow}?api_key=${this.apiKey}`
+                `${this.baseUrl}/trending/movie/${timeWindow}?api_key=${this.apiKey}&page=${page}`
             );
             if (!response.ok) throw new Error('Failed to fetch trending movies');
             return await response.json();
@@ -19,10 +19,10 @@ class TMDBService {
         }
     }
 
-    async searchMovies(query) {
+    async searchMovies(query, page = 1) {
         try {
             const response = await fetch(
-                `${this.baseUrl}/search/movie?api_key=${this.apiKey}&query=${encodeURIComponent(query)}`
+                `${this.baseUrl}/search/movie?api_key=${this.apiKey}&query=${encodeURIComponent(query)}&page=${page}`
             );
             if (!response.ok) throw new Error('Failed to search movies');
             return await response.json();
@@ -46,24 +46,24 @@ class TMDBService {
         }
     }
 
-    async getTopRated() {
+    async getTopRated(page = 1) {
         try {
-            const response = await fetch(`${this.baseUrl}/movie/top_rated?api_key=${this.apiKey}`);
+            const response = await fetch(`${this.baseUrl}/movie/top_rated?api_key=${this.apiKey}&page=${page}`);
             return await response.json();
         } catch (error) { return null; }
     }
 
-    async getMoviesByGenre(genreId) {
+    async getMoviesByGenre(genreId, page = 1) {
         try {
-            const response = await fetch(`${this.baseUrl}/discover/movie?api_key=${this.apiKey}&with_genres=${genreId}&sort_by=popularity.desc`);
+            const response = await fetch(`${this.baseUrl}/discover/movie?api_key=${this.apiKey}&with_genres=${genreId}&sort_by=popularity.desc&page=${page}`);
             return await response.json();
         } catch (error) { return null; }
     }
 
-    async getTrendingTV(timeWindow = 'week') {
+    async getTrendingTV(timeWindow = 'week', page = 1) {
         try {
             const response = await fetch(
-                `${this.baseUrl}/trending/tv/${timeWindow}?api_key=${this.apiKey}`
+                `${this.baseUrl}/trending/tv/${timeWindow}?api_key=${this.apiKey}&page=${page}`
             );
             return await response.json();
         } catch (error) {
@@ -72,9 +72,9 @@ class TMDBService {
         }
     }
 
-    async getTopRatedTV() {
+    async getTopRatedTV(page = 1) {
         try {
-            const response = await fetch(`${this.baseUrl}/tv/top_rated?api_key=${this.apiKey}`);
+            const response = await fetch(`${this.baseUrl}/tv/top_rated?api_key=${this.apiKey}&page=${page}`);
             return await response.json();
         } catch (error) { return null; }
     }
