@@ -60,6 +60,28 @@ class TMDBService {
         } catch (error) { return null; }
     }
 
+    async discover(type, filters = {}, page = 1) {
+        try {
+            const params = new URLSearchParams({
+                api_key: this.apiKey,
+                sort_by: 'popularity.desc',
+                page: page.toString()
+            });
+
+            if (filters.genre) params.append('with_genres', filters.genre);
+            if (filters.minRating) params.append('vote_average.gte', filters.minRating);
+
+            const endpoint = type === 'tv' ? 'discover/tv' : 'discover/movie';
+            const response = await fetch(`${this.baseUrl}/${endpoint}?${params.toString()}`);
+
+            if (!response.ok) throw new Error('Discovery failed');
+            return await response.json();
+        } catch (error) {
+            console.error('Discover error:', error);
+            return null;
+        }
+    }
+
     async getTrendingTV(timeWindow = 'week', page = 1) {
         try {
             const response = await fetch(

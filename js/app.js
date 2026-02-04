@@ -156,12 +156,10 @@ class MovieApp {
             if (section === 'recommended') {
                 results = isTV ? await tmdbService.getTopRatedTV(page) : await tmdbService.getTopRated(page);
             } else if (section === 'action') {
-                // Action for movies is Genre 28. For TV in this app I used TopRated again as placeholder, 
-                // but let's assume we want to load more of whatever was there.
-                // If TV, I used getTopRatedTV for 'action-container' too in handleTVPage.
-                // To support true 'Action' TV, I'd need getMoviesByGenre equivalent for TV.
-                // For now, continuing the pattern:
                 results = isTV ? await tmdbService.getTopRatedTV(page) : await tmdbService.getMoviesByGenre(28, page);
+            } else if (section === 'filtered') {
+                const type = isTV ? 'tv' : 'movie';
+                results = await tmdbService.discover(type, this.currentFilters || {}, page);
             }
 
             if (results && results.results) {
@@ -173,7 +171,7 @@ class MovieApp {
                         release_date: item.first_air_date || item.release_date
                     }));
                 }
-                this.appendSection(`${section}-container`, items);
+                this.appendSection('recommended-container', items); // Always append to recommended for filters
             }
         } catch (e) {
             console.error('Error loading more:', e);
@@ -379,13 +377,66 @@ class MovieApp {
     }
 
     initFilters() {
-        // Placeholder for filter logic if needed
-        const genreSelect = document.getElementById('genre-select');
-        if (genreSelect) {
-            genreSelect.addEventListener('change', (e) => {
-                // Implement filtering logic here
-                console.log('Filter changed:', e.target.value);
-            });
+        const applyBtn = document.getElementById('apply-filters');
+        if (applyBtn) {
+            applyBtn.addEventListener('click', () => this.applyFilters());
+        }
+    }
+
+    async applyFilters() {
+        const genre = document.getElementById('genre-filter').value;
+        const minRating = document.getElementById('rating-filter').value;
+        const isTV = window.location.pathname.includes('tv.html');
+        const type = isTV ? 'tv' : 'movie';
+
+        // Update header text to reflect filtering
+        const header = document.querySelector('#recommended-container').previousElementSibling;
+        if (header) {
+            header.innerHTML = `Filtered Results <span class="material-symbols-outlined text-primary">filter_alt</span>`;
+        }
+
+        // Hide other sections to focus on results
+        const otherSection = document.querySelector('#action-container')?.parentElement;
+        if (otherSection) otherSection.style.display = 'none';
+
+        // Reset page state for infinite scroll on filtered results
+        this.pageState.filtered = 1;
+        this.currentFilters = { genre, minRating }; // Store for loadMore
+
+        const container = document.getElementById('recommended-container');
+        if (container) container.innerHTML = '<div class="col-span-full text-center py-10"><div class="animate-spin rounded-full h-10 w-10 border-b-2 border-primary mx-auto"></div></div>';
+
+        try {
+            const results = await tmdbService.discover(type, { genre, minRating });
+
+            if (results && results.results) {
+                let items = results.results;
+                if (isTV) {
+                    items = items.map(item => ({
+                        ...item,
+                        title: item.name || item.title,
+                        release_date: item.first_air_date || item.release_date
+                    }));
+                }
+
+                if (items.length === 0) {
+                    container.innerHTML = '<div class="col-span-full text-center text-gray-400 py-10">No results found matching your criteria.</div>';
+                    return;
+                }
+
+                this.populateSection('recommended-container', items);
+
+                // Update Load More button to use 'filtered' mode
+                const loadMoreBtn = container.parentElement.querySelector('.load-more-btn');
+                if (loadMoreBtn) {
+                    loadMoreBtn.dataset.section = 'filtered';
+                    // Remove old listeners to avoid stacking? 
+                    // Actually initLoadMore adds listener once. We need to handle 'filtered' case in loadMore.
+                }
+            }
+        } catch (e) {
+            console.error('Filter error:', e);
+            if (container) container.innerHTML = '<div class="col-span-full text-center text-red-500">Error loading filtered results.</div>';
         }
     }
 
