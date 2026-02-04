@@ -179,7 +179,63 @@
 }
 
 .stagger-item:nth-child(6) {
+    animation-delay: 0.3s;
+}
+
+.stagger-item:nth-child(7) {
+    animation-delay: 0.35s;
+}
+
+.stagger-item:nth-child(8) {
+    animation-delay: 0.4s;
+}
+
+.stagger-item:nth-child(9) {
+    animation-delay: 0.45s;
+}
+
+.stagger-item:nth-child(10) {
+    animation-delay: 0.5s;
+}
+
+.stagger-item:nth-child(11) {
+    animation-delay: 0.55s;
+}
+
+.stagger-item:nth-child(12) {
     animation-delay: 0.6s;
+}
+
+.stagger-item:nth-child(13) {
+    animation-delay: 0.65s;
+}
+
+.stagger-item:nth-child(14) {
+    animation-delay: 0.7s;
+}
+
+.stagger-item:nth-child(15) {
+    animation-delay: 0.75s;
+}
+
+.stagger-item:nth-child(16) {
+    animation-delay: 0.8s;
+}
+
+.stagger-item:nth-child(17) {
+    animation-delay: 0.85s;
+}
+
+.stagger-item:nth-child(18) {
+    animation-delay: 0.9s;
+}
+
+.stagger-item:nth-child(19) {
+    animation-delay: 0.95s;
+}
+
+.stagger-item:nth-child(20) {
+    animation-delay: 1.0s;
 }
 
 /* Hover Brightness */

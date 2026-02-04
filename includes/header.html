@@ -1,9 +1,11 @@
 <header
-    class="sticky top-0 z-50 flex items-center justify-between border-b border-white/10 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md px-4 md:px-6 lg:px-10 py-4 transition-colors duration-300">
-    <div class="flex items-center gap-4 md:gap-8">
+    class="fixed top-2 md:top-4 z-50 flex items-center justify-between mx-3 md:mx-10 lg:mx-16 rounded-2xl border border-white/10 glass-heavy px-4 md:px-6 py-3 transition-all duration-300 mt-0 shadow-2xl left-0 right-0">
+    <div class="flex items-center gap-3 md:gap-8">
         <a class="flex items-center gap-2 hover:opacity-80 transition-opacity" href="index.html">
-            <img src="img/logo.png" alt="CinemaVault" class="h-10 w-auto object-contain dark:invert transition-all">
-            <h2 class="text-gray-900 dark:text-white text-xl font-bold tracking-tight">CinemaVault</h2>
+            <img src="img/logo.png" alt="CinemaVault"
+                class="h-8 md:h-10 w-auto object-contain dark:invert transition-all">
+            <h2 class="text-gray-900 dark:text-white text-lg md:text-xl font-bold tracking-tight hidden xs:block">
+                CinemaVault</h2>
         </a>
         <!-- Desktop Nav Links -->
         <nav class="hidden lg:flex items-center gap-6">
@@ -18,7 +20,7 @@
     <!-- Search Bar -->
     <div class="hidden md:flex flex-1 max-w-lg mx-4 lg:mx-8">
         <div
-            class="flex w-full items-center rounded-full bg-gray-200 dark:bg-surface-dark border border-gray-300 dark:border-white/10 focus-within:border-primary/50 transition-colors h-10 px-4">
+            class="flex w-full items-center rounded-full bg-gray-200 dark:bg-white/5 border border-gray-300 dark:border-white/10 focus-within:border-primary/50 transition-colors h-10 px-4">
             <span class="material-symbols-outlined text-gray-500 dark:text-gray-400 text-[20px]">search</span>
             <input id="global-search"
                 class="flex-1 bg-transparent border-none text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-0 px-3"
@@ -28,9 +30,9 @@
     <div class="flex items-center gap-2 md:gap-4">
         <!-- Theme Toggle -->
         <button id="theme-toggle"
-            class="flex items-center justify-center size-10 rounded-full hover:bg-gray-200 dark:hover:bg-white/10 transition-colors text-gray-900 dark:text-white btn-ripple"
+            class="flex items-center justify-center size-9 md:size-10 rounded-full hover:bg-gray-200 dark:hover:bg-white/10 transition-colors text-gray-900 dark:text-white btn-ripple"
             title="Toggle Theme">
-            <span class="material-symbols-outlined text-[24px]">dark_mode</span>
+            <span class="material-symbols-outlined text-[20px] md:text-[24px]">dark_mode</span>
         </button>
         <button
             class="hidden sm:flex items-center justify-center size-10 rounded-full hover:bg-gray-200 dark:hover:bg-white/10 transition-colors text-gray-900 dark:text-white relative group btn-ripple"
@@ -44,8 +46,8 @@
         </button>
         <!-- Mobile Menu Toggle -->
         <button id="mobile-menu-toggle"
-            class="lg:hidden flex items-center justify-center size-10 rounded-full hover:bg-gray-200 dark:hover:bg-white/10 transition-colors text-gray-900 dark:text-white btn-ripple">
-            <span class="material-symbols-outlined text-[24px]">menu</span>
+            class="lg:hidden flex items-center justify-center size-9 md:size-10 rounded-full hover:bg-gray-200 dark:hover:bg-white/10 transition-colors text-gray-900 dark:text-white btn-ripple">
+            <span class="material-symbols-outlined text-[20px] md:text-[24px]">menu</span>
         </button>
     </div>
 </header>
@@ -53,8 +55,7 @@
 <!-- Mobile Menu -->
 <div id="mobile-menu" class="fixed inset-0 z-40 transform translate-x-full transition-transform duration-300 lg:hidden">
     <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" id="mobile-menu-overlay"></div>
-    <div
-        class="absolute right-0 top-0 bottom-0 w-64 bg-background-light dark:bg-surface-dark border-l border-gray-300 dark:border-white/10 shadow-2xl">
+    <div class="absolute right-0 top-0 bottom-0 w-[280px] glass-heavy border-l border-white/10 shadow-2xl">
         <div class="flex flex-col h-full">
             <div class="flex items-center justify-between p-4 border-b border-gray-300 dark:border-white/10">
                 <h3 class="text-lg font-bold text-gray-900 dark:text-white">Menu</h3>

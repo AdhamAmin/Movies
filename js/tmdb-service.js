@@ -46,6 +46,20 @@ class TMDBService {
         }
     }
 
+    async getTopRated() {
+        try {
+            const response = await fetch(`${this.baseUrl}/movie/top_rated?api_key=${this.apiKey}`);
+            return await response.json();
+        } catch (error) { return null; }
+    }
+
+    async getMoviesByGenre(genreId) {
+        try {
+            const response = await fetch(`${this.baseUrl}/discover/movie?api_key=${this.apiKey}&with_genres=${genreId}&sort_by=popularity.desc`);
+            return await response.json();
+        } catch (error) { return null; }
+    }
+
     getImageUrl(path, size = 'w500') {
         if (!path) return null;
         return `${this.imageBase}/${size}${path}`;

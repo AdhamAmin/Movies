@@ -35,9 +35,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             const poster = tmdb.getImageUrl(movie.poster_path, 'w342') || '';
             const rating = (movie.vote_average || '—').toString();
             return `
-                <div class="group relative flex flex-col gap-3" data-id="${movie.id}">
-                    <div class="relative w-full aspect-[2/3] rounded-lg overflow-hidden shadow-lg ring-1 ring-[#3a2526]">
-                        <div class="w-full h-full bg-center bg-cover" style="background-image:url('${poster}')"></div>
+                <div class="stagger-item group relative flex flex-col gap-3" data-id="${movie.id}">
+                    <div class="relative w-full aspect-[2/3] rounded-lg overflow-hidden shadow-lg ring-1 ring-[#3a2526] hover-glow">
+                        <div class="w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-105" style="background-image:url('${poster}')"></div>
                         <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
                             <button class="remove-btn size-10 rounded-full bg-primary text-white" title="Remove"><span class="material-symbols-outlined">delete</span></button>
                             <button class="watched-btn size-10 rounded-full bg-white text-background-dark" title="Mark watched"><span class="material-symbols-outlined">check</span></button>

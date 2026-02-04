@@ -37,108 +37,102 @@
             <div id="header-placeholder"></div>
         </header>
         <main class="flex-1 flex flex-col">
-            <!-- Hero Section -->
-            <section class="relative w-full h-[70vh] md:h-[85vh] min-h-[500px] md:min-h-[600px] overflow-hidden">
+            <!-- Hero Section (Full Screen) -->
+            <section class="relative w-full min-h-screen overflow-hidden flex items-end">
                 <!-- Background Image -->
-                <div class="absolute inset-0 bg-cover bg-center"
-                    data-alt="Dune Part Two cinematic movie scene with desert landscape and characters"
+                <div class="absolute inset-0 bg-cover bg-center fixed-bg" data-alt="Dune Part Two cinematic movie scene"
                     style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDIBmrBmM3RsMBW_MIacWH1S9fIGhOkfJSuWutcrxfkjebULVAolDkfbJh1nLVAeLeefziJ32l_Lx4S_wUI0G7zKnTWDKXgpj2waRwHDgAaJrhDiHglSMBnqGx4rOW398xfn6WLpLDWb-8Ya3gyuRfWT0NtTdWLCaInUvE5Qh5Ps5jHWtc8s_1d0c5kHtPxkx9DQRTkLRv_wp8RMJVrMs8-YGI0ac9DefJoLqm-BTNwR0kpWId7wx4wh1pvTC1bCbRAlyxXOAcE6Wo0");'>
-                    <!-- Gradient Overlay -->
                     <div
-                        class="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/50 to-transparent">
-                    </div>
-                    <div
-                        class="absolute inset-0 bg-gradient-to-r from-background-dark via-background-dark/60 to-transparent">
+                        class="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/40 to-black/30">
                     </div>
                 </div>
+
                 <!-- Content -->
-                <div class="relative h-full flex items-end pb-12 md:pb-24 px-4 md:px-16 max-w-7xl mx-auto w-full">
-                    <div class="flex flex-col gap-4 md:gap-6 max-w-2xl animate-fade-in-up">
-                        <div class="flex flex-col gap-2">
-                            <h1
-                                class="text-white text-3xl sm:text-5xl md:text-7xl font-black leading-none tracking-tight drop-shadow-xl">
-                                Dune: Part Two
-                            </h1>
-                            <!-- Metadata Row -->
-                            <div
-                                class="flex flex-wrap items-center gap-2 md:gap-4 text-gray-300 text-xs md:text-base font-medium mt-2">
-                                <span class="text-[#FFD700] flex items-center gap-1 font-bold">
-                                    <span
-                                        class="material-symbols-outlined text-[16px] md:text-[18px] filled">star</span>
-                                    4.8
-                                </span>
-                                <span class="hidden sm:inline">•</span>
-                                <span>2024</span>
-                                <span class="hidden sm:inline">•</span>
-                                <span>2h 46m</span>
-                                <span class="hidden sm:inline">•</span>
-                                <span class="px-2 py-0.5 rounded border border-white/20 text-xs">PG-13</span>
-                            </div>
-                            <p
-                                class="text-gray-200 text-sm md:text-lg leading-relaxed line-clamp-3 max-w-xl mt-2 drop-shadow-md">
-                                Paul Atreides unites with Chani and the Fremen while on a warpath of revenge against the
-                                conspirators who destroyed his family. Facing a choice between the love of his life and
-                                the fate of the known universe, he endeavors to prevent a terrible future only he can
-                                foresee.
-                            </p>
-                        </div>
-                        <div class="flex flex-wrap gap-3 md:gap-4 mt-2 md:mt-4">
-                            <button
-                                class="flex items-center justify-center gap-2 h-10 md:h-12 px-6 md:px-8 rounded-md bg-primary hover:bg-red-700 text-white font-bold tracking-wide transition-all shadow-lg hover:shadow-red-900/40 text-sm md:text-base">
-                                <span
-                                    class="material-symbols-outlined text-[20px] md:text-[24px] filled">play_arrow</span>
-                                <span>Watch Trailer</span>
-                            </button>
-                            <button
-                                class="flex items-center justify-center gap-2 h-10 md:h-12 px-6 md:px-8 rounded-md bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold tracking-wide transition-all border border-white/10 text-sm md:text-base">
-                                <span class="material-symbols-outlined text-[20px] md:text-[24px]">info</span>
-                                <span>More Info</span>
-                            </button>
-                        </div>
+                <div class="relative w-full px-6 md:px-16 pb-32 max-w-[1600px] mx-auto z-10 flex flex-col gap-6">
+                    <span
+                        class="inline-block px-3 py-1 rounded-full bg-primary/20 border border-primary/30 text-primary text-xs font-bold tracking-wider uppercase backdrop-blur-sm self-start">
+                        #1 Movie of the Year
+                    </span>
+                    <h1
+                        class="text-white text-5xl md:text-8xl font-black leading-tight tracking-tighter drop-shadow-2xl max-w-4xl">
+                        Dune: Part Two
+                    </h1>
+                    <div class="flex flex-wrap items-center gap-4 text-gray-200 text-sm md:text-lg font-medium">
+                        <span
+                            class="text-[#FFD700] flex items-center gap-1 font-bold bg-black/30 px-2 py-1 rounded backdrop-blur-md">
+                            <span class="material-symbols-outlined text-[18px] filled">star</span> 4.8
+                        </span>
+                        <span>2024</span>
+                        <span class="w-1.5 h-1.5 bg-white/50 rounded-full"></span>
+                        <span>Sci-Fi / Adventure</span>
+                        <span class="w-1.5 h-1.5 bg-white/50 rounded-full"></span>
+                        <span>2h 46m</span>
                     </div>
-                </div>
-            </section>
-            <!-- Trending Section (Horizontal Scroll) -->
-            <section class="py-6 md:py-8 px-4 md:px-16 w-full max-w-[1600px] mx-auto">
-                <div class="flex items-center justify-between mb-4 md:mb-6">
-                    <h2
-                        class="text-gray-900 dark:text-white text-xl md:text-2xl font-bold tracking-tight border-l-4 border-primary pl-3 md:pl-4">
-                        Trending Now
-                    </h2>
-                    <div class="hidden md:flex gap-2">
+                    <p class="text-gray-300 text-base md:text-xl leading-relaxed max-w-2xl font-light drop-shadow-lg">
+                        Paul Atreides unites with Chani and the Fremen while on a warpath of revenge against the
+                        conspirators who destroyed his family.
+                    </p>
+                    <div class="flex gap-4 mt-2">
                         <button
-                            class="size-8 rounded-full bg-gray-200 dark:bg-surface-dark flex items-center justify-center hover:bg-gray-300 dark:hover:bg-white/20 text-gray-900 dark:text-white transition-colors">
-                            <span class="material-symbols-outlined text-[20px]">chevron_left</span>
+                            class="flex items-center gap-2 h-14 px-8 rounded-full bg-primary hover:bg-red-700 text-white font-bold transition-all shadow-lg hover:shadow-red-900/50 hover:-translate-y-1">
+                            <span class="material-symbols-outlined text-[28px] filled">play_arrow</span> Watch Trailer
                         </button>
                         <button
-                            class="size-8 rounded-full bg-gray-200 dark:bg-surface-dark flex items-center justify-center hover:bg-gray-300 dark:hover:bg-white/20 text-gray-900 dark:text-white transition-colors">
-                            <span class="material-symbols-outlined text-[20px]">chevron_right</span>
+                            class="flex items-center gap-2 h-14 px-8 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold border border-white/10">
+                            <span class="material-symbols-outlined text-[28px]">info</span> More Info
                         </button>
                     </div>
-                </div>
-                <div class="flex overflow-x-auto gap-5 pb-8 no-scrollbar snap-x" id="trending-container">
-                    <div class="text-white p-4">Loading trending movies...</div>
                 </div>
             </section>
 
-            <!-- Recommended Section (Grid) -->
-            <section
-                class="py-6 md:py-8 px-4 md:px-16 w-full max-w-[1600px] mx-auto bg-gradient-to-b from-transparent to-gray-100 dark:to-surface-dark/20">
-                <div class="flex items-center justify-between mb-6 md:mb-8">
-                    <h2
-                        class="text-gray-900 dark:text-white text-xl md:text-2xl font-bold tracking-tight border-l-4 border-primary pl-3 md:pl-4">
-                        Recommended
-                        for You</h2>
-                    <a class="text-sm font-semibold text-primary hover:text-red-700 dark:hover:text-white transition-colors"
-                        href="#">View
-                        All</a>
-                </div>
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6"
-                    id="recommended-container">
-                    <div class="text-white col-span-full text-center p-4">Loading recommended movies...</div>
-                </div>
-            </section>
+            <!-- Main Content (Overlapping Hero) -->
+            <div class="relative z-20 w-full max-w-[1600px] mx-auto px-6 md:px-16 -mt-24 flex flex-col gap-20 pb-20">
+
+                <!-- Trending (Horizontal) -->
+                <section>
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-white text-2xl md:text-3xl font-bold tracking-tight flex items-center gap-3">
+                            Trending Now <span class="material-symbols-outlined text-primary">trending_up</span>
+                        </h2>
+                    </div>
+                    <div class="flex overflow-x-auto gap-6 pb-4 no-scrollbar snap-x" id="trending-container">
+                        <!-- JS Injected -->
+                    </div>
+                </section>
+
+                <!-- Top Rated -->
+                <section>
+                    <h2 class="text-white text-2xl md:text-3xl font-bold tracking-tight mb-8 flex items-center gap-3">
+                        Top Rated Gems <span class="material-symbols-outlined text-yellow-500 filled">star</span>
+                    </h2>
+                    <div id="recommended-container"
+                        class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+                        <!-- JS Injected -->
+                    </div>
+                </section>
+
+                <!-- Action -->
+                <section>
+                    <h2 class="text-white text-2xl md:text-3xl font-bold tracking-tight mb-8 flex items-center gap-3">
+                        Action Hits <span
+                            class="material-symbols-outlined text-red-500 filled">local_fire_department</span>
+                    </h2>
+                    <div id="action-container"
+                        class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+                        <!-- JS Injected -->
+                    </div>
+                </section>
+            </div>
         </main>
+
+        <!-- Metocean Vibe Background -->
+        <div class="fixed inset-0 z-[-1] pointer-events-none overflow-hidden hidden dark:block">
+            <div
+                class="metocean-blob absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/20 blur-[120px] rounded-full animate-float">
+            </div>
+            <div class="metocean-blob absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-600/20 blur-[120px] rounded-full animate-float"
+                style="animation-delay: -2s;"></div>
+        </div>
         <!-- Footer -->
         <div id="footer-placeholder"></div>
 
