@@ -581,27 +581,26 @@ class MovieApp {
         ];
 
         const classesToRemove = [
-            'grid-cols-1', 'grid-cols-2', 'grid-cols-3', 'grid-cols-4', 'grid-cols-5', 'grid-cols-6', 'grid-cols-7', 'grid-cols-8', 'grid-cols-9', 'grid-cols-10',
-            'md:grid-cols-2', 'md:grid-cols-3', 'md:grid-cols-4', 'md:grid-cols-5', 'md:grid-cols-6', 'md:grid-cols-7', 'md:grid-cols-8',
+            'grid-cols-1', 'grid-cols-2', 'grid-cols-3', 'grid-cols-4', 'grid-cols-5', 'grid-cols-6', 'grid-cols-7', 'grid-cols-8',
+            'md:grid-cols-2', 'md:grid-cols-3', 'md:grid-cols-4', 'md:grid-cols-5', 'md:grid-cols-6',
             'lg:grid-cols-3', 'lg:grid-cols-4', 'lg:grid-cols-5', 'lg:grid-cols-6', 'lg:grid-cols-7', 'lg:grid-cols-8',
-            'xl:grid-cols-4', 'xl:grid-cols-5', 'xl:grid-cols-6', 'xl:grid-cols-7', 'xl:grid-cols-8', 'xl:grid-cols-9', 'xl:grid-cols-10',
-            '2xl:grid-cols-4', '2xl:grid-cols-5', '2xl:grid-cols-6', '2xl:grid-cols-7', '2xl:grid-cols-8', '2xl:grid-cols-10', '2xl:grid-cols-12'
+            'xl:grid-cols-4', 'xl:grid-cols-5', 'xl:grid-cols-6', 'xl:grid-cols-7', 'xl:grid-cols-8'
         ];
 
         let newClasses = [];
         switch (density) {
             case 'compact':
                 // Dense: more columns
-                newClasses = ['grid-cols-3', 'md:grid-cols-5', 'lg:grid-cols-7', 'xl:grid-cols-8', '2xl:grid-cols-10'];
+                newClasses = ['grid-cols-3', 'md:grid-cols-5', 'lg:grid-cols-7', 'xl:grid-cols-8'];
                 break;
             case 'large':
                 // Large: fewer columns
-                newClasses = ['grid-cols-1', 'md:grid-cols-3', 'lg:grid-cols-4', 'xl:grid-cols-5', '2xl:grid-cols-6'];
+                newClasses = ['grid-cols-1', 'md:grid-cols-3', 'lg:grid-cols-4'];
                 break;
             case 'normal':
             default:
                 // Default
-                newClasses = ['grid-cols-2', 'md:grid-cols-4', 'lg:grid-cols-5', 'xl:grid-cols-6', '2xl:grid-cols-8'];
+                newClasses = ['grid-cols-2', 'md:grid-cols-4', 'lg:grid-cols-5', 'xl:grid-cols-6'];
                 break;
         }
 
