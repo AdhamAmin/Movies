@@ -1,4 +1,3 @@
-// Theme Management System
 class ThemeManager {
     constructor() {
         this.theme = localStorage.getItem('theme') || 'dark';
@@ -6,15 +5,15 @@ class ThemeManager {
     }
 
     init() {
-        // Apply saved theme on load
         this.applyTheme(this.theme);
 
-        // Listen for theme toggle events
-        document.addEventListener('DOMContentLoaded', () => {
-            const toggleBtn = document.getElementById('theme-toggle');
-            if (toggleBtn) {
-                toggleBtn.addEventListener('click', () => this.toggleTheme());
-                this.updateToggleIcon();
+        document.addEventListener('contentLoaded', (e) => {
+            if (e.detail === 'header-placeholder') {
+                const toggleBtn = document.getElementById('theme-toggle');
+                if (toggleBtn) {
+                    toggleBtn.addEventListener('click', () => this.toggleTheme());
+                    this.updateToggleIcon();
+                }
             }
         });
     }
@@ -47,5 +46,4 @@ class ThemeManager {
     }
 }
 
-// Initialize theme manager
 const themeManager = new ThemeManager();

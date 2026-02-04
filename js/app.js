@@ -1,4 +1,5 @@
-// Main Application Logic
+const tmdbService = new TMDBService(TMDB_API_KEY);
+
 class MovieApp {
     constructor() {
         this.watchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
@@ -6,198 +7,127 @@ class MovieApp {
     }
 
     init() {
-        document.addEventListener('DOMContentLoaded', () => {
-            this.initPageTransitions();
-            this.initSearch();
-            this.initWatchlist();
-            this.initFilters();
-            this.initSortControls();
-        });
-    }
-
-    // Page Transitions
-    initPageTransitions() {
-        // Add page transition class
-        document.body.classList.add('page-transition');
-
-        // Smooth scroll to top on page load
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-
-        // Handle navigation with transitions
-        document.querySelectorAll('a[href*=".html"]').forEach(link => {
-            link.addEventListener('click', (e) => {
-                const href = link.getAttribute('href');
-                if (href && !href.startsWith('#')) {
-                    e.preventDefault();
-                    document.body.style.opacity = '0';
-                    setTimeout(() => {
-                        window.location.href = href;
-                    }, 300);
-                }
-            });
-        });
-    }
-
-    // Search Functionality
-    initSearch() {
-        const searchInput = document.getElementById('global-search');
-        if (!searchInput) return;
-
-        searchInput.addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase();
-            this.filterMovies(query);
-        });
-    }
-
-    filterMovies(query) {
-        const movieCards = document.querySelectorAll('[data-movie-title]');
-        movieCards.forEach(card => {
-            const title = card.getAttribute('data-movie-title').toLowerCase();
-            if (title.includes(query)) {
-                card.style.display = '';
-                card.classList.add('animate-fade-in');
-            } else {
-                card.style.display = 'none';
-            }
-        });
-    }
-
-    // Watchlist Management
-    initWatchlist() {
-        document.querySelectorAll('[data-watchlist-btn]').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const movieId = btn.getAttribute('data-movie-id');
-                this.toggleWatchlist(movieId, btn);
-            });
-        });
-        this.updateWatchlistUI();
-    }
-
-    toggleWatchlist(movieId, btn) {
-        const index = this.watchlist.indexOf(movieId);
-        if (index > -1) {
-            this.watchlist.splice(index, 1);
-            btn.innerHTML = '<span class="material-symbols-outlined">bookmark_add</span>';
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => this.start());
         } else {
-            this.watchlist.push(movieId);
-            btn.innerHTML = '<span class="material-symbols-outlined filled">bookmark</span>';
-        }
-        localStorage.setItem('watchlist', JSON.stringify(this.watchlist));
-        this.showNotification(index > -1 ? 'Removed from watchlist' : 'Added to watchlist');
-    }
-
-    updateWatchlistUI() {
-        document.querySelectorAll('[data-watchlist-btn]').forEach(btn => {
-            const movieId = btn.getAttribute('data-movie-id');
-            if (this.watchlist.includes(movieId)) {
-                btn.innerHTML = '<span class="material-symbols-outlined filled">bookmark</span>';
-            }
-        });
-    }
-
-    // Filters for search page
-    initFilters() {
-        const genreCheckboxes = document.querySelectorAll('input[type="checkbox"][data-genre]');
-        const ratingSlider = document.querySelector('[data-rating-slider]');
-        const yearInputs = document.querySelectorAll('[data-year-input]');
-        const resetBtn = document.querySelector('[data-reset-filters]');
-
-        if (genreCheckboxes.length > 0) {
-            genreCheckboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', () => this.applyFilters());
-            });
-        }
-
-        if (ratingSlider) {
-            ratingSlider.addEventListener('input', () => this.applyFilters());
-        }
-
-        if (yearInputs.length > 0) {
-            yearInputs.forEach(input => {
-                input.addEventListener('change', () => this.applyFilters());
-            });
-        }
-
-        if (resetBtn) {
-            resetBtn.addEventListener('click', () => this.resetFilters());
+            this.start();
         }
     }
 
-    applyFilters() {
-        const selectedGenres = Array.from(document.querySelectorAll('input[type="checkbox"][data-genre]:checked'))
-            .map(cb => cb.getAttribute('data-genre').toLowerCase());
+    async start() {
+        const data = await tmdbService.getTrendingMovies('week');
+        if (!data || !data.results) return;
 
-        const movieCards = document.querySelectorAll('[data-movie-card]');
+        
+        const heroContent = document.getElementById('hero-content');
+        const heroBackdrop = document.getElementById('hero-backdrop');
+        if (heroContent && heroBackdrop && data.results[0]) {
+            this.populateHero(data.results[0]);
+        }
 
-        movieCards.forEach(card => {
-            const genres = (card.getAttribute('data-genres') || '').toLowerCase().split(',');
-            const matchesGenre = selectedGenres.length === 0 ||
-                selectedGenres.some(g => genres.includes(g));
+        const trendingContainer = document.getElementById('trending-container');
+        if (trendingContainer) {
+            this.populateTrending(data.results.slice(1, 7));
+        }
 
-            if (matchesGenre) {
-                card.style.display = '';
-                card.classList.add('animate-fade-in');
-            } else {
-                card.style.display = 'none';
-            }
+        const recommendedContainer = document.getElementById('recommended-container');
+        if (recommendedContainer) {
+            this.populateRecommended(data.results.slice(7, 19));
+        }
+    }
+
+    populateHero(movie) {
+        const heroContent = document.getElementById('hero-content');
+        const heroBackdrop = document.getElementById('hero-backdrop');
+        if (!heroContent || !heroBackdrop || !movie) return;
+
+        heroBackdrop.style.backgroundImage = `url('${tmdbService.getImageUrl(movie.backdrop_path)}')`;
+
+        heroContent.innerHTML = `
+            <div class="flex flex-col gap-2">
+                <h1 class="text-white text-5xl md:text-7xl font-black leading-none tracking-tight drop-shadow-xl">${movie.title}</h1>
+                <div class="flex items-center gap-4 text-gray-300 text-sm md:text-base font-medium mt-2">
+                    <span class="text-[#FFD700] flex items-center gap-1 font-bold">
+                        <span class="material-symbols-outlined text-[18px] filled">star</span> ${movie.vote_average.toFixed(1)}
+                    </span>
+                    <span>•</span>
+                    <span>${movie.release_date?.split('-')[0] || 'N/A'}</span>
+                </div>
+                <p class="text-gray-200 text-base md:text-lg leading-relaxed line-clamp-3 md:line-clamp-none max-w-xl mt-2 drop-shadow-md">${movie.overview}</p>
+            </div>
+            <div class="flex flex-wrap gap-4 mt-4">
+                <button id="hero-watch-trailer" class="flex items-center justify-center gap-2 h-12 px-8 rounded-md bg-primary hover:bg-red-700 text-white font-bold tracking-wide transition-all shadow-lg hover:shadow-red-900/40">
+                    <span class="material-symbols-outlined text-[24px] filled">play_arrow</span>
+                    <span>Watch Trailer</span>
+                </button>
+                <button class="flex items-center justify-center gap-2 h-12 px-8 rounded-md bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold tracking-wide transition-all border border-white/10">
+                    <span class="material-symbols-outlined text-[24px]">info</span>
+                    <span>More Info</span>
+                </button>
+            </div>
+        `;
+
+        const heroBtn = document.getElementById('hero-watch-trailer');
+        if (heroBtn) heroBtn.addEventListener('click', () => {
+            window.location.href = `movie-details.html?id=${movie.id}`;
         });
     }
 
-    resetFilters() {
-        document.querySelectorAll('input[type="checkbox"][data-genre]').forEach(cb => {
-            cb.checked = false;
-        });
-        this.applyFilters();
+    populateTrending(movies) {
+        const container = document.getElementById('trending-container');
+        if (!container || !movies || !movies.length) return;
+
+        container.innerHTML = movies.map(movie => `
+            <div data-movie-id="${movie.id}" class="group relative flex-none w-[180px] md:w-[220px] aspect-[2/3] rounded-lg overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105 hover:z-10 snap-start">
+                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style="background-image: url('${tmdbService.getImageUrl(movie.poster_path)}')"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                    <h3 class="text-white font-bold text-lg leading-tight">${movie.title}</h3>
+                    <div class="flex items-center justify-between mt-2">
+                        <span class="text-yellow-400 text-sm flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[14px] filled">star</span> ${movie.vote_average.toFixed(1)}
+                        </span>
+                        <button class="size-8 rounded-full bg-primary flex items-center justify-center text-white">
+                            <span class="material-symbols-outlined text-[16px]">add</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
     }
 
-    // Sort Controls
-    initSortControls() {
-        const sortSelect = document.querySelector('[data-sort-select]');
-        if (!sortSelect) return;
+    populateRecommended(movies) {
+        const container = document.getElementById('recommended-container');
+        if (!container || !movies || !movies.length) return;
 
-        sortSelect.addEventListener('change', (e) => {
-            this.sortMovies(e.target.value);
-        });
-    }
-
-    sortMovies(criteria) {
-        const container = document.querySelector('[data-movies-container]');
-        if (!container) return;
-
-        const cards = Array.from(container.children);
-        cards.sort((a, b) => {
-            switch (criteria) {
-                case 'rating':
-                    return parseFloat(b.getAttribute('data-rating') || 0) -
-                        parseFloat(a.getAttribute('data-rating') || 0);
-                case 'alphabetical':
-                    return (a.getAttribute('data-movie-title') || '').localeCompare(
-                        b.getAttribute('data-movie-title') || '');
-                case 'release_date':
-                    return parseInt(b.getAttribute('data-year') || 0) -
-                        parseInt(a.getAttribute('data-year') || 0);
-                default:
-                    return 0;
-            }
-        });
-
-        cards.forEach(card => container.appendChild(card));
-    }
-
-    // Notification System
-    showNotification(message) {
-        const notification = document.createElement('div');
-        notification.className = 'fixed top-20 right-4 bg-surface-dark border border-primary text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in';
-        notification.textContent = message;
-        document.body.appendChild(notification);
-
-        setTimeout(() => {
-            notification.style.opacity = '0';
-            setTimeout(() => notification.remove(), 300);
-        }, 2000);
+        container.innerHTML = movies.map(movie => `
+            <div data-movie-id="${movie.id}" class="flex flex-col gap-2 group cursor-pointer">
+                <div class="relative aspect-[2/3] w-full rounded-lg overflow-hidden shadow-lg shadow-black/50">
+                    <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style="background-image: url('${tmdbService.getImageUrl(movie.poster_path)}')"></div>
+                    <div class="absolute top-2 right-2 bg-black/60 backdrop-blur-md px-1.5 py-0.5 rounded flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[12px] text-[#FFD700] filled">star</span>
+                        <span class="text-xs font-bold text-white">${movie.vote_average.toFixed(1)}</span>
+                    </div>
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <div class="size-12 rounded-full bg-primary/90 flex items-center justify-center text-white shadow-lg transform scale-0 group-hover:scale-100 transition-transform duration-300 delay-75">
+                            <span class="material-symbols-outlined filled">play_arrow</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <h3 class="text-white font-semibold truncate group-hover:text-primary transition-colors">${movie.title}</h3>
+                    <span class="text-gray-500 text-xs">${movie.release_date?.split('-')[0] || 'N/A'}</span>
+                </div>
+            </div>
+        `).join('');
     }
 }
 
-// Initialize App
+
+document.addEventListener('click', (e) => {
+    const card = e.target.closest('[data-movie-id]');
+    if (!card) return;
+    const id = card.getAttribute('data-movie-id');
+    if (id) window.location.href = `movie-details.html?id=${id}`;
+});
+
 const app = new MovieApp();

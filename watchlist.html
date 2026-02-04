@@ -1,454 +1,64 @@
 <!DOCTYPE html>
-
 <html class="dark" lang="en">
-
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>User Watchlist - Movie Discovery</title>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap"
-        rel="stylesheet" />
-    <!-- Material Symbols -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <!-- Tailwind CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <!-- Theme Configuration -->
     <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#e60a15",
-                        "background-light": "#f8f5f6",
-                        "background-dark": "#221011",
-                        "surface-dark": "#2d1b1c", // Slightly lighter for cards/inputs
-                        "surface-highlight": "#3a2526",
-                    },
-                    fontFamily: {
-                        "display": ["Inter", "sans-serif"]
-                    },
-                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
-                },
-            },
-        }
+        tailwind.config = { darkMode: "class", theme: { extend: { colors: { "primary": "#e60a15", "background-light": "#f8f5f6", "background-dark": "#221011", "surface-dark": "#2d1b1c", "surface-highlight": "#3a2526" }, fontFamily: { "display": ["Inter","sans-serif"] }, borderRadius:{ "DEFAULT":"0.25rem" } } } }
     </script>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/animations.css">
 </head>
-
 <body class="bg-background-light dark:bg-background-dark font-display text-white overflow-hidden antialiased">
-    <div class="flex h-screen w-full">
-        <!-- Sidebar Navigation -->
-        <aside class="w-64 flex-shrink-0 flex flex-col border-r border-[#3a2526] bg-background-dark hidden md:flex">
-            <div class="p-6 flex items-center gap-3">
-                <div
-                    class="bg-primary aspect-square rounded-lg size-10 flex items-center justify-center text-white font-bold shadow-[0_0_15px_rgba(230,10,21,0.5)]">
-                    <span class="material-symbols-outlined text-[28px]">movie</span>
-                </div>
-                <h1 class="text-white text-lg font-bold tracking-tight">CineVault</h1>
-            </div>
-            <nav class="flex-1 flex flex-col gap-2 px-4 py-4">
-                <a class="flex items-center gap-3 px-3 py-3 rounded-lg text-[#ba9c9d] hover:bg-surface-highlight hover:text-white transition-colors group"
-                    href="#">
-                    <span class="material-symbols-outlined group-hover:scale-110 transition-transform">home</span>
-                    <p class="text-sm font-medium">Home</p>
-                </a>
-                <a class="flex items-center gap-3 px-3 py-3 rounded-lg text-[#ba9c9d] hover:bg-surface-highlight hover:text-white transition-colors group"
-                    href="#">
-                    <span class="material-symbols-outlined group-hover:scale-110 transition-transform">explore</span>
-                    <p class="text-sm font-medium">Discover</p>
-                </a>
-                <!-- Active Item -->
-                <a class="flex items-center gap-3 px-3 py-3 rounded-lg bg-primary text-white shadow-lg shadow-primary/20"
-                    href="#">
-                    <span class="material-symbols-outlined fill-current">bookmark</span>
-                    <p class="text-sm font-medium">Watchlist</p>
-                </a>
-                <a class="flex items-center gap-3 px-3 py-3 rounded-lg text-[#ba9c9d] hover:bg-surface-highlight hover:text-white transition-colors group"
-                    href="#">
-                    <span class="material-symbols-outlined group-hover:scale-110 transition-transform">history</span>
-                    <p class="text-sm font-medium">History</p>
-                </a>
-                <div class="my-4 border-t border-[#3a2526]"></div>
-                <p class="px-3 text-xs font-semibold text-[#665253] uppercase tracking-wider mb-2">Library</p>
-                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#ba9c9d] hover:bg-surface-highlight hover:text-white transition-colors"
-                    href="#">
-                    <span class="material-symbols-outlined text-[20px]">favorite</span>
-                    <p class="text-sm font-medium">Favorites</p>
-                </a>
-                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#ba9c9d] hover:bg-surface-highlight hover:text-white transition-colors"
-                    href="#">
-                    <span class="material-symbols-outlined text-[20px]">schedule</span>
-                    <p class="text-sm font-medium">Watch Later</p>
-                </a>
-            </nav>
-            <div class="p-4 border-t border-[#3a2526]">
-                <a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#ba9c9d] hover:text-white transition-colors"
-                    href="#">
-                    <span class="material-symbols-outlined">settings</span>
-                    <p class="text-sm font-medium">Settings</p>
-                </a>
-            </div>
-        </aside>
-        <!-- Main Content -->
-        <main class="flex-1 flex flex-col h-full overflow-hidden relative">
-            <!-- Top Mobile Header (Hidden on Desktop) -->
-            <div class="md:hidden flex items-center justify-between p-4 border-b border-[#3a2526] bg-background-dark">
-                <div class="flex items-center gap-2">
-                    <span class="material-symbols-outlined text-primary">movie</span>
-                    <span class="font-bold">CineVault</span>
-                </div>
-                <button class="text-white">
-                    <span class="material-symbols-outlined">menu</span>
-                </button>
-            </div>
-            <!-- Scrollable Content Area -->
-            <div class="flex-1 overflow-y-auto p-4 md:p-10">
-                <div class="max-w-7xl mx-auto flex flex-col gap-8">
-                    <!-- Header + Stats -->
-                    <div class="flex flex-col gap-2">
-                        <div class="flex flex-wrap items-end justify-between gap-4">
-                            <div>
-                                <h2 class="text-3xl md:text-4xl font-black tracking-tight text-white mb-2">My Watchlist
-                                </h2>
-                                <p class="text-[#ba9c9d] text-base font-normal flex items-center gap-2">
-                                    <span class="material-symbols-outlined text-[18px]">movie_filter</span>
-                                    24 movies saved
-                                </p>
-                            </div>
-                            <!-- Search Bar (Optional Addition for UX) -->
-                            <div class="relative group w-full md:w-auto md:min-w-[300px]">
-                                <span
-                                    class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#ba9c9d] group-focus-within:text-white transition-colors">search</span>
-                                <input
-                                    class="w-full bg-surface-dark border border-[#3a2526] text-white text-sm rounded-lg focus:ring-primary focus:border-primary block pl-10 p-2.5 placeholder-[#665253] transition-all"
-                                    placeholder="Search watchlist..." type="text" />
-                            </div>
-                        </div>
+    
+    <main class="flex-1 flex flex-col h-full overflow-hidden relative pt-6">
+        <div class="max-w-7xl mx-auto px-6 md:px-10">
+            <div class="flex flex-col gap-2 mb-6">
+                <div class="flex items-end justify-between gap-4">
+                    <div>
+                        <h2 class="text-3xl md:text-4xl font-black tracking-tight text-white mb-2">My Watchlist</h2>
+                        <p class="text-[#ba9c9d] text-base font-normal flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">movie_filter</span>
+                            <span id="watchlist-count">0</span> movies saved
+                        </p>
                     </div>
-                    <!-- Controls Toolbar -->
-                    <div
-                        class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-surface-dark/30 p-2 rounded-xl border border-[#3a2526]/50">
-                        <!-- Sort Control -->
-                        <div class="flex items-center gap-3 px-2">
-                            <label class="text-[#ba9c9d] text-sm font-medium whitespace-nowrap">Sort by:</label>
-                            <select
-                                class="select-chevron bg-transparent text-white text-sm font-medium focus:ring-0 border-none hover:text-primary cursor-pointer transition-colors pr-8 py-1">
-                                <option class="bg-surface-dark" value="date_added">Date Added (Newest)</option>
-                                <option class="bg-surface-dark" value="rating">Rating (High to Low)</option>
-                                <option class="bg-surface-dark" value="release_date">Release Date</option>
-                                <option class="bg-surface-dark" value="alphabetical">Alphabetical</option>
-                            </select>
-                        </div>
-                        <!-- View Toggle -->
-                        <div class="flex bg-surface-dark rounded-lg p-1 self-start md:self-auto">
-                            <label class="cursor-pointer">
-                                <input checked="" class="peer sr-only" name="view_mode" type="radio" value="grid" />
-                                <div
-                                    class="px-3 py-1.5 rounded-md text-[#ba9c9d] peer-checked:bg-[#3a2526] peer-checked:text-white peer-checked:shadow-sm transition-all flex items-center gap-2">
-                                    <span class="material-symbols-outlined text-[20px]">grid_view</span>
-                                    <span class="text-xs font-medium hidden sm:inline">Grid</span>
-                                </div>
-                            </label>
-                            <label class="cursor-pointer">
-                                <input class="peer sr-only" name="view_mode" type="radio" value="list" />
-                                <div
-                                    class="px-3 py-1.5 rounded-md text-[#ba9c9d] peer-checked:bg-[#3a2526] peer-checked:text-white peer-checked:shadow-sm transition-all flex items-center gap-2">
-                                    <span class="material-symbols-outlined text-[20px]">view_list</span>
-                                    <span class="text-xs font-medium hidden sm:inline">List</span>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-                    <!-- Movie Grid -->
-                    <div
-                        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-x-4 gap-y-8">
-                        <!-- Card 1 -->
-                        <div class="group relative flex flex-col gap-3">
-                            <div
-                                class="relative w-full aspect-[2/3] rounded-lg overflow-hidden shadow-lg hover:shadow-primary/20 transition-all duration-300 hover:-translate-y-1 ring-1 ring-[#3a2526]">
-                                <div class="w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-105"
-                                    data-alt="Dune: Part Two movie poster showing desert landscape with characters"
-                                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB9GpOB21QSMKfnncQ_afuEUYX5hhOjlj00HVtDbonVppymakg9P6IZhql91EK5_9j2wmd1aJrcyK36-HHiKt3RrKME388soECLmyWH-OR_MOeLMjsUYxbHLr4y4oORSggWQ4v2IYG78CHWobyi4d0HXdWjpNCZZ0oJ3G7dkk29rmyi3lE7wvZe_EblJYNI5KAI3acXB2GlVjcHw5mGcQ4bfFnjgysrIWMzT7o_aGr5zTDfZSkakL7kRhhuSuAPkISvalqrAzxqZKNH');">
-                                </div>
-                                <!-- Hover Overlay for Actions -->
-                                <div
-                                    class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2 backdrop-blur-sm">
-                                    <button
-                                        class="size-10 rounded-full bg-primary text-white flex items-center justify-center hover:bg-red-600 transition-colors shadow-lg transform scale-0 group-hover:scale-100 duration-300 delay-75"
-                                        title="Remove from Watchlist">
-                                        <span class="material-symbols-outlined text-[20px]">delete</span>
-                                    </button>
-                                    <button
-                                        class="size-10 rounded-full bg-white text-background-dark flex items-center justify-center hover:bg-gray-200 transition-colors shadow-lg transform scale-0 group-hover:scale-100 duration-300"
-                                        title="Mark as Watched">
-                                        <span class="material-symbols-outlined text-[20px]">check</span>
-                                    </button>
-                                </div>
-                                <!-- Rating Badge (Always Visible) -->
-                                <div
-                                    class="absolute top-2 left-2 bg-black/70 backdrop-blur-md px-1.5 py-0.5 rounded text-xs font-bold text-white flex items-center gap-1 border border-white/10">
-                                    <span
-                                        class="material-symbols-outlined text-yellow-500 text-[14px] fill-current">star</span>
-                                    8.8
-                                </div>
-                            </div>
-                            <div>
-                                <h3
-                                    class="text-white text-base font-medium leading-tight truncate group-hover:text-primary transition-colors">
-                                    Dune: Part Two</h3>
-                                <p class="text-[#ba9c9d] text-sm mt-1">2024 • Sci-Fi</p>
-                            </div>
-                        </div>
-                        <!-- Card 2 -->
-                        <div class="group relative flex flex-col gap-3">
-                            <div
-                                class="relative w-full aspect-[2/3] rounded-lg overflow-hidden shadow-lg hover:shadow-primary/20 transition-all duration-300 hover:-translate-y-1 ring-1 ring-[#3a2526]">
-                                <div class="w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-105"
-                                    data-alt="Oppenheimer movie poster showing main character in suit with fire background"
-                                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA7N5842Bs5BfxVnjxxJUebyda6iiBaPjThMc3q7W9DrkC4Qo9YVvBweQVQ1b5pzwSd7WigICwsdAw-pj4rOBeTtzA7kIUgqQHagoaHcsmKdnrsBUTy3OZIYB_5_KIWOpfJkmPZc5q-MCPRTOvENrLbb6AmTL-KbXByRlhvjL17GjPFilURqmaXJqbOHDsXwW1_SHOa8z_ZZLI1x47Ug_oB9FVLM9X8Clpz2nLdJ3kwZjrSAEwyMh51TmKkc05IoOjCCd76veYO8Psa');">
-                                </div>
-                                <div
-                                    class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2 backdrop-blur-sm">
-                                    <button
-                                        class="size-10 rounded-full bg-primary text-white flex items-center justify-center hover:bg-red-600 transition-colors shadow-lg transform scale-0 group-hover:scale-100 duration-300 delay-75"
-                                        title="Remove">
-                                        <span class="material-symbols-outlined text-[20px]">delete</span>
-                                    </button>
-                                    <button
-                                        class="size-10 rounded-full bg-white text-background-dark flex items-center justify-center hover:bg-gray-200 transition-colors shadow-lg transform scale-0 group-hover:scale-100 duration-300"
-                                        title="Watched">
-                                        <span class="material-symbols-outlined text-[20px]">check</span>
-                                    </button>
-                                </div>
-                                <div
-                                    class="absolute top-2 left-2 bg-black/70 backdrop-blur-md px-1.5 py-0.5 rounded text-xs font-bold text-white flex items-center gap-1 border border-white/10">
-                                    <span
-                                        class="material-symbols-outlined text-yellow-500 text-[14px] fill-current">star</span>
-                                    8.9
-                                </div>
-                            </div>
-                            <div>
-                                <h3
-                                    class="text-white text-base font-medium leading-tight truncate group-hover:text-primary transition-colors">
-                                    Oppenheimer</h3>
-                                <p class="text-[#ba9c9d] text-sm mt-1">2023 • Drama</p>
-                            </div>
-                        </div>
-                        <!-- Card 3 -->
-                        <div class="group relative flex flex-col gap-3">
-                            <div
-                                class="relative w-full aspect-[2/3] rounded-lg overflow-hidden shadow-lg hover:shadow-primary/20 transition-all duration-300 hover:-translate-y-1 ring-1 ring-[#3a2526]">
-                                <div class="w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-105"
-                                    data-alt="The Batman movie poster showing dark silhouette with red rain"
-                                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDcux1RN7cDkzlDI7wwzvJdaPOk5_VsHHhDyO6s4nxVS7iYeVH8VVMYwB6AVK018QfXA0YVD1d7VVL4PNL2jonz7FwU-g6RwWjiedvKrOnCOqpQKQKE0dPldZOcF3GqQsV9oPYvIfM7WtqzMas2j3tYfU8DdnuGCS77E9t93Eo6ycO5uKcyJE53wrRaOFo9SK525AATtozvamsDXJhKDh23miQRFLkwttDmZxX4zxNTdPwY7zNdgd9Lpa2mXJR342l3Hub3eaxINDfv');">
-                                </div>
-                                <div
-                                    class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2 backdrop-blur-sm">
-                                    <button
-                                        class="size-10 rounded-full bg-primary text-white flex items-center justify-center hover:bg-red-600 transition-colors shadow-lg transform scale-0 group-hover:scale-100 duration-300 delay-75">
-                                        <span class="material-symbols-outlined text-[20px]">delete</span>
-                                    </button>
-                                    <button
-                                        class="size-10 rounded-full bg-white text-background-dark flex items-center justify-center hover:bg-gray-200 transition-colors shadow-lg transform scale-0 group-hover:scale-100 duration-300">
-                                        <span class="material-symbols-outlined text-[20px]">check</span>
-                                    </button>
-                                </div>
-                                <div
-                                    class="absolute top-2 left-2 bg-black/70 backdrop-blur-md px-1.5 py-0.5 rounded text-xs font-bold text-white flex items-center gap-1 border border-white/10">
-                                    <span
-                                        class="material-symbols-outlined text-yellow-500 text-[14px] fill-current">star</span>
-                                    7.9
-                                </div>
-                            </div>
-                            <div>
-                                <h3
-                                    class="text-white text-base font-medium leading-tight truncate group-hover:text-primary transition-colors">
-                                    The Batman</h3>
-                                <p class="text-[#ba9c9d] text-sm mt-1">2022 • Action</p>
-                            </div>
-                        </div>
-                        <!-- Card 4 -->
-                        <div class="group relative flex flex-col gap-3">
-                            <div
-                                class="relative w-full aspect-[2/3] rounded-lg overflow-hidden shadow-lg hover:shadow-primary/20 transition-all duration-300 hover:-translate-y-1 ring-1 ring-[#3a2526]">
-                                <div class="w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-105"
-                                    data-alt="Blade Runner 2049 movie poster with neon blue and orange aesthetic"
-                                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB5as0VMKNdma9b3-iVJPl1VbdPhRr7jyEeFkRff_YwYR-OUU6VFi1EtEN9XTOrn8SELerMHd2v4NG950fyM04CiGpmmTVsCkVmd9TtXvc4utD6OIyPaEcKIZnhbiZhaJ-WQ4Tax2KG2-0q8Xpq7Oa7i9fzZLKLEbpQqIoRQ3-Zi0LvZGPuZIZcpMIuObaK0-0vNSQN_GdNgcAvVsR4vUNnVmHWiHOqaiktSmIUt-B-kZzIqgDfd0aId3-wYfyk692PO47-bvuH3tBU');">
-                                </div>
-                                <div
-                                    class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2 backdrop-blur-sm">
-                                    <button
-                                        class="size-10 rounded-full bg-primary text-white flex items-center justify-center hover:bg-red-600 transition-colors shadow-lg transform scale-0 group-hover:scale-100 duration-300 delay-75">
-                                        <span class="material-symbols-outlined text-[20px]">delete</span>
-                                    </button>
-                                    <button
-                                        class="size-10 rounded-full bg-white text-background-dark flex items-center justify-center hover:bg-gray-200 transition-colors shadow-lg transform scale-0 group-hover:scale-100 duration-300">
-                                        <span class="material-symbols-outlined text-[20px]">check</span>
-                                    </button>
-                                </div>
-                                <div
-                                    class="absolute top-2 left-2 bg-black/70 backdrop-blur-md px-1.5 py-0.5 rounded text-xs font-bold text-white flex items-center gap-1 border border-white/10">
-                                    <span
-                                        class="material-symbols-outlined text-yellow-500 text-[14px] fill-current">star</span>
-                                    8.0
-                                </div>
-                            </div>
-                            <div>
-                                <h3
-                                    class="text-white text-base font-medium leading-tight truncate group-hover:text-primary transition-colors">
-                                    Blade Runner 2049</h3>
-                                <p class="text-[#ba9c9d] text-sm mt-1">2017 • Sci-Fi</p>
-                            </div>
-                        </div>
-                        <!-- Card 5 -->
-                        <div class="group relative flex flex-col gap-3">
-                            <div
-                                class="relative w-full aspect-[2/3] rounded-lg overflow-hidden shadow-lg hover:shadow-primary/20 transition-all duration-300 hover:-translate-y-1 ring-1 ring-[#3a2526]">
-                                <div class="w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-105"
-                                    data-alt="Interstellar movie poster showing space and astronauts"
-                                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDBB2wrfT1MIbA3vt1avoJYZ_9_r9oi3e9pykkAl3Rg1fbjd7axcegmYhKmMeOihoKEvAQf-RILUdMYHaKoen0kTkdTWXWZmhXuvydKeUGwuE3MZ1xVhwT9kVCM8NnilYV3C2G5nqOIxO9kA7hb4hkuyJy718DJ_yt7o302C_qzlHGXdlH6ojygvjhL2HbdHwFxuxOnYZkPUX5fpuvR6-6HyeKNxh3vlbJFXqI8o52I13Ge_PYd4ts44nDMmXDMOxVcFNEK3kX17Lne');">
-                                </div>
-                                <div
-                                    class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2 backdrop-blur-sm">
-                                    <button
-                                        class="size-10 rounded-full bg-primary text-white flex items-center justify-center hover:bg-red-600 transition-colors shadow-lg transform scale-0 group-hover:scale-100 duration-300 delay-75">
-                                        <span class="material-symbols-outlined text-[20px]">delete</span>
-                                    </button>
-                                    <button
-                                        class="size-10 rounded-full bg-white text-background-dark flex items-center justify-center hover:bg-gray-200 transition-colors shadow-lg transform scale-0 group-hover:scale-100 duration-300">
-                                        <span class="material-symbols-outlined text-[20px]">check</span>
-                                    </button>
-                                </div>
-                                <div
-                                    class="absolute top-2 left-2 bg-black/70 backdrop-blur-md px-1.5 py-0.5 rounded text-xs font-bold text-white flex items-center gap-1 border border-white/10">
-                                    <span
-                                        class="material-symbols-outlined text-yellow-500 text-[14px] fill-current">star</span>
-                                    8.6
-                                </div>
-                            </div>
-                            <div>
-                                <h3
-                                    class="text-white text-base font-medium leading-tight truncate group-hover:text-primary transition-colors">
-                                    Interstellar</h3>
-                                <p class="text-[#ba9c9d] text-sm mt-1">2014 • Adventure</p>
-                            </div>
-                        </div>
-                        <!-- Card 6 -->
-                        <div class="group relative flex flex-col gap-3">
-                            <div
-                                class="relative w-full aspect-[2/3] rounded-lg overflow-hidden shadow-lg hover:shadow-primary/20 transition-all duration-300 hover:-translate-y-1 ring-1 ring-[#3a2526]">
-                                <div class="w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-105"
-                                    data-alt="Inception movie poster with dreamlike city bending cityscape"
-                                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAb1QFxLrZuvzwO5tFG3pe3nKO4laqPGtgWLCPoLWKP2ePwgnqeJ3iSn0J3UoX3IRcWCR82Ibkyw0VY-EKDVvKxzdP_apk6GYdv9IQV_9EAQfwd_9eLIxgXCdafkq8K7LG2tQe9rYXhcC6UvdDcScgBOysiFjZEU2ItCk-V0aEA8F9mhlT8MsQJzytIV9iS8gZmmLDyQI_d4Qj-kPOFZc7ig6u0sIa0wZtDxGAuJNg0actiayeguDeVO7TA98f6cqBrJfJjKBXbiFjS');">
-                                </div>
-                                <div
-                                    class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2 backdrop-blur-sm">
-                                    <button
-                                        class="size-10 rounded-full bg-primary text-white flex items-center justify-center hover:bg-red-600 transition-colors shadow-lg transform scale-0 group-hover:scale-100 duration-300 delay-75">
-                                        <span class="material-symbols-outlined text-[20px]">delete</span>
-                                    </button>
-                                    <button
-                                        class="size-10 rounded-full bg-white text-background-dark flex items-center justify-center hover:bg-gray-200 transition-colors shadow-lg transform scale-0 group-hover:scale-100 duration-300">
-                                        <span class="material-symbols-outlined text-[20px]">check</span>
-                                    </button>
-                                </div>
-                                <div
-                                    class="absolute top-2 left-2 bg-black/70 backdrop-blur-md px-1.5 py-0.5 rounded text-xs font-bold text-white flex items-center gap-1 border border-white/10">
-                                    <span
-                                        class="material-symbols-outlined text-yellow-500 text-[14px] fill-current">star</span>
-                                    8.8
-                                </div>
-                            </div>
-                            <div>
-                                <h3
-                                    class="text-white text-base font-medium leading-tight truncate group-hover:text-primary transition-colors">
-                                    Inception</h3>
-                                <p class="text-[#ba9c9d] text-sm mt-1">2010 • Action</p>
-                            </div>
-                        </div>
-                        <!-- Card 7 -->
-                        <div class="group relative flex flex-col gap-3">
-                            <div
-                                class="relative w-full aspect-[2/3] rounded-lg overflow-hidden shadow-lg hover:shadow-primary/20 transition-all duration-300 hover:-translate-y-1 ring-1 ring-[#3a2526]">
-                                <div class="w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-105"
-                                    data-alt="The Creator movie poster showing futuristic robot"
-                                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAicIqF_MpTp4wCo8bWI9ftJQZxHDh2Ryndecv6b9mSw08mEukhG6SYQMDamDiQgkWUg1Un-ZSmUuLlvrwlGab4X_zBbfXFD-dVm1yJxR4hbQ_J6IiBtgq0FNBGgMTantf7wvcrzadk8nbJD23PbPWS5j-dhaJqb_-kPp_p0f1JENdj0NL3x18foXL7ghlm7C3Q6pCKkN5I2D1h_cXqGUZpDfNmo_qp0XRTZ0rx7IVhsUyGdtkw18rHi7eXEJTMuobxtpQYsVE6Xczb');">
-                                </div>
-                                <div
-                                    class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2 backdrop-blur-sm">
-                                    <button
-                                        class="size-10 rounded-full bg-primary text-white flex items-center justify-center hover:bg-red-600 transition-colors shadow-lg transform scale-0 group-hover:scale-100 duration-300 delay-75">
-                                        <span class="material-symbols-outlined text-[20px]">delete</span>
-                                    </button>
-                                    <button
-                                        class="size-10 rounded-full bg-white text-background-dark flex items-center justify-center hover:bg-gray-200 transition-colors shadow-lg transform scale-0 group-hover:scale-100 duration-300">
-                                        <span class="material-symbols-outlined text-[20px]">check</span>
-                                    </button>
-                                </div>
-                                <div
-                                    class="absolute top-2 left-2 bg-black/70 backdrop-blur-md px-1.5 py-0.5 rounded text-xs font-bold text-white flex items-center gap-1 border border-white/10">
-                                    <span
-                                        class="material-symbols-outlined text-yellow-500 text-[14px] fill-current">star</span>
-                                    6.9
-                                </div>
-                            </div>
-                            <div>
-                                <h3
-                                    class="text-white text-base font-medium leading-tight truncate group-hover:text-primary transition-colors">
-                                    The Creator</h3>
-                                <p class="text-[#ba9c9d] text-sm mt-1">2023 • Sci-Fi</p>
-                            </div>
-                        </div>
-                        <!-- Card 8 -->
-                        <div class="group relative flex flex-col gap-3">
-                            <div
-                                class="relative w-full aspect-[2/3] rounded-lg overflow-hidden shadow-lg hover:shadow-primary/20 transition-all duration-300 hover:-translate-y-1 ring-1 ring-[#3a2526]">
-                                <div class="w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-105"
-                                    data-alt="Arrival movie poster with alien spaceship pod"
-                                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAS5JEF-nULMFFKy9-b7vMpYguD9A_354oOfpEp9zMgYJTC3jZ9vyVWPKLkLH2zyYgCzSj-erCyxibrO2gK3ja6aprS3tH45Jda-6rN6FjkMpM29CtbDEz6LWKyN_PRdyMP3NeGofO1U775sUwLop4mKT_VaT5z270DtA7zUh2pRiPfBFpYD4un7AaIvlKMuxgEhIYpngT3opt5vfHMgUDRh0NM6q8X50t0pTmWsicz2XbR94IPtarrjMyK-INVz_6qsda0ZB7OHt74');">
-                                </div>
-                                <div
-                                    class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2 backdrop-blur-sm">
-                                    <button
-                                        class="size-10 rounded-full bg-primary text-white flex items-center justify-center hover:bg-red-600 transition-colors shadow-lg transform scale-0 group-hover:scale-100 duration-300 delay-75">
-                                        <span class="material-symbols-outlined text-[20px]">delete</span>
-                                    </button>
-                                    <button
-                                        class="size-10 rounded-full bg-white text-background-dark flex items-center justify-center hover:bg-gray-200 transition-colors shadow-lg transform scale-0 group-hover:scale-100 duration-300">
-                                        <span class="material-symbols-outlined text-[20px]">check</span>
-                                    </button>
-                                </div>
-                                <div
-                                    class="absolute top-2 left-2 bg-black/70 backdrop-blur-md px-1.5 py-0.5 rounded text-xs font-bold text-white flex items-center gap-1 border border-white/10">
-                                    <span
-                                        class="material-symbols-outlined text-yellow-500 text-[14px] fill-current">star</span>
-                                    7.9
-                                </div>
-                            </div>
-                            <div>
-                                <h3
-                                    class="text-white text-base font-medium leading-tight truncate group-hover:text-primary transition-colors">
-                                    Arrival</h3>
-                                <p class="text-[#ba9c9d] text-sm mt-1">2016 • Drama</p>
-                            </div>
-                        </div>
+                    <div class="w-full md:w-auto md:min-w-[300px]">
+                        <input id="watchlist-search" class="w-full bg-surface-dark border border-[#3a2526] text-white text-sm rounded-lg block pl-4 p-2.5 placeholder-[#665253]" placeholder="Search watchlist..." type="text" />
                     </div>
                 </div>
             </div>
-        </main>
-    </div>
-    <script src="js/theme.js"></script>
-    <script src="js/app.js"></script>
-</body>
 
+            <div class="flex items-center justify-between gap-4 mb-6">
+                <div class="flex items-center gap-3">
+                    <label class="text-[#ba9c9d] text-sm font-medium whitespace-nowrap mr-2">Sort by:</label>
+                    <select id="watchlist-sort" class="bg-transparent text-white text-sm font-medium border-none pr-8 py-1">
+                        <option value="date_added">Date Added (Newest)</option>
+                        <option value="rating">Rating (High to Low)</option>
+                        <option value="release_date">Release Date</option>
+                        <option value="alphabetical">Alphabetical</option>
+                    </select>
+                </div>
+                <div class="flex gap-2">
+                    <button id="view-grid" class="px-3 py-1 bg-surface-dark rounded">Grid</button>
+                    <button id="view-list" class="px-3 py-1 bg-surface-dark rounded">List</button>
+                </div>
+            </div>
+
+            
+            <div id="watchlist-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-x-4 gap-y-8"></div>
+        </div>
+    </main>
+
+    <script src="config.js"></script>
+    <script src="js/tmdb-service.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/header.js"></script>
+    <script src="js/watchlist.js"></script>
+</body>
 </html>

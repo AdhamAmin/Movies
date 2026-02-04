@@ -1,17 +1,10 @@
 <!DOCTYPE html>
-
 <html class="dark" lang="en">
-
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>CineScope - Movie Discovery</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script id="tailwind-config">
         tailwind.config = {
@@ -21,406 +14,77 @@
                     colors: {
                         "primary": "#e60a15",
                         "background-light": "#f8f5f6",
-                        "background-dark": "#0D0D0D", // Updated to match user request better
+                        "background-dark": "#0D0D0D",
                         "surface-dark": "#1A1A1A",
                     },
                     fontFamily: {
                         "display": ["Inter", "sans-serif"]
-                    },
-                    borderRadius: {
-                        "DEFAULT": "0.375rem", // rounded-md
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
                     },
                 },
             },
         }
     </script>
     <link rel="stylesheet" href="css/style.css">
-
 </head>
 
-<body
-    class="bg-background-light dark:bg-background-dark font-display text-[#111418] dark:text-white overflow-x-hidden antialiased">
+<body class="bg-background-light dark:bg-background-dark font-display text-[#111418] dark:text-white overflow-x-hidden antialiased">
     <div class="flex min-h-screen w-full flex-col">
-        <!-- Top Navigation Bar -->
+        <!-- Top nav Bar -->
         <header>
             <div id="header-placeholder"></div>
         </header>
         <main class="flex-1 flex flex-col">
-            <!-- Hero Section -->
-            <section class="relative w-full h-[85vh] min-h-[600px] overflow-hidden">
-                <!-- Background Image -->
-                <div class="absolute inset-0 bg-cover bg-center"
-                    data-alt="Dune Part Two cinematic movie scene with desert landscape and characters"
-                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDIBmrBmM3RsMBW_MIacWH1S9fIGhOkfJSuWutcrxfkjebULVAolDkfbJh1nLVAeLeefziJ32l_Lx4S_wUI0G7zKnTWDKXgpj2waRwHDgAaJrhDiHglSMBnqGx4rOW398xfn6WLpLDWb-8Ya3gyuRfWT0NtTdWLCaInUvE5Qh5Ps5jHWtc8s_1d0c5kHtPxkx9DQRTkLRv_wp8RMJVrMs8-YGI0ac9DefJoLqm-BTNwR0kpWId7wx4wh1pvTC1bCbRAlyxXOAcE6Wo0");'>
-                    <!-- Gradient Overlay -->
-                    <div
-                        class="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/50 to-transparent">
-                    </div>
-                    <div
-                        class="absolute inset-0 bg-gradient-to-r from-background-dark via-background-dark/60 to-transparent">
-                    </div>
+            <!-- Hero time -->
+            <section class="relative w-full h-[85vh] min-h-[600px] overflow-hidden" id="hero-section">
+                <div class="absolute inset-0 bg-cover bg-center" id="hero-backdrop">
+                    <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/50 to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-background-dark via-background-dark/60 to-transparent"></div>
                 </div>
-                <!-- Content -->
                 <div class="relative h-full flex items-end pb-24 px-6 md:px-16 max-w-7xl mx-auto w-full">
-                    <div class="flex flex-col gap-6 max-w-2xl animate-fade-in-up">
-                        <div class="flex flex-col gap-2">
-                            <h1
-                                class="text-white text-5xl md:text-7xl font-black leading-none tracking-tight drop-shadow-xl">
-                                Dune: Part Two
-                            </h1>
-                            <!-- Metadata Row -->
-                            <div class="flex items-center gap-4 text-gray-300 text-sm md:text-base font-medium mt-2">
-                                <span class="text-[#FFD700] flex items-center gap-1 font-bold">
-                                    <span class="material-symbols-outlined text-[18px] filled">star</span> 4.8
-                                </span>
-                                <span>•</span>
-                                <span>2024</span>
-                                <span>•</span>
-                                <span>2h 46m</span>
-                                <span>•</span>
-                                <span class="px-2 py-0.5 rounded border border-white/20 text-xs">PG-13</span>
-                            </div>
-                            <p
-                                class="text-gray-200 text-base md:text-lg leading-relaxed line-clamp-3 md:line-clamp-none max-w-xl mt-2 drop-shadow-md">
-                                Paul Atreides unites with Chani and the Fremen while on a warpath of revenge against the
-                                conspirators who destroyed his family. Facing a choice between the love of his life and
-                                the fate of the known universe, he endeavors to prevent a terrible future only he can
-                                foresee.
-                            </p>
-                        </div>
-                        <div class="flex flex-wrap gap-4 mt-4">
-                            <button
-                                class="flex items-center justify-center gap-2 h-12 px-8 rounded-md bg-primary hover:bg-red-700 text-white font-bold tracking-wide transition-all shadow-lg hover:shadow-red-900/40">
-                                <span class="material-symbols-outlined text-[24px] filled">play_arrow</span>
-                                <span>Watch Trailer</span>
-                            </button>
-                            <button
-                                class="flex items-center justify-center gap-2 h-12 px-8 rounded-md bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold tracking-wide transition-all border border-white/10">
-                                <span class="material-symbols-outlined text-[24px]">info</span>
-                                <span>More Info</span>
-                            </button>
-                        </div>
+                    <div class="flex flex-col gap-6 max-w-2xl animate-fade-in-up" id="hero-content">
+                        <!-- Content will be populated by JS -->
                     </div>
                 </div>
             </section>
-            <!-- Trending Section (Horizontal Scroll) -->
+
+            <!-- Trending Section (Horizontal Scrolling over ehre) -->
             <section class="py-8 px-6 md:px-16 w-full max-w-[1600px] mx-auto">
                 <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-white text-2xl font-bold tracking-tight border-l-4 border-primary pl-4">Trending Now
-                    </h2>
+                    <h2 class="text-white text-2xl font-bold tracking-tight border-l-4 border-primary pl-4">Trending Now</h2>
                     <div class="flex gap-2">
-                        <button
-                            class="size-8 rounded-full bg-surface-dark flex items-center justify-center hover:bg-white/20 text-white transition-colors">
+                        <button class="size-8 rounded-full bg-surface-dark flex items-center justify-center hover:bg-white/20 text-white transition-colors" id="scroll-left">
                             <span class="material-symbols-outlined text-[20px]">chevron_left</span>
                         </button>
-                        <button
-                            class="size-8 rounded-full bg-surface-dark flex items-center justify-center hover:bg-white/20 text-white transition-colors">
+                        <button class="size-8 rounded-full bg-surface-dark flex items-center justify-center hover:bg-white/20 text-white transition-colors" id="scroll-right">
                             <span class="material-symbols-outlined text-[20px]">chevron_right</span>
                         </button>
                     </div>
                 </div>
-                <div class="flex overflow-x-auto gap-5 pb-8 no-scrollbar snap-x">
-                    <!-- Card 1 -->
-                    <div
-                        class="group relative flex-none w-[180px] md:w-[220px] aspect-[2/3] rounded-lg overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105 hover:z-10 snap-start">
-                        <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-                            data-alt="Godzilla x Kong: The New Empire movie poster featuring giant monsters"
-                            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCFgtYwewqmhBiAzXMosOR2fsMRwVikDO1lxDiouuw-pjELPq57oOfhKk1geYVsbqBv99QtMwqUGQPxwTvneq4nIPLGJ4uhgqPCfE9Tc37zFD1AjEm-XB8jsy_dVpxFCi3rMCpiDu_rAiXH4k_fuFuQMtJQU1lvwKHS5XUMDniLf8vyGXOrLURFLZcjFrpa4kaDOOdDZBNsg3MjjdIiA20LnO1pGzLjwCrhj_lcebRsjeM7PgSB_GR7_1zygtI3NgpLDNrnG1vTlfqv");'>
-                        </div>
-                        <div
-                            class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                            <h3 class="text-white font-bold text-lg leading-tight">Godzilla x Kong</h3>
-                            <div class="flex items-center justify-between mt-2">
-                                <span class="text-yellow-400 text-sm flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-[14px] filled">star</span> 7.2</span>
-                                <button
-                                    class="size-8 rounded-full bg-primary flex items-center justify-center text-white">
-                                    <span class="material-symbols-outlined text-[16px]">add</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Card 2 -->
-                    <div
-                        class="group relative flex-none w-[180px] md:w-[220px] aspect-[2/3] rounded-lg overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105 hover:z-10 snap-start">
-                        <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-                            data-alt="Civil War movie poster showing a dystopian cityscape"
-                            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAzMJSxn3qQWYGRFfDnmNOtLqpn7GyYqWCdXSyv88azKzIG9hwshEiaBxH5F5C7AM9RzqiiYzMullHawUmhI-FBj9AGnWtbShR7AiCdF2ThohovPcMUbgSG8Iko3ZwitBgIeDRNl-EyH1CZuMg_f3troIK-LcvN2N2QYA_vLBl58ix40K5yhuTJ_7HCMOnVLpKSmcav5xlPkru7mf94GaW5IIwa0hG5-bwg4hqQGGklIsP60UANurLM0N8IEfI8CArCzrplJTkHYbo4");'>
-                        </div>
-                        <div
-                            class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                            <h3 class="text-white font-bold text-lg leading-tight">Civil War</h3>
-                            <div class="flex items-center justify-between mt-2">
-                                <span class="text-yellow-400 text-sm flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-[14px] filled">star</span> 7.5</span>
-                                <button
-                                    class="size-8 rounded-full bg-primary flex items-center justify-center text-white">
-                                    <span class="material-symbols-outlined text-[16px]">add</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Card 3 -->
-                    <div
-                        class="group relative flex-none w-[180px] md:w-[220px] aspect-[2/3] rounded-lg overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105 hover:z-10 snap-start">
-                        <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-                            data-alt="Kung Fu Panda 4 movie poster with animated panda doing martial arts"
-                            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBYiJGWkaYY2wEq2IxSMGSRP_mKStwxS4pw9r2YN61dCwtOlH51VYW7bUfpshWnwm2mnC4QYMxLDlTICUiMXQ5lRMgu_vAlNIzYBjS-l0aVZ_HAsT9GfxgEGJsZRz3Y_7a7TSx0jVG8gahgObxcLVKXuoTfM-e9u_Vb3FoJp_FLIG0SGjkSSBCVZNbcpLRX7AGYW8jraKh8ZzTJys6PSkOG1OumXhnGpYQ2yANS20TdnlEQIEqyKvARKu6Yq0g82DpWUJ4Tbk0O9XuN");'>
-                        </div>
-                        <div
-                            class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                            <h3 class="text-white font-bold text-lg leading-tight">Kung Fu Panda 4</h3>
-                            <div class="flex items-center justify-between mt-2">
-                                <span class="text-yellow-400 text-sm flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-[14px] filled">star</span> 7.1</span>
-                                <button
-                                    class="size-8 rounded-full bg-primary flex items-center justify-center text-white">
-                                    <span class="material-symbols-outlined text-[16px]">add</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Card 4 -->
-                    <div
-                        class="group relative flex-none w-[180px] md:w-[220px] aspect-[2/3] rounded-lg overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105 hover:z-10 snap-start">
-                        <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-                            data-alt="Kingdom of the Planet of the Apes movie poster with ape on horse"
-                            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAfFSOuRfwG9YUQwJ0PKrQ9c_CaSkRXPN2bKipyvD5koPYuPfYbA0f_tGOTvORSLDAukWemCOo1k4jmmM5L5wiq_-6m8KUovj8Aoxkkj8s1ZAWcYHjvS6c_VvdS-dpTCPJl2pewdZ3FOF480LOrZVZh1-RNjaU65ff8r4hzxcuBH-3FtAEnpgNACD02CWlDxgXApajXFQQKrhJB_mPf5ZI4Rtxms6PUgNFVxHUxtHISWMQSxoSh596HEq4pZzEbe9afzRI08Z7eoujl");'>
-                        </div>
-                        <div
-                            class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                            <h3 class="text-white font-bold text-lg leading-tight">Kingdom of the Planet...</h3>
-                            <div class="flex items-center justify-between mt-2">
-                                <span class="text-yellow-400 text-sm flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-[14px] filled">star</span> 6.9</span>
-                                <button
-                                    class="size-8 rounded-full bg-primary flex items-center justify-center text-white">
-                                    <span class="material-symbols-outlined text-[16px]">add</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Card 5 -->
-                    <div
-                        class="group relative flex-none w-[180px] md:w-[220px] aspect-[2/3] rounded-lg overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105 hover:z-10 snap-start">
-                        <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-                            data-alt="The Fall Guy movie poster featuring action scenes and stuntman"
-                            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAcLTUzJ0aT2tZytUXi6W7aHFEOXCsDu0uk_vJylGhZWfW3gWnO-MVuuSzYb7S3XOS4ERF5CXIbN-XsuQKTnJjOyBR66YRwnT9BY8zfW3Z2DmWX89XKr6aRSxA6katZRqzhwiJPd1k6Q1XsMYCoEvfjZzHCKFEm7I8n1GSxihQ47MYhrCA8j4GTVDlBdQd1qGdqXvBy3k8bwJyZF6L3Aq3-IswlThZOh-dZKLKUqjwa7rbqvK9Yxij_fhIYkCH0pdSgMAuvkWuMUUCk");'>
-                        </div>
-                        <div
-                            class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                            <h3 class="text-white font-bold text-lg leading-tight">The Fall Guy</h3>
-                            <div class="flex items-center justify-between mt-2">
-                                <span class="text-yellow-400 text-sm flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-[14px] filled">star</span> 7.3</span>
-                                <button
-                                    class="size-8 rounded-full bg-primary flex items-center justify-center text-white">
-                                    <span class="material-symbols-outlined text-[16px]">add</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Card 6 -->
-                    <div
-                        class="group relative flex-none w-[180px] md:w-[220px] aspect-[2/3] rounded-lg overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105 hover:z-10 snap-start">
-                        <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-                            data-alt="Challengers movie poster with tennis players"
-                            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDisEKfoze-hmQCdhgRSJTmGIEibfOCA_97ZoyH7XCSOKh_NrzRrcSsEBaCA9t-3x6KhuguhSAH4p73EhTKTFg5reTsiijNDSPcfu228s6YPPTUE7wB_N3EHwxiU3m5xQ-sG9_x6fTxRKgkk4VFsACGS6V4gtjVWW5RB6PjuuREED-98joTeISkzZUb2calYUdwY5h5MbW9B2K1kMpy8IbfhlCZ9ncJROrd3atZLmJsAbPbWZG-P4clxuWEjde562YaTWZCMO1PmVQ0");'>
-                        </div>
-                        <div
-                            class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                            <h3 class="text-white font-bold text-lg leading-tight">Challengers</h3>
-                            <div class="flex items-center justify-between mt-2">
-                                <span class="text-yellow-400 text-sm flex items-center gap-1"><span
-                                        class="material-symbols-outlined text-[14px] filled">star</span> 7.4</span>
-                                <button
-                                    class="size-8 rounded-full bg-primary flex items-center justify-center text-white">
-                                    <span class="material-symbols-outlined text-[16px]">add</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                <div class="flex overflow-x-auto gap-5 pb-8 no-scrollbar snap-x" id="trending-container">
                 </div>
             </section>
+
             <!-- Recommended Section (Grid) -->
-            <section
-                class="py-8 px-6 md:px-16 w-full max-w-[1600px] mx-auto bg-gradient-to-b from-transparent to-surface-dark/20">
+            <section class="py-8 px-6 md:px-16 w-full max-w-[1600px] mx-auto bg-gradient-to-b from-transparent to-surface-dark/20">
                 <div class="flex items-center justify-between mb-8">
-                    <h2 class="text-white text-2xl font-bold tracking-tight border-l-4 border-primary pl-4">Recommended
-                        for You</h2>
-                    <a class="text-sm font-semibold text-primary hover:text-white transition-colors" href="#">View
-                        All</a>
+                    <h2 class="text-white text-2xl font-bold tracking-tight border-l-4 border-primary pl-4">Recommended for You</h2>
+                    <a class="text-sm font-semibold text-primary hover:text-white transition-colors" href="#">View All</a>
                 </div>
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
-                    <!-- Grid Item 1 -->
-                    <div class="flex flex-col gap-2 group cursor-pointer">
-                        <div class="relative aspect-[2/3] w-full rounded-lg overflow-hidden shadow-lg shadow-black/50">
-                            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-                                data-alt="Oppenheimer movie poster with intense face of scientist"
-                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC_O8i705Op1UF8CS23eO-XOXyFHrlugPRKsjRNrEi2dWQCN84Z0cDOr8rp1dMJ8ozMrDPYc3h0S3NRtiB932vo_7qjb1xfVvI3L15_RfomqWjoUlC5B_4nkz7usy-i-z_8N7547lSer5YNMlm49fC_Ac0rBk0XUzVJFYsEn0D8YNDIatVpk-B1dxCEt9aFVV07UXq6xDYAKDUHlt_LwB8mZA_KiqLNki_OTb1hVFCZC9gZwpXQ6ph1Q_70p_rJQ1DNY325YRQXNJs9");'>
-                            </div>
-                            <div
-                                class="absolute top-2 right-2 bg-black/60 backdrop-blur-md px-1.5 py-0.5 rounded flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[12px] text-[#FFD700] filled">star</span>
-                                <span class="text-xs font-bold text-white">8.1</span>
-                            </div>
-                            <!-- Hover Overlay -->
-                            <div
-                                class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                <div
-                                    class="size-12 rounded-full bg-primary/90 flex items-center justify-center text-white shadow-lg transform scale-0 group-hover:scale-100 transition-transform duration-300 delay-75">
-                                    <span class="material-symbols-outlined filled">play_arrow</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex flex-col">
-                            <h3 class="text-white font-semibold truncate group-hover:text-primary transition-colors">
-                                Oppenheimer</h3>
-                            <span class="text-gray-500 text-xs">2023 • Biography</span>
-                        </div>
-                    </div>
-                    <!-- Grid Item 2 -->
-                    <div class="flex flex-col gap-2 group cursor-pointer">
-                        <div class="relative aspect-[2/3] w-full rounded-lg overflow-hidden shadow-lg shadow-black/50">
-                            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-                                data-alt="Poor Things movie poster with surreal artistic style"
-                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAc3kErett0ivX-F0DQTw4Jdpi6Gk_TgtCuCXYdfaczbtpUjlOQWG4F8FdSnheHsEFpTyPguEB0WRp6gr64fQXs4IyHcchwIkpzgZHiBPlxRHeliJ5ff1ignCw67GFyZwA_sauGharaG2MVrRfJXvuplLQR05z-PZfPsCDlOJRyfhul109YudsjycFWM-jOX1fWa-CEKkl_cu5hn0Fnf3sDDZrBl-A6w-Siw5LCD-HnZl_usCT-VwinUFWGfr3XI4RTOE2cmaTDV-aM");'>
-                            </div>
-                            <div
-                                class="absolute top-2 right-2 bg-black/60 backdrop-blur-md px-1.5 py-0.5 rounded flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[12px] text-[#FFD700] filled">star</span>
-                                <span class="text-xs font-bold text-white">7.8</span>
-                            </div>
-                            <div
-                                class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                <div
-                                    class="size-12 rounded-full bg-primary/90 flex items-center justify-center text-white shadow-lg transform scale-0 group-hover:scale-100 transition-transform duration-300 delay-75">
-                                    <span class="material-symbols-outlined filled">play_arrow</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex flex-col">
-                            <h3 class="text-white font-semibold truncate group-hover:text-primary transition-colors">
-                                Poor Things</h3>
-                            <span class="text-gray-500 text-xs">2023 • Comedy</span>
-                        </div>
-                    </div>
-                    <!-- Grid Item 3 -->
-                    <div class="flex flex-col gap-2 group cursor-pointer">
-                        <div class="relative aspect-[2/3] w-full rounded-lg overflow-hidden shadow-lg shadow-black/50">
-                            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-                                data-alt="The Creator movie poster with sci-fi robot and human"
-                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD2QL4rSViqpK_eeKO0_LRved_cpSiqjw_y8iXaahFLNCc1fpK2auMlhibn7H5ZYuTJs2QEkYDgRHccPId73PK4vFci4NBJE7ROhxAxApJG467NQtjcCPUi7hqZUdW51e3P7-VA_zY8acEBLn2dcYxXX2Cj5IvYWhS6ZBL44Hp0Vo5cuehsXjIKGi_cuvGFJxZRx9GBsR2ENkh2w79I4RP_JjUGLQl8LDB4ui7XrwEQ8WxWZx1tE7eBb9nKDWRsQSk0Z7HoWg9nsXyN");'>
-                            </div>
-                            <div
-                                class="absolute top-2 right-2 bg-black/60 backdrop-blur-md px-1.5 py-0.5 rounded flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[12px] text-[#FFD700] filled">star</span>
-                                <span class="text-xs font-bold text-white">7.1</span>
-                            </div>
-                            <div
-                                class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                <div
-                                    class="size-12 rounded-full bg-primary/90 flex items-center justify-center text-white shadow-lg transform scale-0 group-hover:scale-100 transition-transform duration-300 delay-75">
-                                    <span class="material-symbols-outlined filled">play_arrow</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex flex-col">
-                            <h3 class="text-white font-semibold truncate group-hover:text-primary transition-colors">The
-                                Creator</h3>
-                            <span class="text-gray-500 text-xs">2023 • Sci-Fi</span>
-                        </div>
-                    </div>
-                    <!-- Grid Item 4 -->
-                    <div class="flex flex-col gap-2 group cursor-pointer">
-                        <div class="relative aspect-[2/3] w-full rounded-lg overflow-hidden shadow-lg shadow-black/50">
-                            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-                                data-alt="Killers of the Flower Moon movie poster with dramatic portraits"
-                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA7CTrfiYogTjXuPxE26IZW7oDvgGkPpVt5azg2A9TXFBxLDdDYeAYtBJ0yxfBf04vWine9Kh8D2cUFFt4ixa1KUpkZs_jFrIi3w9OkyY8CiyfyE1Qxrm6YCB4avw5QTbfFE4pLCFyW9srmPakX4CP68Ot_-tNHhJe8FyN6ACr9DeWWMu2O0YGl9Hn2_mT6_FriEZhZY3BYpTjkTiCo_XxZZLJiDTy81Zes5e6oYL0o4iLH-zwuFEWgrAp7dikaHCdB50d0IwPU3FcR");'>
-                            </div>
-                            <div
-                                class="absolute top-2 right-2 bg-black/60 backdrop-blur-md px-1.5 py-0.5 rounded flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[12px] text-[#FFD700] filled">star</span>
-                                <span class="text-xs font-bold text-white">7.5</span>
-                            </div>
-                            <div
-                                class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                <div
-                                    class="size-12 rounded-full bg-primary/90 flex items-center justify-center text-white shadow-lg transform scale-0 group-hover:scale-100 transition-transform duration-300 delay-75">
-                                    <span class="material-symbols-outlined filled">play_arrow</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex flex-col">
-                            <h3 class="text-white font-semibold truncate group-hover:text-primary transition-colors">
-                                Killers of the Flower Moon</h3>
-                            <span class="text-gray-500 text-xs">2023 • Crime</span>
-                        </div>
-                    </div>
-                    <!-- Grid Item 5 -->
-                    <div class="flex flex-col gap-2 group cursor-pointer">
-                        <div class="relative aspect-[2/3] w-full rounded-lg overflow-hidden shadow-lg shadow-black/50">
-                            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-                                data-alt="Mission Impossible Dead Reckoning movie poster with Tom Cruise falling"
-                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB2VD34AkgGggLssPRheJ4T5dKs8t1_NGp4ytvyGSCTS1ZPzkQUV1ngopMJM3AP3DvEJ3lk6-mw9NDLwdhyrWxnJ3OKCAOCnLW3w3o4yYJLuhW5ML_L-P8vPKRHp083IGIybFnjhU-E5Mrnz3nX6DUYThRnfbHq5vxbcy9gUbJT392KaF8UI0LmtwijS29l0xNrydWWEU5UWLjDWr4exrSEuZpfpIcCpkE4piiY1wro4yuPWnqQ2HID4c-o1C_0OHIPPYBHEoOwjIpF");'>
-                            </div>
-                            <div
-                                class="absolute top-2 right-2 bg-black/60 backdrop-blur-md px-1.5 py-0.5 rounded flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[12px] text-[#FFD700] filled">star</span>
-                                <span class="text-xs font-bold text-white">7.6</span>
-                            </div>
-                            <div
-                                class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                <div
-                                    class="size-12 rounded-full bg-primary/90 flex items-center justify-center text-white shadow-lg transform scale-0 group-hover:scale-100 transition-transform duration-300 delay-75">
-                                    <span class="material-symbols-outlined filled">play_arrow</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex flex-col">
-                            <h3 class="text-white font-semibold truncate group-hover:text-primary transition-colors">
-                                Mission: Impossible</h3>
-                            <span class="text-gray-500 text-xs">2023 • Action</span>
-                        </div>
-                    </div>
-                    <!-- Grid Item 6 -->
-                    <div class="flex flex-col gap-2 group cursor-pointer">
-                        <div class="relative aspect-[2/3] w-full rounded-lg overflow-hidden shadow-lg shadow-black/50">
-                            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-                                data-alt="Spider-Man Across the Spider-Verse movie poster with animated spider-people"
-                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCyuAt6srZp2bjr_mGoHijJkL0zhw8DPmD_rqXyU3R7KmyzgakCTkVA9CgT895wVOJC3cl029R53TZ4C0BCei-4FDwsQnsppt_sB4FutG_NCD9xs7De_32RuxXxLvGsa4-JArS6ORWlHwA0PVOjwiUsnFedeIkYVuEcHDiDJbH9ZWs8AXuxlpBrcPzOCQj_DRZB4DL65q4tV6o1GA8eYgCFZhQgNFiU4MObJ4Gcrh-wL2Msgrve1K1i6ghx1lxwZxwzeQg4M5vtYdXh");'>
-                            </div>
-                            <div
-                                class="absolute top-2 right-2 bg-black/60 backdrop-blur-md px-1.5 py-0.5 rounded flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[12px] text-[#FFD700] filled">star</span>
-                                <span class="text-xs font-bold text-white">8.4</span>
-                            </div>
-                            <div
-                                class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                <div
-                                    class="size-12 rounded-full bg-primary/90 flex items-center justify-center text-white shadow-lg transform scale-0 group-hover:scale-100 transition-transform duration-300 delay-75">
-                                    <span class="material-symbols-outlined filled">play_arrow</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex flex-col">
-                            <h3 class="text-white font-semibold truncate group-hover:text-primary transition-colors">
-                                Spider-Man: Across...</h3>
-                            <span class="text-gray-500 text-xs">2023 • Animation</span>
-                        </div>
-                    </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6" id="recommended-container">
+                    
                 </div>
             </section>
         </main>
         <!-- Footer -->
         <div id="footer-placeholder"></div>
-        <script src="js/theme.js"></script>
-        <script src="js/loader.js"></script>
-        <script src="js/app.js"></script>
     </div>
-</body>
 
+    <script src="config.js"></script>
+    <script src="js/tmdb-service.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/head.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
+</body>
 </html>
