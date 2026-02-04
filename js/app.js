@@ -160,6 +160,8 @@ class MovieApp {
             } else if (section === 'filtered') {
                 const type = isTV ? 'tv' : 'movie';
                 results = await tmdbService.discover(type, this.currentFilters || {}, page);
+            } else if (section === 'search') {
+                results = await tmdbService.searchMovies(this.currentSearchQuery, page);
             }
 
             if (results && results.results) {
@@ -268,10 +270,71 @@ class MovieApp {
             if (e.key === 'Enter') {
                 const query = searchInput.value.trim();
                 if (query) {
-                    window.location.href = `search.html?q=${encodeURIComponent(query)}`;
+                    this.performInlineSearch(query);
+                    searchInput.blur();
                 }
             }
         });
+    }
+
+    async performInlineSearch(query) {
+        // Update header logic similar to filters
+        const header = document.querySelector('#recommended-container').previousElementSibling;
+        if (header) {
+            header.innerHTML = `Search Results: "${query}" <span class="material-symbols-outlined text-primary">search</span>`;
+        }
+
+        // Hide other sections
+        const otherSection = document.querySelector('#action-container')?.parentElement;
+        const trendSection = document.querySelector('#trending-container')?.parentElement;
+        const filterSection = document.querySelector('#recommended-container').parentElement.previousElementSibling; // Filter bar usually
+
+        if (otherSection) otherSection.style.display = 'none';
+        if (trendSection) trendSection.style.display = 'none';
+        // Keep filter bar visible? Maybe hide it for search results to avoid confusion or keep it to filter *search results* (advanced). 
+        // For simplicity, let's keep it but maybe it doesn't apply to search results yet unless we combine logic. 
+        // The user just asked for search in main screen. Let's hide filters for now to focus on search.
+        if (filterSection && filterSection.classList.contains('glass-heavy')) filterSection.style.display = 'none';
+
+        // Reset page state
+        this.pageState.filtered = 1; // Reuse filtered state or adding new one?
+        this.currentSearchQuery = query; // Store for loadMore
+
+        const container = document.getElementById('recommended-container');
+        if (container) container.innerHTML = '<div class="col-span-full text-center py-10"><div class="animate-spin rounded-full h-10 w-10 border-b-2 border-primary mx-auto"></div></div>';
+
+        // Add a "Clear Search" button
+        const clearBtnId = 'clear-search-btn';
+        let clearBtn = document.getElementById(clearBtnId);
+        if (!clearBtn) {
+            clearBtn = document.createElement('button');
+            clearBtn.id = clearBtnId;
+            clearBtn.className = 'fixed bottom-8 right-8 bg-primary hover:bg-red-700 text-white rounded-full p-4 shadow-2xl z-50 animate-bounce flex items-center gap-2 font-bold';
+            clearBtn.innerHTML = '<span class="material-symbols-outlined">close</span> Clear Search';
+            clearBtn.onclick = () => window.location.reload(); // Simple way to reset everything for now
+            document.body.appendChild(clearBtn);
+        }
+
+        try {
+            const results = await tmdbService.searchMovies(query);
+
+            if (results && results.results) {
+                if (results.results.length === 0) {
+                    container.innerHTML = '<div class="col-span-full text-center text-gray-400 py-10">No results found for your search.</div>';
+                    return;
+                }
+                this.populateSection('recommended-container', results.results);
+
+                // Update specific load more button
+                const loadMoreBtn = container.parentElement.querySelector('.load-more-btn');
+                if (loadMoreBtn) {
+                    loadMoreBtn.dataset.section = 'search';
+                }
+            }
+        } catch (e) {
+            console.error('Search error:', e);
+            if (container) container.innerHTML = '<div class="col-span-full text-center text-red-500">Error performing search.</div>';
+        }
     }
 
     initShare() {
