@@ -17,6 +17,13 @@ body.loaded {
     --bg-card-hover: #f0f0f0;
 }
 
+.text-primary {
+    color: var(--text-primary) !important;
+}
+.text-secondary {
+    color: var(--text-secondary) !important;
+}
+
 .dark {
     --text-primary: #ffffff;
     --text-secondary: #9ca3af;
