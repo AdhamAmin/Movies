@@ -755,6 +755,31 @@ class MovieApp {
         });
     }
 
+    addToWatchlist(movie) {
+        // Check if already in watchlist
+        const exists = this.watchlist.find(item => item.id == movie.id);
+        if (exists) {
+            this.showNotification('Already in your watchlist', 'info');
+            return;
+        }
+
+        // Add to watchlist with timestamp
+        const watchlistItem = {
+            id: movie.id,
+            title: movie.title,
+            addedAt: Date.now()
+        };
+
+        this.watchlist.push(watchlistItem);
+        localStorage.setItem('watchlist', JSON.stringify(this.watchlist));
+
+        // Update UI
+        this.updateWatchlistUI();
+
+        // Show success notification
+        this.showNotification(`Added "${movie.title}" to watchlist`);
+    }
+
     updateWatchlistUI() {
         // Update header counter or icon if exists
         const countBadge = document.getElementById('watchlist-count');
