@@ -1,4 +1,3 @@
-```javascript
 // Watchlist page logic
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('Watchlist page loaded');
@@ -60,7 +59,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const poster = tmdb.getImageUrl(movie.poster_path, 'w342') || '';
                 const rating = (movie.vote_average || 0).toFixed(1);
                 return `
-    < div class="stagger-item group relative flex flex-col gap-3 cursor-pointer" data - id="${movie.id}" >
+                    <div class="stagger-item group relative flex flex-col gap-3 cursor-pointer" data-id="${movie.id}">
                         <div class="relative w-full aspect-[2/3] rounded-xl overflow-hidden shadow-lg ring-1 ring-white/10 hover-lift">
                             <div class="w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-110" 
                                  style="background-image:url('${poster}')"></div>
@@ -85,8 +84,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 ${(movie.release_date || '').split('-')[0] || '—'} • ${(movie.genres && movie.genres[0] && movie.genres[0].name) || 'Movie'}
                             </p>
                         </div>
-                    </div >
-    `;
+                    </div>
+                `;
             }).join('');
 
             console.log('Cards rendered successfully');
@@ -114,13 +113,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (infoBtn) {
                 infoBtn.onclick = (e) => {
                     e.stopPropagation();
-                    window.location.href = `movie - details.html ? id = ${ id } `;
+                    window.location.href = `movie-details.html?id=${id}`;
                 };
             }
 
             el.addEventListener('click', (e) => {
                 if (e.target.closest('button')) return;
-                window.location.href = `movie - details.html ? id = ${ id } `;
+                window.location.href = `movie-details.html?id=${id}`;
             });
         });
     }

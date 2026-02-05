@@ -47,6 +47,9 @@ class MovieApp {
         this.initGridControls();
         this.updateWatchlistUI();
 
+        // Show credits modal on first visit (only on homepage)
+        this.initCreditsModal();
+
         // Trigger page fade-in
         requestAnimationFrame(() => {
             document.body.classList.add('loaded');
