@@ -85,17 +85,53 @@
                             </div>
                         </div>
 
-                        <!-- Rating Slider -->
+                        <!-- Rating Filter -->
                         <div>
-                            <h4
-                                class="text-text-secondary text-xs font-bold uppercase tracking-wider mb-3 flex justify-between">
-                                Min Rating <span class="text-white">0+</span>
+                            <h4 class="text-text-secondary text-xs font-bold uppercase tracking-wider mb-3">
+                                Rating
                             </h4>
-                            <input type="range" min="0" max="10" step="1" value="0"
-                                class="w-full accent-primary h-1 bg-surface-dark rounded-lg cursor-pointer"
-                                data-rating-slider>
-                            <div class="flex justify-between text-[10px] text-text-secondary mt-1">
-                                <span>0</span><span>5</span><span>10</span>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input type="radio" name="rating-filter" value="all" checked
+                                        class="w-4 h-4 bg-surface-dark border-border-dark text-primary focus:ring-primary focus:ring-offset-0 transition-all">
+                                    <span class="text-sm text-gray-400 group-hover:text-white transition-colors">All
+                                        Ratings</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input type="radio" name="rating-filter" value="positive" data-min-rating="8"
+                                        class="w-4 h-4 bg-surface-dark border-border-dark text-primary focus:ring-primary focus:ring-offset-0 transition-all">
+                                    <span
+                                        class="text-sm text-gray-400 group-hover:text-white transition-colors">Positive
+                                        (8+)</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input type="radio" name="rating-filter" value="mostly-positive"
+                                        data-min-rating="6.5"
+                                        class="w-4 h-4 bg-surface-dark border-border-dark text-primary focus:ring-primary focus:ring-offset-0 transition-all">
+                                    <span class="text-sm text-gray-400 group-hover:text-white transition-colors">Mostly
+                                        Positive (6.5+)</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input type="radio" name="rating-filter" value="average" data-min-rating="5"
+                                        data-max-rating="6.5"
+                                        class="w-4 h-4 bg-surface-dark border-border-dark text-primary focus:ring-primary focus:ring-offset-0 transition-all">
+                                    <span class="text-sm text-gray-400 group-hover:text-white transition-colors">Average
+                                        (5-6.5)</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input type="radio" name="rating-filter" value="mostly-negative" data-min-rating="3"
+                                        data-max-rating="5"
+                                        class="w-4 h-4 bg-surface-dark border-border-dark text-primary focus:ring-primary focus:ring-offset-0 transition-all">
+                                    <span class="text-sm text-gray-400 group-hover:text-white transition-colors">Mostly
+                                        Negative (3-5)</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input type="radio" name="rating-filter" value="negative" data-max-rating="3"
+                                        class="w-4 h-4 bg-surface-dark border-border-dark text-primary focus:ring-primary focus:ring-offset-0 transition-all">
+                                    <span
+                                        class="text-sm text-gray-400 group-hover:text-white transition-colors">Negative
+                                        (0-3)</span>
+                                </label>
                             </div>
                         </div>
 
