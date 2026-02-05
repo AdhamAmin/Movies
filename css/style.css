@@ -11,21 +11,22 @@ body.loaded {
 
 /* Light Theme Variables & Backgrounds */
 :root {
-    --text-primary: #111418;
+    --text-main: #000000;
     --text-secondary: #637588;
     --bg-card: #ffffff;
     --bg-card-hover: #f0f0f0;
 }
 
-.text-primary {
-    color: var(--text-primary) !important;
+.text-main {
+    color: var(--text-main) !important;
 }
+
 .text-secondary {
     color: var(--text-secondary) !important;
 }
 
 .dark {
-    --text-primary: #ffffff;
+    --text-main: #ffffff;
     --text-secondary: #9ca3af;
     --bg-card: #1a1a1a;
     --bg-card-hover: #262626;
@@ -33,7 +34,7 @@ body.loaded {
 
 .bg-background-light {
     background-color: #f8f5f6;
-    color: var(--text-primary);
+    color: var(--text-main);
 }
 
 /* Custom Scrollbar */
@@ -208,7 +209,8 @@ body.loaded {
 }
 
 .dark .glass-heavy {
-    background: rgba(10, 10, 10, 0.3); /* More transparent for dark mode */
+    background: rgba(10, 10, 10, 0.3);
+    /* More transparent for dark mode */
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -226,7 +228,9 @@ body.loaded {
 }
 
 /* Glass Buttons & Inputs */
-button, select, input {
+button,
+select,
+input {
     backdrop-filter: blur(10px);
 }
 
@@ -250,12 +254,28 @@ button, select, input {
         font-size: 1.5rem;
     }
 }
+
 /* Watchlist Animated Background */
 @keyframes gradient-shift {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(10%, -10%) scale(1.1); }
-    66% { transform: translate(-10%, 10%) scale(0.9); }
-}
-.animate-gradient-shift { animation: gradient-shift 20s ease-in-out infinite; }
-.watchlist-bg { background: radial-gradient(circle at 50% 50%, rgba(230, 10, 21, 0.1), transparent 70%); }
 
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    33% {
+        transform: translate(10%, -10%) scale(1.1);
+    }
+
+    66% {
+        transform: translate(-10%, 10%) scale(0.9);
+    }
+}
+
+.animate-gradient-shift {
+    animation: gradient-shift 20s ease-in-out infinite;
+}
+
+.watchlist-bg {
+    background: radial-gradient(circle at 50% 50%, rgba(230, 10, 21, 0.1), transparent 70%);
+}

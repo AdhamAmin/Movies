@@ -31,7 +31,7 @@
 </head>
 
 <body
-    class="bg-background-light dark:bg-background-dark font-display text-[#111418] dark:text-white overflow-x-hidden antialiased">
+    class="bg-background-light dark:bg-background-dark font-display text-main dark:text-white overflow-x-hidden antialiased">
     <div class="flex min-h-screen w-full flex-col">
         <!-- Top nav Bar -->
         <header>
@@ -94,11 +94,11 @@
                     class="glass rounded-2xl p-4 flex flex-wrap gap-4 items-center justify-between border border-white/10 shadow-lg backdrop-blur-md">
                     <div class="flex items-center gap-2">
                         <span class="material-symbols-outlined text-primary">filter_list</span>
-                        <span class="font-bold text-gray-900 dark:text-white">Filters</span>
+                        <span class="font-bold text-main dark:text-white">Filters</span>
                     </div>
                     <div class="flex flex-wrap gap-4 items-center">
                         <select id="genre-filter"
-                            class="bg-white/10 dark:bg-black/40 border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5">
+                            class="bg-white/10 dark:bg-black/40 border border-gray-200 dark:border-white/10 text-main dark:text-white text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5">
                             <option value="">All Genres</option>
                             <option value="28">Action</option>
                             <option value="12">Adventure</option>
@@ -108,7 +108,7 @@
                             <option value="878">Sci-Fi</option>
                         </select>
                         <select id="rating-filter"
-                            class="bg-white/10 dark:bg-black/40 border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5">
+                            class="bg-white/10 dark:bg-black/40 border border-gray-200 dark:border-white/10 text-main dark:text-white text-sm rounded-lg focus:ring-primary focus:border-primary block p-2.5">
                             <option value="">Any Rating</option>
                             <option value="5">5+ Stars</option>
                             <option value="7">7+ Stars</option>
@@ -128,17 +128,17 @@
                         <div
                             class="flex bg-white/10 dark:bg-black/40 rounded-lg p-1 border border-gray-200 dark:border-white/10">
                             <button
-                                class="grid-view-btn p-1.5 rounded hover:bg-gray-200 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors active"
+                                class="grid-view-btn p-1.5 rounded hover:bg-gray-200 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400 hover:text-main dark:hover:text-white transition-colors active"
                                 data-cols="normal" title="Comfortable">
                                 <span class="material-symbols-outlined text-[20px]">grid_view</span>
                             </button>
                             <button
-                                class="grid-view-btn p-1.5 rounded hover:bg-gray-200 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                                class="grid-view-btn p-1.5 rounded hover:bg-gray-200 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400 hover:text-main dark:hover:text-white transition-colors"
                                 data-cols="compact" title="Compact">
                                 <span class="material-symbols-outlined text-[20px]">view_comfy</span>
                             </button>
                             <button
-                                class="grid-view-btn p-1.5 rounded hover:bg-gray-200 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                                class="grid-view-btn p-1.5 rounded hover:bg-gray-200 dark:hover:bg-white/10 text-gray-500 dark:text-gray-400 hover:text-main dark:hover:text-white transition-colors"
                                 data-cols="large" title="Large">
                                 <span class="material-symbols-outlined text-[20px]">crop_square</span>
                             </button>
@@ -150,7 +150,7 @@
                 <section>
                     <div class="flex items-center justify-between mb-6">
                         <h2
-                            class="text-gray-900 dark:text-white text-2xl md:text-3xl font-bold tracking-tight flex items-center gap-3">
+                            class="text-main dark:text-white text-2xl md:text-3xl font-bold tracking-tight flex items-center gap-3">
                             Trending Now <span class="material-symbols-outlined text-primary">trending_up</span>
                         </h2>
                     </div>
@@ -177,7 +177,7 @@
 
                     <div class="flex justify-center mt-4">
                         <button
-                            class="load-more-btn px-6 py-2 rounded-full border border-gray-300 dark:border-white/20 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-white/10 transition-colors"
+                            class="load-more-btn px-6 py-2 rounded-full border border-gray-300 dark:border-white/20 text-main dark:text-white hover:bg-gray-200 dark:hover:bg-white/10 transition-colors"
                             data-section="trending">
                             Load More
                         </button>
@@ -187,7 +187,7 @@
                 <!-- Top Rated -->
                 <section>
                     <h2
-                        class="text-gray-900 dark:text-white text-2xl md:text-3xl font-bold tracking-tight mb-8 flex items-center gap-3">
+                        class="text-main dark:text-white text-2xl md:text-3xl font-bold tracking-tight mb-8 flex items-center gap-3">
                         Top Rated Gems <span class="material-symbols-outlined text-yellow-500 filled">star</span>
                     </h2>
                     <div id="recommended-container"
@@ -196,7 +196,7 @@
                     </div>
                     <div class="flex justify-center mt-8">
                         <button
-                            class="load-more-btn px-6 py-2 rounded-full border border-gray-300 dark:border-white/20 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-white/10 transition-colors"
+                            class="load-more-btn px-6 py-2 rounded-full border border-gray-300 dark:border-white/20 text-main dark:text-white hover:bg-gray-200 dark:hover:bg-white/10 transition-colors"
                             data-section="recommended">
                             Load More
                         </button>
@@ -206,7 +206,7 @@
                 <!-- Action -->
                 <section>
                     <h2
-                        class="text-gray-900 dark:text-white text-2xl md:text-3xl font-bold tracking-tight mb-8 flex items-center gap-3">
+                        class="text-main dark:text-white text-2xl md:text-3xl font-bold tracking-tight mb-8 flex items-center gap-3">
                         Action Hits <span
                             class="material-symbols-outlined text-red-500 filled">local_fire_department</span>
                     </h2>
@@ -216,7 +216,7 @@
                     </div>
                     <div class="flex justify-center mt-8">
                         <button
-                            class="load-more-btn px-6 py-2 rounded-full border border-gray-300 dark:border-white/20 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-white/10 transition-colors"
+                            class="load-more-btn px-6 py-2 rounded-full border border-gray-300 dark:border-white/20 text-main dark:text-white hover:bg-gray-200 dark:hover:bg-white/10 transition-colors"
                             data-section="action">
                             Load More
                         </button>

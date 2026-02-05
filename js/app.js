@@ -415,7 +415,7 @@ class MovieApp {
                         </div>
                     </div>
                     <div class="flex flex-col">
-                        <h3 class="text-gray-900 dark:text-white font-semibold truncate group-hover:text-primary transition-colors">${movie.title}</h3>
+                        <h3 class="text-main dark:text-white font-semibold truncate group-hover:text-primary transition-colors">${movie.title}</h3>
                         <span class="text-gray-600 dark:text-gray-500 text-xs">${movie.release_date?.split('-')[0] || 'N/A'}</span>
                     </div>
                 </div>`;
@@ -575,10 +575,10 @@ class MovieApp {
         const modalHtml = `
         <div id="share-modal" class="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-fade-in">
             <div class="bg-gray-100 dark:bg-surface-dark border border-gray-300 dark:border-white/10 rounded-2xl p-6 w-full max-w-sm m-4 shadow-2xl relative">
-                <button id="close-share" class="absolute top-4 right-4 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
+                <button id="close-share" class="absolute top-4 right-4 text-gray-500 hover:text-main dark:text-gray-400 dark:hover:text-white">
                     <span class="material-symbols-outlined">close</span>
                 </button>
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Share this page</h3>
+                <h3 class="text-xl font-bold text-main dark:text-white mb-6">Share this page</h3>
                 
                 <div class="flex flex-col gap-4">
                     <button id="copy-link-btn" class="flex items-center gap-4 w-full p-4 rounded-xl bg-white dark:bg-white/5 hover:bg-gray-50 dark:hover:bg-white/10 border border-gray-200 dark:border-white/5 transition-colors group text-left">
@@ -586,7 +586,7 @@ class MovieApp {
                              <span class="material-symbols-outlined">link</span>
                         </div>
                         <div>
-                            <span class="block font-semibold text-gray-900 dark:text-white">Copy Link</span>
+                            <span class="block font-semibold text-main dark:text-white">Copy Link</span>
                             <span class="text-xs text-gray-500 dark:text-gray-400">Copy to clipboard</span>
                         </div>
                     </button>
@@ -596,7 +596,7 @@ class MovieApp {
                              <span class="material-symbols-outlined">chat</span>
                         </div>
                         <div>
-                            <span class="block font-semibold text-gray-900 dark:text-white">WhatsApp</span>
+                            <span class="block font-semibold text-main dark:text-white">WhatsApp</span>
                             <span class="text-xs text-gray-500 dark:text-gray-400">Share via WhatsApp</span>
                         </div>
                     </button>

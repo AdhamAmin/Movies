@@ -6,9 +6,9 @@
         </a>
         <!-- Desktop Nav Links -->
         <nav class="hidden lg:flex items-center gap-6">
-            <a class="text-gray-900 dark:text-white text-sm font-medium hover:text-primary smooth-transition"
+            <a class="text-main dark:text-white text-sm font-medium hover:text-primary smooth-transition"
                 href="index.html">Movies</a>
-            <a class="text-gray-900 dark:text-white text-sm font-medium hover:text-primary smooth-transition"
+            <a class="text-main dark:text-white text-sm font-medium hover:text-primary smooth-transition"
                 href="tv.html">TV Shows</a>
         </nav>
     </div>
@@ -18,31 +18,31 @@
             class="flex w-full items-center rounded-full bg-gray-200 dark:bg-white/5 border border-gray-300 dark:border-white/10 focus-within:border-primary/50 transition-colors h-10 px-4">
             <span class="material-symbols-outlined text-gray-500 dark:text-gray-400 text-[20px]">search</span>
             <input id="global-search"
-                class="flex-1 bg-transparent border-none text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-0 px-3"
+                class="flex-1 bg-transparent border-none text-sm text-main dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-0 px-3"
                 placeholder="Find movies, TV shows..." type="text" />
         </div>
     </div>
     <div class="flex items-center gap-2 md:gap-4">
         <!-- Theme Toggle -->
         <button id="theme-toggle"
-            class="flex items-center justify-center size-9 md:size-10 rounded-full hover:bg-gray-200 dark:hover:bg-white/10 transition-colors text-gray-900 dark:text-white btn-ripple"
+            class="flex items-center justify-center size-9 md:size-10 rounded-full hover:bg-gray-200 dark:hover:bg-white/10 transition-colors text-main dark:text-white btn-ripple"
             title="Toggle Theme">
             <span class="material-symbols-outlined text-[20px] md:text-[24px]">dark_mode</span>
         </button>
         <button
-            class="hidden sm:flex items-center justify-center size-10 rounded-full hover:bg-gray-200 dark:hover:bg-white/10 transition-colors text-gray-900 dark:text-white relative group btn-ripple"
+            class="hidden sm:flex items-center justify-center size-10 rounded-full hover:bg-gray-200 dark:hover:bg-white/10 transition-colors text-main dark:text-white relative group btn-ripple"
             onclick="window.location.href='watchlist.html'">
             <span class="material-symbols-outlined text-[24px]">bookmark</span>
             <span class="absolute top-2 right-2 size-2 bg-primary rounded-full hidden group-hover:block"></span>
         </button>
         <button id="share-btn"
-            class="hidden sm:flex items-center justify-center size-10 rounded-full hover:bg-gray-200 dark:hover:bg-white/10 transition-colors text-gray-900 dark:text-white btn-ripple"
+            class="hidden sm:flex items-center justify-center size-10 rounded-full hover:bg-gray-200 dark:hover:bg-white/10 transition-colors text-main dark:text-white btn-ripple"
             title="Share">
             <span class="material-symbols-outlined text-[24px]">share</span>
         </button>
         <!-- Mobile Menu Toggle -->
         <button id="mobile-menu-toggle"
-            class="lg:hidden flex items-center justify-center size-9 md:size-10 rounded-full hover:bg-gray-200 dark:hover:bg-white/10 transition-colors text-gray-900 dark:text-white btn-ripple">
+            class="lg:hidden flex items-center justify-center size-9 md:size-10 rounded-full hover:bg-gray-200 dark:hover:bg-white/10 transition-colors text-main dark:text-white btn-ripple">
             <span class="material-symbols-outlined text-[20px] md:text-[24px]">menu</span>
         </button>
     </div>
@@ -55,24 +55,24 @@
     <div class="absolute right-0 top-0 bottom-0 w-[280px] glass-heavy border-l border-white/10 shadow-2xl">
         <div class="flex flex-col h-full">
             <div class="flex items-center justify-between p-4 border-b border-gray-300 dark:border-white/10">
-                <h3 class="text-lg font-bold text-gray-900 dark:text-white">Menu</h3>
+                <h3 class="text-lg font-bold text-main dark:text-white">Menu</h3>
                 <button id="mobile-menu-close"
-                    class="size-10 rounded-full hover:bg-gray-200 dark:hover:bg-white/10 flex items-center justify-center text-gray-900 dark:text-white">
+                    class="size-10 rounded-full hover:bg-gray-200 dark:hover:bg-white/10 flex items-center justify-center text-main dark:text-white">
                     <span class="material-symbols-outlined text-[24px]">close</span>
                 </button>
             </div>
             <nav class="flex flex-col gap-2 p-4">
-                <a class="text-gray-900 dark:text-white text-base font-medium hover:text-primary hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg px-4 py-3 transition-colors"
+                <a class="text-main dark:text-white text-base font-medium hover:text-primary hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg px-4 py-3 transition-colors"
                     href="index.html">
                     <span class="material-symbols-outlined text-[20px] inline-block mr-3 align-middle">movie</span>
                     Movies
                 </a>
-                <a class="text-gray-900 dark:text-white text-base font-medium hover:text-primary hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg px-4 py-3 transition-colors"
+                <a class="text-main dark:text-white text-base font-medium hover:text-primary hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg px-4 py-3 transition-colors"
                     href="tv.html">
                     <span class="material-symbols-outlined text-[20px] inline-block mr-3 align-middle">tv</span>
                     TV Shows
                 </a>
-                <a class="text-gray-900 dark:text-white text-base font-medium hover:text-primary hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg px-4 py-3 transition-colors"
+                <a class="text-main dark:text-white text-base font-medium hover:text-primary hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg px-4 py-3 transition-colors"
                     href="watchlist.html">
                     <span class="material-symbols-outlined text-[20px] inline-block mr-3 align-middle">bookmark</span>
                     Watchlist
@@ -82,7 +82,7 @@
                 <div class="flex items-center justify-between">
                     <span class="text-sm text-gray-600 dark:text-gray-400">Share</span>
                     <button id="mobile-share-btn"
-                        class="size-10 rounded-full hover:bg-gray-200 dark:hover:bg-white/10 flex items-center justify-center text-gray-900 dark:text-white">
+                        class="size-10 rounded-full hover:bg-gray-200 dark:hover:bg-white/10 flex items-center justify-center text-main dark:text-white">
                         <span class="material-symbols-outlined text-[20px]">share</span>
                     </button>
                 </div>
