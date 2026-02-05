@@ -69,6 +69,7 @@ class MovieApp {
         this.pageState = {
             recommended: 1,
             action: 1,
+            drama: 1,
             trending: 1
         };
 
@@ -113,10 +114,11 @@ class MovieApp {
 
     async handleTVPage() {
         try {
-            const [trending, topRated, scifi] = await Promise.all([
+            const [trending, topRated, scifi, drama] = await Promise.all([
                 tmdbService.getTrendingTV('week'),
                 tmdbService.getTopRatedTV(),
-                tmdbService.discover('tv', { genre: 10765 }) // Sci-Fi & Fantasy
+                tmdbService.discover('tv', { genre: 10765 }), // Sci-Fi & Fantasy
+                tmdbService.discover('tv', { genre: 18 })     // Drama
             ]);
 
             const normalize = (list) => list.map(item => ({
@@ -137,6 +139,9 @@ class MovieApp {
             }
             if (scifi && scifi.results) {
                 this.populateSection('action-container', normalize(scifi.results));
+            }
+            if (drama && drama.results) {
+                this.populateSection('drama-container', normalize(drama.results));
             }
 
         } catch (e) {
