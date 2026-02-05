@@ -254,7 +254,93 @@ class MovieApp {
         loadMoreBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 const section = btn.dataset.section;
-                this.loadMore(section);
+                this.loadMore(section, btn);
+            });
+        });
+    }
+
+    async loadMore(section, btn) {
+        if (!this.pageState[section]) {
+            this.pageState[section] = 1;
+        }
+
+        this.pageState[section]++;
+        const page = this.pageState[section];
+
+        // Show loading state
+        const originalText = btn.textContent;
+        btn.textContent = 'Loading...';
+        btn.disabled = true;
+
+        try {
+            let response;
+            const isTV = window.location.pathname.includes('tv.html');
+
+            // Determine which API to call based on section
+            if (section === 'recommended') {
+                response = isTV
+                    ? await tmdbService.getTopRatedTV(page)
+                    : await tmdbService.getTopRated(page);
+            } else if (section === 'action') {
+                response = isTV
+                    ? await tmdbService.discover('tv', { genre: 10765 }, page) // 10765 = Sci-Fi & Fantasy
+                    : await tmdbService.getMoviesByGenre(28, page); // 28 = Action
+            } else if (section === 'trending') {
+                response = isTV
+                    ? await tmdbService.getTrendingTV('week', page)
+                    : await tmdbService.getTrendingMovies('week', page);
+            }
+
+            if (response && response.results && response.results.length > 0) {
+                let movies = response.results;
+
+                // Normalize TV show data
+                if (isTV) {
+                    movies = movies.map(item => ({
+                        ...item,
+                        title: item.name || item.title,
+                        release_date: item.first_air_date || item.release_date
+                    }));
+                }
+
+                // Append to existing content
+                this.appendToSection(`${section}-container`, movies);
+
+                this.showNotification(`Loaded ${movies.length} more items!`, 'success');
+            } else {
+                this.showNotification('No more items to load', 'info');
+            }
+        } catch (error) {
+            console.error('Error loading more:', error);
+            this.showNotification('Failed to load more items', 'error');
+        } finally {
+            btn.textContent = originalText;
+            btn.disabled = false;
+        }
+    }
+
+    appendToSection(containerId, movies) {
+        const container = document.getElementById(containerId);
+        if (!container || !movies || !movies.length) return;
+
+        // Generate new cards
+        const newCards = this.generateCardsHtml(movies, false);
+
+        // Append (not replace)
+        container.insertAdjacentHTML('beforeend', newCards);
+
+        // Wire up watchlist buttons for new cards
+        const newElements = container.querySelectorAll('.add-to-watchlist-btn:not([data-initialized])');
+        newElements.forEach(btn => {
+            btn.dataset.initialized = 'true';
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+
+                const movieId = btn.dataset.movieId;
+                const movieTitle = btn.dataset.movieTitle;
+
+                this.addToWatchlist({ id: movieId, title: movieTitle });
             });
         });
     }
