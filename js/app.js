@@ -387,9 +387,22 @@ class MovieApp {
 
         const isTrending = containerId === 'trending-container';
 
-        // Generate HTML but don't replace innerHTML
+        // Generate HTML
         const newHtml = this.generateCardsHtml(movies, isTrending);
         container.insertAdjacentHTML('beforeend', newHtml);
+
+        // Wire up new buttons
+        const newButtons = container.querySelectorAll('.add-to-watchlist-btn:not([data-initialized])');
+        newButtons.forEach(btn => {
+            btn.dataset.initialized = 'true';
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                const movieId = btn.dataset.movieId;
+                const movieTitle = btn.dataset.movieTitle;
+                this.addToWatchlist({ id: movieId, title: movieTitle });
+            });
+        });
     }
 
     generateCardsHtml(movies, isTrending) {
