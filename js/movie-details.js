@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const url = tmdb.getImageUrl(data.backdrop_path || data.poster_path, 'w1280') || tmdb.getImageUrl(data.backdrop_path || data.poster_path, 'original');
         backdrop.style.backgroundImage = `url('${url}')`;
         backdrop.style.backgroundSize = 'cover';
-        backdrop.style.backgroundPosition = 'center';
+        backdrop.style.backgroundPosition = 'top center';
     }
     if (poster && data.poster_path) {
         const purl = tmdb.getImageUrl(data.poster_path, 'w780') || tmdb.getImageUrl(data.poster_path, 'w500');
@@ -54,33 +54,43 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Check if movie is already in watchlist and update button state
     if (watchlistBtn) {
+        const updateButtonState = (isInWatchlist) => {
+            const icon = watchlistBtn.querySelector('span.material-symbols-outlined');
+            const textSpan = watchlistBtn.querySelector('span.hidden');
+
+            if (isInWatchlist) {
+                watchlistBtn.classList.add('bg-primary/80');
+                icon.textContent = 'bookmark';
+                if (textSpan) textSpan.textContent = 'In Watchlist';
+            } else {
+                watchlistBtn.classList.remove('bg-primary/80');
+                icon.textContent = 'bookmark_add';
+                if (textSpan) textSpan.textContent = 'Watchlist';
+            }
+        };
+
+        // Set initial state
         const list = JSON.parse(localStorage.getItem('watchlist')) || [];
         const isInWatchlist = list.find(m => m.id == data.id);
+        updateButtonState(isInWatchlist);
 
-        if (isInWatchlist) {
-            watchlistBtn.classList.add('bg-primary/80');
-            watchlistBtn.querySelector('span.material-symbols-outlined').textContent = 'bookmark';
-            const textSpan = watchlistBtn.querySelector('span.hidden');
-            if (textSpan) textSpan.textContent = 'In Watchlist';
-        }
-
+        // Toggle add/remove on click
         watchlistBtn.addEventListener('click', () => {
-            const currentList = JSON.parse(localStorage.getItem('watchlist')) || [];
-            const alreadyAdded = currentList.find(m => m.id == data.id);
+            let currentList = JSON.parse(localStorage.getItem('watchlist')) || [];
+            const existingIndex = currentList.findIndex(m => m.id == data.id);
 
-            if (!alreadyAdded) {
+            if (existingIndex === -1) {
+                // Add to watchlist
                 currentList.push({ id: data.id, title: data.title, poster: data.poster_path });
                 localStorage.setItem('watchlist', JSON.stringify(currentList));
-
-                watchlistBtn.classList.add('bg-primary/80');
-                watchlistBtn.querySelector('span.material-symbols-outlined').textContent = 'bookmark';
-                const textSpan = watchlistBtn.querySelector('span.hidden');
-                if (textSpan) textSpan.textContent = 'In Watchlist';
-
-                // Show toast notification
+                updateButtonState(true);
                 showToast('Added to Watchlist!');
             } else {
-                showToast('Already in Watchlist');
+                // Remove from watchlist
+                currentList.splice(existingIndex, 1);
+                localStorage.setItem('watchlist', JSON.stringify(currentList));
+                updateButtonState(false);
+                showToast('Removed from Watchlist');
             }
         });
     }
