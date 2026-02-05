@@ -585,13 +585,13 @@ While this is an educational project, feedback and suggestions are welcome!
 
 For questions or feedback:
 - **GitHub Issues**: [Report a bug](https://github.com/yourusername/cinemavault/issues)
-- **Email**: your.email@example.com
+- **Email**: adham2211976@gmail.com || abdelrahman_saba@live.com
 
 ---
 
 <div align="center">
 
-**Made with ❤️ and lots of ☕**
+**Made with elegance and lots of features**
 
 ![CinemaVault](https://img.shields.io/badge/CinemaVault-Reel%20Dreams-e60a15?style=for-the-badge)
 
