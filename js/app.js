@@ -314,7 +314,7 @@ class MovieApp {
                 // Append to existing content
                 this.appendToSection(`${section}-container`, movies);
 
-                this.showNotification(`Loaded ${movies.length} more items!`, 'success');
+                // this.showNotification(`Loaded ${movies.length} more items!`, 'success');
             } else {
                 this.showNotification('No more items to load', 'info');
             }
