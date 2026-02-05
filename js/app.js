@@ -879,4 +879,6 @@ document.addEventListener('click', (e) => {
     if (id) window.location.href = `movie-details.html?id=${id}`;
 });
 
+// Initialize the app
 const app = new MovieApp();
+MovieApp.instance = app;
