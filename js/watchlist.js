@@ -1,11 +1,23 @@
 // Watchlist page logic
 document.addEventListener('DOMContentLoaded', async () => {
-    const tmdb = new TMDBService(TMDB_API_KEY);
+    console.log('Watchlist page loaded');
+
+    const API_KEY = typeof TMDB_API_KEY !== 'undefined' ? TMDB_API_KEY : (typeof window.TMDB_API_KEY !== 'undefined' ? window.TMDB_API_KEY : null);
+
+    if (!API_KEY) {
+        console.error('API Key not found!');
+        return;
+    }
+
+    const tmdb = new TMDBService(API_KEY);
     const container = document.getElementById('watchlist-container');
     const emptyState = document.getElementById('empty-state');
     const countHero = document.getElementById('watchlist-count-hero');
     const modal = document.getElementById('credits-modal');
     const closeBtn = document.getElementById('credits-close-btn');
+
+    console.log('Container found:', !!container);
+    console.log('Empty state found:', !!emptyState);
 
     // Credits Modal - Show once
     const hasSeenCredits = localStorage.getItem('hasSeenCredits');
@@ -20,7 +32,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function getList() {
-        return JSON.parse(localStorage.getItem('watchlist') || '[]');
+        const list = JSON.parse(localStorage.getItem('watchlist') || '[]');
+        console.log('Loaded watchlist:', list);
+        return list;
     }
 
     function saveList(list) {
@@ -28,19 +42,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     async function fetchDetailsFor(list) {
+        console.log('Fetching details for', list.length, 'items');
         const results = [];
         for (const item of list) {
             try {
                 const data = await tmdb.getMovieDetails(item.id);
+                console.log('Fetched details for:', data.title);
                 results.push(Object.assign({}, data, { _addedAt: item.addedAt || 0 }));
             } catch (e) {
-                console.warn('Failed to fetch details for', item.id);
+                console.warn('Failed to fetch details for', item.id, e);
             }
         }
         return results;
     }
 
     function renderCards(items) {
+        console.log('Rendering', items.length, 'cards');
         if (countHero) countHero.textContent = items.length;
 
         if (!items.length) {
@@ -84,6 +101,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     </div>
                 `;
             }).join('');
+
+            console.log('Cards rendered successfully');
         }
 
         attachCardHandlers();
@@ -102,11 +121,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const list = getList().filter(i => i.id != id);
                     saveList(list);
                     refresh();
-
-                    // Show notification
-                    if (typeof MovieApp !== 'undefined' && MovieApp.instance) {
-                        MovieApp.instance.showNotification('Removed from watchlist');
-                    }
                 };
             }
 
@@ -125,6 +139,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     async function refresh() {
+        console.log('Refreshing watchlist...');
         const raw = getList();
         const details = await fetchDetailsFor(raw);
         renderCards(details);

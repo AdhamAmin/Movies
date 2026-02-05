@@ -711,13 +711,10 @@ class MovieApp {
 
     setGridDensity(density) {
         console.log('Setting density to:', density);
-        const containers = [
-            document.getElementById('recommended-container'),
-            document.getElementById('action-container'),
-            document.getElementById('search-results-container')
-        ];
 
-        // ... (rest of the function)
+        // Target ALL grid containers on the page, not just specific ones
+        const containers = document.querySelectorAll('.grid');
+
         const classesToRemove = [
             'grid-cols-1', 'grid-cols-2', 'grid-cols-3', 'grid-cols-4', 'grid-cols-5', 'grid-cols-6', 'grid-cols-7', 'grid-cols-8',
             'md:grid-cols-2', 'md:grid-cols-3', 'md:grid-cols-4', 'md:grid-cols-5', 'md:grid-cols-6',
@@ -742,11 +739,10 @@ class MovieApp {
                 break;
         }
 
-        console.log('Applying classes:', newClasses);
+        console.log('Applying classes to', containers.length, 'grid containers:', newClasses);
 
         containers.forEach(container => {
             if (container) {
-                console.log('Updating container:', container.id);
                 // Safe remove spread
                 classesToRemove.forEach(cls => container.classList.remove(cls));
                 // Add new
