@@ -385,8 +385,10 @@ class MovieApp {
         const container = document.getElementById(containerId);
         if (!container || !movies || !movies.length) return;
 
+        const isTrending = containerId === 'trending-container';
+
         // Generate HTML but don't replace innerHTML
-        const newHtml = this.generateCardsHtml(movies, false); // false = not trending
+        const newHtml = this.generateCardsHtml(movies, isTrending);
         container.insertAdjacentHTML('beforeend', newHtml);
     }
 
@@ -396,8 +398,27 @@ class MovieApp {
             const style = `style="animation-delay: ${delay}s"`;
 
             if (isTrending) {
-                // ... (trending card code)
-                return ''; // Handled in populateSection usually
+                return `
+                <div data-movie-id="${movie.id}" class="stagger-item group relative flex-none w-[180px] md:w-[220px] aspect-[2/3] rounded-lg overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105 hover:z-10 snap-start">
+                    <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style="background-image: url('${tmdbService.getImageUrl(movie.poster_path)}')"></div>
+                    
+                    <!-- Watchlist Add Button (Trending) -->
+                    <button class="add-to-watchlist-btn absolute top-2 left-2 size-8 rounded-full bg-black/70 hover:bg-primary backdrop-blur-sm flex items-center justify-center text-white transition-all hover:scale-110 z-20 opacity-0 group-hover:opacity-100"
+                            data-movie-id="${movie.id}"
+                            data-movie-title="${(movie.title || '').replace(/"/g, '&quot;')}"
+                            title="Add to Watchlist">
+                        <span class="material-symbols-outlined text-[18px]">add</span>
+                    </button>
+
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                        <h3 class="text-white font-bold text-lg leading-tight truncate">${movie.title}</h3>
+                        <div class="flex items-center justify-between mt-2">
+                            <span class="text-yellow-400 text-sm flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[14px] filled">star</span> ${movie.vote_average.toFixed(1)}
+                            </span>
+                        </div>
+                    </div>
+                </div>`;
             } else {
                 return `
                 <div data-movie-id="${movie.id}" class="stagger-item flex flex-col gap-2 group cursor-pointer" ${style}>
@@ -438,19 +459,22 @@ class MovieApp {
         const isTrending = containerId === 'trending-container';
 
         if (isTrending) {
-            container.innerHTML = movies.map(movie => `
-            <div data-movie-id="${movie.id}" class="stagger-item group relative flex-none w-[180px] md:w-[220px] aspect-[2/3] rounded-lg overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105 hover:z-10 snap-start">
-                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style="background-image: url('${tmdbService.getImageUrl(movie.poster_path)}')"></div>
-                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                    <h3 class="text-white font-bold text-lg leading-tight">${movie.title}</h3>
-                    <div class="flex items-center justify-between mt-2">
-                        <span class="text-yellow-400 text-sm flex items-center gap-1">
-                            <span class="material-symbols-outlined text-[14px] filled">star</span> ${movie.vote_average.toFixed(1)}
-                        </span>
-                    </div>
-                </div>
-            </div>
-        `).join('');
+            container.innerHTML = this.generateCardsHtml(movies, true);
+
+            // Wire up watchlist add buttons for trending
+            container.querySelectorAll('.add-to-watchlist-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+
+                    const movieId = btn.dataset.movieId;
+                    const movieTitle = btn.dataset.movieTitle;
+
+                    // Add to watchlist
+                    this.addToWatchlist({ id: movieId, title: movieTitle });
+                });
+            });
+
         } else {
             container.innerHTML = this.generateCardsHtml(movies, false);
 
