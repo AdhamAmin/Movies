@@ -314,6 +314,15 @@ class MovieApp {
                 <div data-movie-id="${movie.id}" class="stagger-item flex flex-col gap-2 group cursor-pointer" ${style}>
                     <div class="relative aspect-[2/3] w-full rounded-lg overflow-hidden shadow-lg shadow-black/50 hover-glow">
                         <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style="background-image: url('${tmdbService.getImageUrl(movie.poster_path)}')"></div>
+                        
+                        <!-- Watchlist Add Button -->
+                        <button class="add-to-watchlist-btn absolute top-2 left-2 size-8 rounded-full bg-black/70 hover:bg-primary backdrop-blur-sm flex items-center justify-center text-white transition-all hover:scale-110 z-10 opacity-0 group-hover:opacity-100"
+                                data-movie-id="${movie.id}"
+                                data-movie-title="${(movie.title || '').replace(/"/g, '&quot;')}"
+                                title="Add to Watchlist">
+                            <span class="material-symbols-outlined text-[18px]">add</span>
+                        </button>
+                        
                         <div class="absolute top-2 right-2 bg-black/60 backdrop-blur-md px-1.5 py-0.5 rounded flex items-center gap-1">
                             <span class="material-symbols-outlined text-[12px] text-[#FFD700] filled">star</span>
                             <span class="text-xs font-bold text-white">${movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'}</span>
@@ -355,6 +364,20 @@ class MovieApp {
         `).join('');
         } else {
             container.innerHTML = this.generateCardsHtml(movies, false);
+
+            // Wire up watchlist add buttons
+            container.querySelectorAll('.add-to-watchlist-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+
+                    const movieId = btn.dataset.movieId;
+                    const movieTitle = btn.dataset.movieTitle;
+
+                    // Add to watchlist
+                    this.addToWatchlist({ id: movieId, title: movieTitle });
+                });
+            });
         }
     }
 
