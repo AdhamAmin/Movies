@@ -52,15 +52,51 @@ document.addEventListener('DOMContentLoaded', async () => {
         trailerBtn.textContent = 'Trailer unavailable';
     }
 
+    // Check if movie is already in watchlist and update button state
     if (watchlistBtn) {
-        watchlistBtn.addEventListener('click', () => {
-            const list = JSON.parse(localStorage.getItem('watchlist')) || [];
-            if (!list.find(m => m.id == data.id)) {
-                list.push({ id: data.id, title: data.title, poster: data.poster_path });
-                localStorage.setItem('watchlist', JSON.stringify(list));
-            }
+        const list = JSON.parse(localStorage.getItem('watchlist')) || [];
+        const isInWatchlist = list.find(m => m.id == data.id);
+
+        if (isInWatchlist) {
             watchlistBtn.classList.add('bg-primary/80');
+            watchlistBtn.querySelector('span.material-symbols-outlined').textContent = 'bookmark';
+            const textSpan = watchlistBtn.querySelector('span.hidden');
+            if (textSpan) textSpan.textContent = 'In Watchlist';
+        }
+
+        watchlistBtn.addEventListener('click', () => {
+            const currentList = JSON.parse(localStorage.getItem('watchlist')) || [];
+            const alreadyAdded = currentList.find(m => m.id == data.id);
+
+            if (!alreadyAdded) {
+                currentList.push({ id: data.id, title: data.title, poster: data.poster_path });
+                localStorage.setItem('watchlist', JSON.stringify(currentList));
+
+                watchlistBtn.classList.add('bg-primary/80');
+                watchlistBtn.querySelector('span.material-symbols-outlined').textContent = 'bookmark';
+                const textSpan = watchlistBtn.querySelector('span.hidden');
+                if (textSpan) textSpan.textContent = 'In Watchlist';
+
+                // Show toast notification
+                showToast('Added to Watchlist!');
+            } else {
+                showToast('Already in Watchlist');
+            }
         });
+    }
+
+    // Toast notification function
+    function showToast(message) {
+        const toast = document.createElement('div');
+        toast.className = 'glass-toast toast-enter fixed bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 rounded-full text-white font-medium z-50';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            toast.classList.remove('toast-enter');
+            toast.classList.add('toast-exit');
+            setTimeout(() => toast.remove(), 300);
+        }, 2000);
     }
 
     // Render cast (first 8)
