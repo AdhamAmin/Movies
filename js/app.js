@@ -116,7 +116,7 @@ class MovieApp {
             const [trending, topRated, scifi] = await Promise.all([
                 tmdbService.getTrendingTV('week'),
                 tmdbService.getTopRatedTV(),
-                tmdbService.getTopRatedTV() // Placeholder, ideally specific genre
+                tmdbService.discover('tv', { genre: 10765 }) // Sci-Fi & Fantasy
             ]);
 
             const normalize = (list) => list.map(item => ({
@@ -136,7 +136,6 @@ class MovieApp {
                 this.populateSection('recommended-container', normalize(topRated.results));
             }
             if (scifi && scifi.results) {
-                // Just showing more top rated for now as placeholder or different sort
                 this.populateSection('action-container', normalize(scifi.results));
             }
 
@@ -285,6 +284,10 @@ class MovieApp {
                 response = isTV
                     ? await tmdbService.discover('tv', { genre: 10765 }, page) // 10765 = Sci-Fi & Fantasy
                     : await tmdbService.getMoviesByGenre(28, page); // 28 = Action
+            } else if (section === 'drama') {
+                response = isTV
+                    ? await tmdbService.discover('tv', { genre: 18 }, page) // 18 = Drama
+                    : await tmdbService.getMoviesByGenre(18, page); // 18 = Drama
             } else if (section === 'trending') {
                 response = isTV
                     ? await tmdbService.getTrendingTV('week', page)
@@ -387,8 +390,8 @@ class MovieApp {
 
         const isTrending = containerId === 'trending-container';
 
-        // Generate HTML
-        const newHtml = this.generateCardsHtml(movies, isTrending);
+        // Generate HTML with isAppend = true
+        const newHtml = this.generateCardsHtml(movies, isTrending, true);
         container.insertAdjacentHTML('beforeend', newHtml);
 
         // Wire up new buttons
@@ -405,14 +408,19 @@ class MovieApp {
         });
     }
 
-    generateCardsHtml(movies, isTrending) {
+    generateCardsHtml(movies, isTrending, isAppend = false) {
         return movies.map((movie, index) => {
-            const delay = 0; // No stagger on manual load usually, or small fixed
-            const style = `style="animation-delay: ${delay}s"`;
+            // For appended items, skip stagger animation and force visibility
+            const animClass = isAppend ? 'animate-fade-in' : 'stagger-item';
+            const style = isAppend ? '' : `style="animation-delay: ${index * 0.05}s"`; // Dynamic delay based on index
+
+            // Initial opacity should be 1 if appending (handled by animate-fade-in or just default)
+            // But stagger-item has opacity: 0. So we switch to a different class or inline style.
+            const visibilityClass = isAppend ? 'opacity-100' : 'opacity-0';
 
             if (isTrending) {
                 return `
-                <div data-movie-id="${movie.id}" class="stagger-item group relative flex-none w-[180px] md:w-[220px] aspect-[2/3] rounded-lg overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105 hover:z-10 snap-start">
+                <div data-movie-id="${movie.id}" class="${animClass} group relative flex-none w-[180px] md:w-[220px] aspect-[2/3] rounded-lg overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105 hover:z-10 snap-start">
                     <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style="background-image: url('${tmdbService.getImageUrl(movie.poster_path)}')"></div>
                     
                     <!-- Watchlist Add Button (Trending) -->
@@ -434,7 +442,7 @@ class MovieApp {
                 </div>`;
             } else {
                 return `
-                <div data-movie-id="${movie.id}" class="stagger-item flex flex-col gap-2 group cursor-pointer" ${style}>
+                <div data-movie-id="${movie.id}" class="${animClass} flex flex-col gap-2 group cursor-pointer" ${style}>
                     <div class="relative aspect-[2/3] w-full rounded-lg overflow-hidden shadow-lg shadow-black/50 hover-glow">
                         <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style="background-image: url('${tmdbService.getImageUrl(movie.poster_path)}')"></div>
                         
