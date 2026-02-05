@@ -850,6 +850,25 @@ class MovieApp {
             }
         }, 3000);
     }
+
+    initCreditsModal() {
+        const modal = document.getElementById('credits-modal');
+        const closeBtn = document.getElementById('credits-close-btn');
+
+        if (!modal || !closeBtn) return; // Not on a page with the modal
+
+        const hasSeenCredits = localStorage.getItem('hasSeenCredits');
+        if (!hasSeenCredits) {
+            setTimeout(() => {
+                modal.classList.remove('hidden');
+            }, 500); // Small delay for nice effect
+
+            closeBtn.onclick = () => {
+                modal.classList.add('hidden');
+                localStorage.setItem('hasSeenCredits', 'true');
+            };
+        }
+    }
 }
 
 
