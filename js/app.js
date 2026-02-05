@@ -772,6 +772,38 @@ class MovieApp {
                 slider.scrollLeft = scrollLeft - walk;
             });
         });
+
+        // Initialize trending navigation arrows
+        this.initTrendingNavigation();
+    }
+
+    initTrendingNavigation() {
+        const leftArrows = document.querySelectorAll('.scroll-arrow-left');
+        const rightArrows = document.querySelectorAll('.scroll-arrow-right');
+
+        leftArrows.forEach(arrow => {
+            arrow.addEventListener('click', () => {
+                const container = arrow.parentElement.querySelector('#trending-container');
+                if (container) {
+                    container.scrollBy({
+                        left: -400,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        rightArrows.forEach(arrow => {
+            arrow.addEventListener('click', () => {
+                const container = arrow.parentElement.querySelector('#trending-container');
+                if (container) {
+                    container.scrollBy({
+                        left: 400,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
     }
 
     initGridControls() {
