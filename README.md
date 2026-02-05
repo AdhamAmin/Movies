@@ -2,8 +2,6 @@
 
 <div align="center">
 
-![CinemaVault Logo](assets/logo.png)
-
 **A Premium Movie Discovery Platform**
 
 [![TMDB API](https://img.shields.io/badge/TMDB-API-01D277?style=for-the-badge&logo=themoviedatabase)](https://www.themoviedb.org/)
