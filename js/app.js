@@ -322,12 +322,16 @@ class MovieApp {
         }
     }
 
+
     appendToSection(containerId, movies) {
         const container = document.getElementById(containerId);
         if (!container || !movies || !movies.length) return;
 
-        // Generate new cards
-        const newCards = this.generateCardsHtml(movies, false);
+        // Detect if this is the trending container (horizontal slider)
+        const isTrending = containerId === 'trending-container';
+
+        // Generate new cards with isAppend=true to make them visible immediately
+        const newCards = this.generateCardsHtml(movies, isTrending, true);
 
         // Append (not replace)
         container.insertAdjacentHTML('beforeend', newCards);
@@ -348,65 +352,6 @@ class MovieApp {
         });
     }
 
-    async loadMore(section) {
-        if (!this.pageState[section]) return;
-        this.pageState[section]++;
-        const page = this.pageState[section];
-        let results = null;
-
-        const isTV = window.location.pathname.includes('tv.html');
-
-        try {
-            if (section === 'recommended') {
-                results = isTV ? await tmdbService.getTopRatedTV(page) : await tmdbService.getTopRated(page);
-            } else if (section === 'action') {
-                results = isTV ? await tmdbService.getTopRatedTV(page) : await tmdbService.getMoviesByGenre(28, page);
-            } else if (section === 'filtered') {
-                const type = isTV ? 'tv' : 'movie';
-                results = await tmdbService.discover(type, this.currentFilters || {}, page);
-            } else if (section === 'search') {
-                results = await tmdbService.searchMovies(this.currentSearchQuery, page);
-            }
-
-            if (results && results.results) {
-                let items = results.results;
-                if (isTV) {
-                    items = items.map(item => ({
-                        ...item,
-                        title: item.name || item.title,
-                        release_date: item.first_air_date || item.release_date
-                    }));
-                }
-                this.appendSection('recommended-container', items); // Always append to recommended for filters
-            }
-        } catch (e) {
-            console.error('Error loading more:', e);
-        }
-    }
-
-    appendSection(containerId, movies) {
-        const container = document.getElementById(containerId);
-        if (!container || !movies || !movies.length) return;
-
-        const isTrending = containerId === 'trending-container';
-
-        // Generate HTML with isAppend = true
-        const newHtml = this.generateCardsHtml(movies, isTrending, true);
-        container.insertAdjacentHTML('beforeend', newHtml);
-
-        // Wire up new buttons
-        const newButtons = container.querySelectorAll('.add-to-watchlist-btn:not([data-initialized])');
-        newButtons.forEach(btn => {
-            btn.dataset.initialized = 'true';
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                const movieId = btn.dataset.movieId;
-                const movieTitle = btn.dataset.movieTitle;
-                this.addToWatchlist({ id: movieId, title: movieTitle });
-            });
-        });
-    }
 
     generateCardsHtml(movies, isTrending, isAppend = false) {
         return movies.map((movie, index) => {
