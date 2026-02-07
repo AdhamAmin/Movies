@@ -133,32 +133,32 @@ document.addEventListener('DOMContentLoaded', async () => {
     const castContainer = document.getElementById('details-cast');
     if (castContainer && data.credits && data.credits.cast && data.credits.cast.length) {
         const castHtml = data.credits.cast.slice(0, 8).map(person => {
-            const img = tmdb.getImageUrl(person.profile_path, 'w185') || 'https://via.placeholder.com/185x278?text=No+Photo';
+            const img = tmdb.getImageUrl(person.profile_path, 'w185') || 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'185\' height=\'278\' viewBox=\'0 0 185 278\'%3E%3Crect width=\'185\' height=\'278\' fill=\'%23333\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-family=\'sans-serif\' font-size=\'14\' fill=\'%23777\'%3ENo Photo%3C/text%3E%3C/svg%3E';
             return `
                 <div class="inline-flex flex-col items-center w-36 mr-4">
                     <div class="w-32 h-44 rounded-lg overflow-hidden mb-2 bg-cover bg-center" style="background-image:url('${img}')"></div>
-                    <div class="text-white text-sm font-semibold text-center truncate">${person.name}</div>
-                    <div class="text-text-dim text-xs text-center">${person.character || ''}</div>
+                    <div class="text-gray-900 dark:text-white text-sm font-semibold text-center truncate">${person.name}</div>
+                    <div class="text-gray-600 dark:text-text-dim text-xs text-center">${person.character || ''}</div>
                 </div>
             `;
         }).join('');
-        castContainer.innerHTML = `<h3 class="text-white text-xl font-bold mb-4">Cast</h3><div class="flex overflow-x-auto pb-2">${castHtml}</div>`;
+        castContainer.innerHTML = `<h3 class="text-gray-900 dark:text-white text-xl font-bold mb-4">Cast</h3><div class="flex overflow-x-auto pb-2">${castHtml}</div>`;
     }
 
     // Render reviews (show up to 3)
     const reviewsContainer = document.getElementById('details-reviews');
     if (reviewsContainer && data.reviews && data.reviews.results && data.reviews.results.length) {
         const reviewsHtml = data.reviews.results.slice(0, 3).map(r => `
-            <article class="bg-white/5 p-4 rounded-lg mb-4">
+            <article class="bg-gray-100 dark:bg-white/5 p-4 rounded-lg mb-4">
                 <header class="flex items-center justify-between mb-2">
-                    <div class="text-sm font-semibold text-white">${r.author}</div>
-                    <div class="text-xs text-text-dim">${new Date(r.created_at).toLocaleDateString()}</div>
+                    <div class="text-sm font-semibold text-gray-900 dark:text-white">${r.author}</div>
+                    <div class="text-xs text-gray-500 dark:text-text-dim">${new Date(r.created_at).toLocaleDateString()}</div>
                 </header>
-                <p class="text-gray-300 text-sm leading-relaxed line-clamp-6">${r.content}</p>
+                <p class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed line-clamp-6">${r.content}</p>
             </article>
         `).join('');
-        reviewsContainer.innerHTML = `<h3 class="text-white text-xl font-bold mb-4">Reviews</h3>${reviewsHtml}`;
+        reviewsContainer.innerHTML = `<h3 class="text-gray-900 dark:text-white text-xl font-bold mb-4">Reviews</h3>${reviewsHtml}`;
     } else if (reviewsContainer) {
-        reviewsContainer.innerHTML = `<h3 class="text-white text-xl font-bold mb-4">Reviews</h3><p class="text-text-dim">No reviews yet.</p>`;
+        reviewsContainer.innerHTML = `<h3 class="text-gray-900 dark:text-white text-xl font-bold mb-4">Reviews</h3><p class="text-gray-500 dark:text-text-dim">No reviews yet.</p>`;
     }
 });

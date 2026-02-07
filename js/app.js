@@ -124,7 +124,8 @@ class MovieApp {
             const normalize = (list) => list.map(item => ({
                 ...item,
                 title: item.name || item.title,
-                release_date: item.first_air_date || item.release_date
+                release_date: item.first_air_date || item.release_date,
+                media_type: 'tv'
             }));
 
             if (trending && trending.results) {
@@ -310,7 +311,8 @@ class MovieApp {
                     movies = movies.map(item => ({
                         ...item,
                         title: item.name || item.title,
-                        release_date: item.first_air_date || item.release_date
+                        release_date: item.first_air_date || item.release_date,
+                        media_type: 'tv'
                     }));
                 }
 
@@ -375,7 +377,7 @@ class MovieApp {
 
             if (isTrending) {
                 return `
-                <div data-movie-id="${movie.id}" class="${animClass} group relative flex-none w-[180px] md:w-[220px] aspect-[2/3] rounded-lg overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105 hover:z-10 snap-start">
+                <div data-movie-id="${movie.id}" data-type="${movie.media_type || 'movie'}" class="${animClass} group relative flex-none w-[180px] md:w-[220px] aspect-[2/3] rounded-lg overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105 hover:z-10 snap-start">
                     <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style="background-image: url('${tmdbService.getImageUrl(movie.poster_path)}')"></div>
                     
                     <!-- Watchlist Add Button (Trending) -->
@@ -397,7 +399,7 @@ class MovieApp {
                 </div>`;
             } else {
                 return `
-                <div data-movie-id="${movie.id}" class="${animClass} flex flex-col gap-2 group cursor-pointer" ${style}>
+                <div data-movie-id="${movie.id}" data-type="${movie.media_type || 'movie'}" class="${animClass} flex flex-col gap-2 group cursor-pointer" ${style}>
                     <div class="relative aspect-[2/3] w-full rounded-lg overflow-hidden shadow-lg shadow-black/50 hover-glow">
                         <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style="background-image: url('${tmdbService.getImageUrl(movie.poster_path)}')"></div>
                         
@@ -1013,7 +1015,8 @@ document.addEventListener('click', (e) => {
     const card = e.target.closest('[data-movie-id]');
     if (!card) return;
     const id = card.getAttribute('data-movie-id');
-    if (id) window.location.href = `movie-details.html?id=${id}`;
+    const type = card.getAttribute('data-type') || 'movie';
+    if (id) window.location.href = `movie-details.html?id=${id}&type=${type}`;
 });
 
 // Initialize the app
