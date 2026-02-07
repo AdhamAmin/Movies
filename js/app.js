@@ -88,7 +88,7 @@ class MovieApp {
         // Fetch data for homepage
         try {
             const [trending, topRated, action] = await Promise.all([
-                tmdbService.getTrendingMovies('week'),
+                tmdbService.getNowPlayingMovies(),
                 tmdbService.getTopRated(),
                 tmdbService.getMoviesByGenre(28) // 28 = Action
             ]);
@@ -115,7 +115,7 @@ class MovieApp {
     async handleTVPage() {
         try {
             const [trending, topRated, scifi, drama] = await Promise.all([
-                tmdbService.getTrendingTV('week'),
+                tmdbService.getOnTheAirTV(),
                 tmdbService.getTopRatedTV(),
                 tmdbService.discover('tv', { genre: 10765 }), // Sci-Fi & Fantasy
                 tmdbService.discover('tv', { genre: 18 })     // Drama
@@ -295,8 +295,8 @@ class MovieApp {
                     : await tmdbService.getMoviesByGenre(18, page); // 18 = Drama
             } else if (section === 'trending') {
                 response = isTV
-                    ? await tmdbService.getTrendingTV('week', page)
-                    : await tmdbService.getTrendingMovies('week', page);
+                    ? await tmdbService.getOnTheAirTV(page)
+                    : await tmdbService.getNowPlayingMovies(page);
             }
 
             if (response && response.results && response.results.length > 0) {

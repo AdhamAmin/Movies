@@ -6,6 +6,19 @@ class TMDBService {
         this.imageBase = (config.IMG_URL || 'https://image.tmdb.org/t/p/w500').replace('/w500', ''); // Base for images
     }
 
+    async getNowPlayingMovies(page = 1) {
+        try {
+            const response = await fetch(
+                `${this.baseUrl}/movie/now_playing?api_key=${this.apiKey}&page=${page}`
+            );
+            if (!response.ok) throw new Error('Failed to fetch now playing movies');
+            return await response.json();
+        } catch (error) {
+            console.error('Error fetching now playing movies:', error);
+            return null;
+        }
+    }
+
     async getTrendingMovies(timeWindow = 'week', page = 1) {
         try {
             const response = await fetch(
@@ -78,6 +91,18 @@ class TMDBService {
             return await response.json();
         } catch (error) {
             console.error('Discover error:', error);
+            return null;
+        }
+    }
+
+    async getOnTheAirTV(page = 1) {
+        try {
+            const response = await fetch(
+                `${this.baseUrl}/tv/on_the_air?api_key=${this.apiKey}&page=${page}`
+            );
+            return await response.json();
+        } catch (error) {
+            console.error('Error fetching on the air TV:', error);
             return null;
         }
     }
