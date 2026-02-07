@@ -223,7 +223,7 @@ class MovieApp {
             watchBtn.onclick = () => this.playTrailer(item.id, type);
         }
         if (infoBtn) {
-            infoBtn.onclick = () => window.location.href = `movie-details.html?id=${item.id}`; // Note: details page might need update for TV
+            infoBtn.onclick = () => window.location.href = `movie-details.html?id=${item.id}&type=${type}`;
         }
     }
 

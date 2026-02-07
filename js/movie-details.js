@@ -1,12 +1,32 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const params = new URLSearchParams(location.search);
     const id = params.get('id');
+    const type = params.get('type') || 'movie'; // Default to movie
+
     if (!id) return;
 
     const apiKey = typeof TMDB_API_KEY !== 'undefined' ? TMDB_API_KEY : window.TMDB_API_KEY;
     const tmdb = new TMDBService(apiKey);
-    const data = await tmdb.getMovieDetails(id);
+
+    let data;
+    if (type === 'tv') {
+        data = await tmdb.getTVDetails(id);
+    } else {
+        data = await tmdb.getMovieDetails(id);
+    }
+
     if (!data) return;
+
+    // Normalize data for TV
+    if (type === 'tv') {
+        data.title = data.name;
+        data.original_title = data.original_name;
+        data.release_date = data.first_air_date;
+        // Runtime handling for TV (episode run time)
+        if (data.episode_run_time && data.episode_run_time.length > 0) {
+            data.runtime = data.episode_run_time[0];
+        }
+    }
 
     const backdrop = document.getElementById('details-backdrop');
     const poster = document.getElementById('details-poster');

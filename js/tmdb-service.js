@@ -59,6 +59,19 @@ class TMDBService {
         }
     }
 
+    async getTVDetails(tvId) {
+        try {
+            const response = await fetch(
+                `${this.baseUrl}/tv/${tvId}?api_key=${this.apiKey}&append_to_response=credits,videos,reviews`
+            );
+            if (!response.ok) throw new Error('Failed to fetch TV details');
+            return await response.json();
+        } catch (error) {
+            console.error('Error fetching TV details:', error);
+            return null;
+        }
+    }
+
     async getTopRated(page = 1) {
         try {
             const response = await fetch(`${this.baseUrl}/movie/top_rated?api_key=${this.apiKey}&page=${page}`);
