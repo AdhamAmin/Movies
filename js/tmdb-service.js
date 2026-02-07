@@ -91,7 +91,8 @@ class TMDBService {
             return await response.json();
         } catch (error) {
             console.error('Discover error:', error);
-            return null;
+            // Return empty results structure to prevent infinite loading in UI
+            return { results: [], total_pages: 0, total_results: 0 };
         }
     }
 

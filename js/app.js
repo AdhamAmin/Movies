@@ -263,7 +263,7 @@ class MovieApp {
         });
     }
 
-    async loadMore(section, btn) {
+    async loadMore(section, btn, isInfinite = false) {
         if (!this.pageState[section]) {
             this.pageState[section] = 1;
         }
@@ -272,9 +272,12 @@ class MovieApp {
         const page = this.pageState[section];
 
         // Show loading state
-        const originalText = btn.textContent;
-        btn.textContent = 'Loading...';
-        btn.disabled = true;
+        let originalText = '';
+        if (btn && !isInfinite) {
+            originalText = btn.textContent;
+            btn.textContent = 'Loading...';
+            btn.disabled = true;
+        }
 
         try {
             let response;
@@ -316,14 +319,16 @@ class MovieApp {
 
                 // this.showNotification(`Loaded ${movies.length} more items!`, 'success');
             } else {
-                this.showNotification('No more items to load', 'info');
+                if (!isInfinite) this.showNotification('No more items to load', 'info');
             }
         } catch (error) {
             console.error('Error loading more:', error);
-            this.showNotification('Failed to load more items', 'error');
+            if (!isInfinite) this.showNotification('Failed to load more items', 'error');
         } finally {
-            btn.textContent = originalText;
-            btn.disabled = false;
+            if (btn && !isInfinite) {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
         }
     }
 
@@ -476,7 +481,7 @@ class MovieApp {
                 document.body.classList.remove('loaded');
                 setTimeout(() => {
                     window.location.href = link.href;
-                }, 400); // Wait for fade out
+                }, 50); // Reduced delay for faster navigation
             }
         });
     }
@@ -489,6 +494,11 @@ class MovieApp {
             if (e.key === 'Enter') {
                 const query = searchInput.value.trim();
                 if (query) {
+                    // Check if we are on details page
+                    if (window.location.pathname.includes('movie-details.html')) {
+                        window.location.href = `search.html?query=${encodeURIComponent(query)}`;
+                        return;
+                    }
                     this.performInlineSearch(query);
                     searchInput.blur();
                 }
@@ -717,19 +727,18 @@ class MovieApp {
 
                 if (items.length === 0) {
                     container.innerHTML = '<div class="col-span-full text-center text-gray-400 py-10">No results found matching your criteria.</div>';
-                    return;
+                    // return; // Don't return, keep flow clean
+                } else {
+                    this.populateSection('recommended-container', items);
                 }
-
-                this.populateSection('recommended-container', items);
 
                 // Update Load More button to use 'filtered' mode
                 const loadMoreBtn = container.parentElement.querySelector('.load-more-btn');
                 if (loadMoreBtn) {
                     loadMoreBtn.dataset.section = 'filtered';
-                    // Reset listener by cloning (simple trick) or just rely on the boolean logic inside loadMore? 
-                    // Actually initLoadMore only adds one listener that calls loadMore(btn.dataset.section). 
-                    // Since we updated dataset.section, it will work!
                 }
+            } else {
+                container.innerHTML = '<div class="col-span-full text-center text-gray-400 py-10">No results found.</div>';
             }
         } catch (e) {
             console.error('Filter error:', e);
@@ -804,6 +813,21 @@ class MovieApp {
                 }
             });
         });
+
+        // Infinite Scroll for Trending Container
+        const trendingContainer = document.getElementById('trending-container');
+        if (trendingContainer) {
+            trendingContainer.addEventListener('scroll', () => {
+                if (trendingContainer.scrollLeft + trendingContainer.clientWidth >= trendingContainer.scrollWidth - 100) {
+                    if (!this.isLoadingMoreTrending) {
+                        this.isLoadingMoreTrending = true;
+                        this.loadMore('trending', null, true).then(() => {
+                            this.isLoadingMoreTrending = false;
+                        });
+                    }
+                }
+            });
+        }
     }
 
     initGridControls() {
