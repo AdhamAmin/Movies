@@ -499,30 +499,42 @@ class MovieApp {
     }
 
     initSearch() {
-        const searchInput = document.getElementById('global-search');
-        if (!searchInput) return;
+        const searchInputs = [
+            document.getElementById('global-search'),
+            document.getElementById('mobile-search')
+        ];
 
-        searchInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                const query = searchInput.value.trim();
-                if (query) {
-                    const currentPath = window.location.pathname;
-                    const isHomePage = currentPath.endsWith('index.html') || currentPath.endsWith('/') || currentPath === '/Movies/'; // Adjust based on deployment
+        searchInputs.forEach(searchInput => {
+            if (!searchInput) return;
 
-                    // Logic: If on home page, do inline. If elsewhere, redirect to home with query.
-                    // Note: User asked for "search on the screen that the main search bar search on it", which implies 
-                    // reusing the home page's search view instead of a separate search.html.
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    const query = searchInput.value.trim();
+                    if (query) {
+                        const currentPath = window.location.pathname;
+                        // Build checks for both dev/prod builds to be safe.
+                        // Ideally we check if we are on index.html or root.
+                        const isHomePage = currentPath.endsWith('index.html') || currentPath.endsWith('/') || currentPath === '/Movies/';
 
-                    if (!isHomePage && !currentPath.includes('index.html')) {
-                        // Redirect to index.html with search query
-                        window.location.href = `index.html?search=${encodeURIComponent(query)}`;
-                        return;
+                        if (!isHomePage && !currentPath.includes('index.html')) {
+                            // Redirect to index.html with search query
+                            window.location.href = `index.html?search=${encodeURIComponent(query)}`;
+                            return;
+                        }
+
+                        this.performInlineSearch(query);
+                        searchInput.blur();
+
+                        // Close mobile menu if open
+                        const mobileMenu = document.getElementById('mobile-menu');
+                        if (mobileMenu && !mobileMenu.classList.contains('translate-x-full')) {
+                            mobileMenu.classList.add('translate-x-full');
+                            mobileMenu.classList.remove('translate-x-0');
+                            document.body.style.overflow = '';
+                        }
                     }
-
-                    this.performInlineSearch(query);
-                    searchInput.blur();
                 }
-            }
+            });
         });
     }
 
