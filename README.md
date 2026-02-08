@@ -47,10 +47,11 @@
 
 - **Dynamic Hero Section**: Auto-playing trailers and trending movie highlights
 - **Movie Discovery**: Browse trending, popular, and genre-specific content
-- **Advanced Search**: Find movies and TV shows with filters
+- **Unified Search**: Seamless search experience directly from the home page
 - **Watchlist**: Save favorites with local storage persistence
 - **Grid View Options**: Comfortable, Compact, and Large display modes
 - **Rating Filters**: Positive, Mostly Positive, Average, Mostly Negative, Negative
+- **Enhanced Layout**: Optimized spacing and responsiveness for a cleaner look
 
 ### 🎨 UI/UX Features
 
@@ -203,9 +204,9 @@ classDiagram
 
 ```javascript
 // Navigate to different sections
-index.html      // Movies homepage
+index.html      // Movies homepage & Unified Search
 tv.html         // TV shows page
-search.html     // Advanced search
+search.html     // Advanced search layout (used internally)
 watchlist.html  // Saved items
 ```
 

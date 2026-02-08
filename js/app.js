@@ -55,6 +55,16 @@ class MovieApp {
             document.body.classList.add('loaded');
         });
 
+        // Check for search query params on load (Unified Search)
+        const params = new URLSearchParams(window.location.search);
+        const searchQuery = params.get('search');
+        if (searchQuery) {
+            // If we have a search query, we want to skip normal loading and do search
+            await this.start(); // Ensure services are ready
+            this.performInlineSearch(searchQuery);
+            return;
+        }
+
         await this.start();
     }
 
@@ -496,11 +506,19 @@ class MovieApp {
             if (e.key === 'Enter') {
                 const query = searchInput.value.trim();
                 if (query) {
-                    // Check if we are on details page
-                    if (window.location.pathname.includes('movie-details.html')) {
-                        window.location.href = `search.html?query=${encodeURIComponent(query)}`;
+                    const currentPath = window.location.pathname;
+                    const isHomePage = currentPath.endsWith('index.html') || currentPath.endsWith('/') || currentPath === '/Movies/'; // Adjust based on deployment
+
+                    // Logic: If on home page, do inline. If elsewhere, redirect to home with query.
+                    // Note: User asked for "search on the screen that the main search bar search on it", which implies 
+                    // reusing the home page's search view instead of a separate search.html.
+
+                    if (!isHomePage && !currentPath.includes('index.html')) {
+                        // Redirect to index.html with search query
+                        window.location.href = `index.html?search=${encodeURIComponent(query)}`;
                         return;
                     }
+
                     this.performInlineSearch(query);
                     searchInput.blur();
                 }
