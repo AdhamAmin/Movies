@@ -42,11 +42,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     const watchlistBtn = document.getElementById('add-watchlist-btn');
 
     // use larger images for backdrop/poster
-    if (backdrop) {
+    const backdropImg = document.getElementById('backdrop-img');
+    if (backdropImg) {
         const url = tmdb.getImageUrl(data.backdrop_path || data.poster_path, 'w1280') || tmdb.getImageUrl(data.backdrop_path || data.poster_path, 'original');
-        backdrop.style.backgroundImage = `url('${url}')`;
-        backdrop.style.backgroundSize = 'cover';
-        backdrop.style.backgroundPosition = 'top center';
+        backdropImg.style.backgroundImage = `url('${url}')`;
     }
     if (poster && data.poster_path) {
         const purl = tmdb.getImageUrl(data.poster_path, 'w780') || tmdb.getImageUrl(data.poster_path, 'w500');

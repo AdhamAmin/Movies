@@ -824,24 +824,18 @@ class MovieApp {
 
         leftArrows.forEach(arrow => {
             arrow.addEventListener('click', () => {
-                const container = arrow.parentElement.querySelector('#trending-container');
+                const container = arrow.parentElement.querySelector('.overflow-x-auto');
                 if (container) {
-                    container.scrollBy({
-                        left: -400,
-                        behavior: 'smooth'
-                    });
+                    container.scrollBy({ left: -400, behavior: 'smooth' });
                 }
             });
         });
 
         rightArrows.forEach(arrow => {
             arrow.addEventListener('click', () => {
-                const container = arrow.parentElement.querySelector('#trending-container');
+                const container = arrow.parentElement.querySelector('.overflow-x-auto');
                 if (container) {
-                    container.scrollBy({
-                        left: 400,
-                        behavior: 'smooth'
-                    });
+                    container.scrollBy({ left: 400, behavior: 'smooth' });
                 }
             });
         });
