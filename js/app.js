@@ -578,9 +578,54 @@ class MovieApp {
         if (!clearBtn) {
             clearBtn = document.createElement('button');
             clearBtn.id = clearBtnId;
-            clearBtn.className = 'fixed bottom-8 right-8 bg-primary hover:bg-red-700 text-white rounded-full p-4 shadow-2xl z-50 animate-bounce flex items-center gap-2 font-bold';
+            clearBtn.className = 'fixed bottom-8 right-8 bg-black/80 hover:bg-black text-white border border-white/20 rounded-full px-6 py-3 shadow-2xl z-50 animate-bounce flex items-center gap-2 font-bold backdrop-blur-md transition-all hover:scale-105';
             clearBtn.innerHTML = '<span class="material-symbols-outlined">close</span> Clear Search';
-            clearBtn.onclick = () => window.location.reload(); // Simple way to reset everything for now
+
+            clearBtn.onclick = () => {
+                // Restore logic
+                if (window.location.search.includes('search=')) {
+                    // If we are on a search URL, just go home cleanly
+                    window.location.href = 'index.html';
+                    return;
+                }
+
+                // Restore sections
+                const hero = document.querySelector('section.relative.min-h-screen');
+                if (hero) {
+                    hero.style.display = '';
+                    hero.style.opacity = '0';
+                    setTimeout(() => hero.style.opacity = '1', 50);
+                }
+
+                const sections = document.querySelectorAll('main section');
+                sections.forEach(sec => sec.style.display = '');
+
+                const filterBar = document.querySelector('.glass.rounded-2xl');
+                if (filterBar) filterBar.style.display = '';
+
+                // Restore header text if needed, or just let it stay as "Top Rated" etc or generic
+                if (header) {
+                    header.innerHTML = `Top Rated Gems <span class="material-symbols-outlined text-yellow-500 filled">star</span>`;
+                    // We might need to re-fetch top rated if we overwrote the container content.
+                    // A simple way is to re-init the page content or just reload if complexity is high.
+                    // But let's try to be smooth.
+                    this.populateSection('recommended-container', this.cachedTopRated || []);
+                    // Note: we need to cache top rated or re-fetch.
+                }
+
+                // Remove this button
+                clearBtn.remove();
+
+                // Clear input
+                const input = document.getElementById('global-search');
+                if (input) input.value = '';
+
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                // Reload page if simpler to restore state perfectly
+                setTimeout(() => window.location.reload(), 300);
+            };
             document.body.appendChild(clearBtn);
         }
 

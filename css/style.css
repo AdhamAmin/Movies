@@ -135,6 +135,25 @@ body.loaded {
     animation: fadeIn 0.8s ease-out forwards;
 }
 
+/* 2b. Pulse Glow (AI Chat) */
+@keyframes pulseGlow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(230, 10, 21, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 15px rgba(230, 10, 21, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(230, 10, 21, 0);
+    }
+}
+
+.animate-glow {
+    animation: pulseGlow 2s infinite;
+}
+
 /* 3. Hover Glow & Scale */
 .hover-glow {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -201,11 +220,11 @@ body.loaded {
 }
 
 .glass-heavy {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+    background: rgba(20, 20, 20, 0.6);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
 }
 
 .dark .glass-heavy {
