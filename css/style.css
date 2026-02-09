@@ -317,16 +317,27 @@ input {
 }
 
 .glass-ai {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(40px);
-    -webkit-backdrop-filter: blur(40px);
+    background: rgba(15, 15, 15, 0.95);
+    /* Almost solid for AI Chat */
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
 }
 
-.dark .glass-ai {
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+/* Mobile adjustments for AI Chat */
+@media (max-width: 640px) {
+    #ai-chat-popup {
+        width: 100% !important;
+        height: 100% !important;
+        bottom: 0 !important;
+        right: 0 !important;
+        max-width: none !important;
+        border-radius: 0 !important;
+        background: #000000 !important;
+        /* Solid black on mobile to prevent overlay issues */
+        z-index: 100 !important;
+    }
 }
 
 /* Typing Dots */

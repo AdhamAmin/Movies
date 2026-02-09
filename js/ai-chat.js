@@ -3,7 +3,12 @@ class AIChat {
     constructor() {
         this.isOpen = false;
         this.isTyping = false;
-        this.apiKey = typeof TMDB_API_KEY !== 'undefined' ? TMDB_API_KEY : (typeof window.TMDB_API_KEY !== 'undefined' ? window.TMDB_API_KEY : null);
+        this.isOpen = false;
+        this.isTyping = false;
+        // TMDB Key
+        this.tmdbApiKey = typeof TMDB_API_KEY !== 'undefined' ? TMDB_API_KEY : (typeof window.TMDB_API_KEY !== 'undefined' ? window.TMDB_API_KEY : null);
+        // Gemini Key
+        this.apiKey = typeof GEMINI_API_KEY !== 'undefined' ? GEMINI_API_KEY : (typeof window.GEMINI_API_KEY !== 'undefined' ? window.GEMINI_API_KEY : null);
         this.tmdb = null;
 
         // Mood to Genre Mapping
@@ -19,8 +24,8 @@ class AIChat {
     }
 
     init() {
-        if (this.apiKey) {
-            this.tmdb = new TMDBService(this.apiKey);
+        if (this.tmdbApiKey) {
+            this.tmdb = new TMDBService(this.tmdbApiKey);
         }
 
         document.addEventListener('DOMContentLoaded', () => this.setupHandlers());
@@ -86,6 +91,23 @@ class AIChat {
 
         this.setTyping(true);
 
+        try {
+            // Try Gemini API first if key exists
+            if (this.apiKey && this.apiKey.startsWith('AIza')) {
+                await this.callGeminiAPI(text);
+            } else {
+                // Fallback to local mood logic
+                this.handleLocalLogic(text);
+            }
+        } catch (error) {
+            console.error('AI Error:', error);
+            this.handleLocalLogic(text);
+        } finally {
+            this.setTyping(false);
+        }
+    }
+
+    handleLocalLogic(text) {
         // Simple NLP for mood words
         const words = text.toLowerCase();
         let selectedMood = null;
@@ -101,8 +123,37 @@ class AIChat {
             } else {
                 this.generateGeneralResponse(text);
             }
-            this.setTyping(false);
         }, 1500);
+    }
+
+    async callGeminiAPI(prompt) {
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${this.apiKey}`;
+
+        const systemPrompt = `You are the Square Busters Concierge, a witty and knowledgeable movie assistant. 
+        Your goal is to help users find movies based on their mood or requests. 
+        Keep responses concise (under 50 words), fun, and full of movie puns.
+        If the user asks for recommendations, suggests 3 movies with their release years.
+        Current context: User is on a movie website.`;
+
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [{ text: `${systemPrompt}\n\nUser: ${prompt}` }]
+                }]
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.candidates && data.candidates[0].content) {
+            const reply = data.candidates[0].content.parts[0].text;
+            // Basic markdown parsing for links if needed, but plain text is fine for now
+            this.addMessage('ai', reply.replace(/\*\*/g, '').replace(/\*/g, ''));
+        } else {
+            throw new Error('Invalid API response');
+        }
     }
 
     async handleMoodSelection(mood) {
@@ -174,7 +225,7 @@ class AIChat {
                 <div class="size-8 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
                     <span class="material-symbols-outlined text-[18px] text-primary">smart_toy</span>
                 </div>
-                <div class="bg-white/10 rounded-2xl p-3 rounded-tl-none max-w-[80%] border border-white/5">
+                <div class="bg-black/80 backdrop-blur-xl rounded-2xl p-3 rounded-tl-none max-w-[85%] border border-white/10 shadow-sm">
                     <div class="text-white text-sm leading-relaxed">${text}</div>
                 </div>
             `;
