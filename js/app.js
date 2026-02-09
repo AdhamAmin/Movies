@@ -61,7 +61,8 @@ class MovieApp {
         if (searchQuery) {
             // If we have a search query, we want to skip normal loading and do search
             await this.start(); // Ensure services are ready
-            this.performInlineSearch(searchQuery);
+            // Delay slightly to ensure DOM transitions are ready
+            setTimeout(() => this.performInlineSearch(searchQuery), 100);
             return;
         }
 
@@ -499,70 +500,77 @@ class MovieApp {
     }
 
     initSearch() {
-        const searchInputs = [
-            document.getElementById('global-search'),
-            document.getElementById('mobile-search')
-        ];
+        const searchInput = document.getElementById('global-search');
+        const mobileSearchInput = document.getElementById('mobile-search');
 
-        searchInputs.forEach(searchInput => {
-            if (!searchInput) return;
+        const handleSearch = (input) => {
+            const query = input.value.trim();
+            if (query) {
+                const currentPath = window.location.pathname;
+                const isHomePage = currentPath.endsWith('index.html') || currentPath.endsWith('/') || currentPath.split('/').pop() === '';
 
-            searchInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    const query = searchInput.value.trim();
-                    if (query) {
-                        const currentPath = window.location.pathname;
-                        // Build checks for both dev/prod builds to be safe.
-                        // Ideally we check if we are on index.html or root.
-                        const isHomePage = currentPath.endsWith('index.html') || currentPath.endsWith('/') || currentPath === '/Movies/';
-
-                        if (!isHomePage && !currentPath.includes('index.html')) {
-                            // Redirect to index.html with search query
-                            window.location.href = `index.html?search=${encodeURIComponent(query)}`;
-                            return;
-                        }
-
-                        this.performInlineSearch(query);
-                        searchInput.blur();
-
-                        // Close mobile menu if open
-                        const mobileMenu = document.getElementById('mobile-menu');
-                        if (mobileMenu && !mobileMenu.classList.contains('translate-x-full')) {
-                            mobileMenu.classList.add('translate-x-full');
-                            mobileMenu.classList.remove('translate-x-0');
-                            document.body.style.overflow = '';
-                        }
-                    }
+                if (!isHomePage && !currentPath.includes('index.html')) {
+                    window.location.href = `index.html?search=${encodeURIComponent(query)}`;
+                    return;
                 }
+
+                this.performInlineSearch(query);
+                input.blur();
+                // If mobile menu is open, close it
+                if (window.mobileMenu && typeof window.mobileMenu.close === 'function') {
+                    window.mobileMenu.close();
+                }
+            }
+        };
+
+        if (searchInput) {
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleSearch(searchInput);
             });
-        });
+        }
+
+        if (mobileSearchInput) {
+            mobileSearchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleSearch(mobileSearchInput);
+            });
+        }
     }
 
     async performInlineSearch(query) {
-        // Update header logic similar to filters
-        const header = document.querySelector('#recommended-container').previousElementSibling;
+        // Update header logic
+        const resultsContainer = document.getElementById('recommended-container');
+        const resultsSection = resultsContainer?.parentElement;
+        const header = resultsContainer?.previousElementSibling;
+
         if (header) {
             header.innerHTML = `Search Results: "${query}" <span class="material-symbols-outlined text-primary">search</span>`;
         }
 
-        // Hide other sections
-        const otherSection = document.querySelector('#action-container')?.parentElement;
-        const trendSection = document.querySelector('#trending-container')?.parentElement;
-        const filterSection = document.querySelector('#recommended-container').parentElement.previousElementSibling; // Filter bar usually
+        // Hide Hero and other sections
+        const hero = document.querySelector('section.relative.min-h-screen');
+        if (hero) hero.style.display = 'none';
 
-        if (otherSection) otherSection.style.display = 'none';
-        if (trendSection) trendSection.style.display = 'none';
-        // Keep filter bar visible? Maybe hide it for search results to avoid confusion or keep it to filter *search results* (advanced). 
-        // For simplicity, let's keep it but maybe it doesn't apply to search results yet unless we combine logic. 
-        // The user just asked for search in main screen. Let's hide filters for now to focus on search.
-        if (filterSection && filterSection.classList.contains('glass-heavy')) filterSection.style.display = 'none';
+        // Hide all other sections in the main area
+        const sections = document.querySelectorAll('main section');
+        sections.forEach(sec => {
+            if (sec !== resultsSection) {
+                sec.style.display = 'none';
+            }
+        });
+
+        // Hide filter bar if it's separate
+        const filterBar = document.querySelector('.glass.rounded-2xl');
+        if (filterBar) filterBar.style.display = 'none';
 
         // Reset page state
-        this.pageState.filtered = 1; // Reuse filtered state or adding new one?
-        this.currentSearchQuery = query; // Store for loadMore
+        this.pageState.filtered = 1;
+        this.currentSearchQuery = query;
 
-        const container = document.getElementById('recommended-container');
-        if (container) container.innerHTML = '<div class="col-span-full text-center py-10"><div class="animate-spin rounded-full h-10 w-10 border-b-2 border-primary mx-auto"></div></div>';
+        if (resultsContainer) {
+            resultsContainer.innerHTML = '<div class="col-span-full text-center py-10"><div class="animate-spin rounded-full h-10 w-10 border-b-2 border-primary mx-auto"></div></div>';
+            // Ensure the main area starts from the top since hero is hidden
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
         // Add a "Clear Search" button
         const clearBtnId = 'clear-search-btn';
