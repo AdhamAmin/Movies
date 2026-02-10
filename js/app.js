@@ -119,6 +119,9 @@ class MovieApp {
             }
         } catch (e) {
             console.error('Error loading movies:', e);
+            if (e.message.includes('401') || e.message.includes('Unauthorized')) {
+                alert('TMDB API Key Error: The provided API key is invalid or unauthorized (401). Please check config.js.');
+            }
             this.showNotification('Failed to load some movies.');
         }
     }

@@ -281,7 +281,7 @@
 
     <!-- AI Chat Popup -->
     <div id="ai-chat-popup"
-        class="hidden fixed bottom-24 right-6 w-[95%] max-w-[500px] h-[700px] glass-ai rounded-3xl z-[70] flex flex-col overflow-hidden ai-popup-enter shadow-2xl border border-white/20">
+        class="hidden fixed bottom-4 right-20 w-[95%] max-w-[500px] h-[700px] glass-ai rounded-3xl z-[70] flex flex-col overflow-hidden ai-popup-enter shadow-2xl border border-white/20">
         <!-- Header -->
         <div class="p-4 border-b border-white/10 flex items-center justify-between bg-white/5 backdrop-blur-md">
             <div class="flex items-center gap-3">
@@ -319,6 +319,15 @@
             </div>
         </div>
 
+        <!-- Typing Indicator (Absolute positioned in CSS) -->
+        <div id="ai-typing-indicator"
+            class="hidden absolute bottom-20 left-6 bg-black/60 rounded-full px-3 py-1.5 backdrop-blur-md border border-white/10 z-20 shadow-lg">
+            <div class="typing-dots scale-75">
+                <span></span><span></span><span></span>
+            </div>
+            <span class="text-[10px] text-gray-300 ml-2">AI is thinking...</span>
+        </div>
+
         <!-- Quick Action Chips -->
         <div
             class="px-4 py-3 flex gap-2 overflow-x-auto no-scrollbar border-t border-white/5 bg-white/5/50 backdrop-blur-sm">
@@ -331,12 +340,7 @@
 
         <!-- Input Area -->
         <div class="p-4 bg-black/40 backdrop-blur-md relative border-t border-white/10">
-            <div id="ai-typing-indicator"
-                class="hidden absolute -top-10 left-4 bg-black/40 rounded-full px-2 py-1 backdrop-blur-sm border border-white/5">
-                <div class="typing-dots scale-75">
-                    <span></span><span></span><span></span>
-                </div>
-            </div>
+            <!-- Typing indicator moved inside input area for better positioning -->
             <div class="relative flex items-center gap-2">
                 <input type="text" id="ai-chat-input"
                     class="flex-1 bg-white/5 border border-white/10 rounded-full px-4 py-2.5 text-sm text-white placeholder-gray-400 focus:outline-none focus:border-primary/50 transition-all focus:bg-white/10"

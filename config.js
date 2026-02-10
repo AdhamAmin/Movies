@@ -1,13 +1,12 @@
-const TMDB_API_KEY = "10986161491746979685ed71ae22c1ec";
-const BASE_URL = "https://api.themoviedb.org/3";
-const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
-const GENRE_LIST_URL = "https://api.themoviedb.org/3/genre/movie/list";
-
 const CONFIG = {
-    BASE_URL: BASE_URL,
-    IMAGE_BASE_URL: IMAGE_BASE_URL,
-    GENRE_LIST_URL: GENRE_LIST_URL
+    BASE_URL: 'https://api.themoviedb.org/3',
+    IMG_URL: 'https://image.tmdb.org/t/p/w500',
+    GENRE_LIST_URL: 'https://api.themoviedb.org/3/genre/movie/list',
+    DEFAULT_THEME: 'dark'
 };
+
+const TMDB_API_KEY = '0dbb7daf18a8a11c01994614e3e426ed';
+
 
 window.CONFIG = CONFIG;
 window.TMDB_API_KEY = TMDB_API_KEY;
