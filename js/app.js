@@ -553,6 +553,13 @@ class MovieApp {
         const hero = document.querySelector('section.relative.min-h-screen');
         if (hero) hero.style.display = 'none';
 
+        // Fix layout: Remove negative margin and add top padding to avoid header overlap
+        const mainContainer = document.querySelector('.relative.z-20.w-full.max-w-\\[1920px\\]');
+        if (mainContainer) {
+            mainContainer.classList.remove('-mt-24');
+            mainContainer.classList.add('pt-32'); // Add padding to clear the header
+        }
+
         // Hide all other sections in the main area
         const sections = document.querySelectorAll('main section');
         sections.forEach(sec => {
@@ -598,6 +605,12 @@ class MovieApp {
                     hero.style.display = '';
                     hero.style.opacity = '0';
                     setTimeout(() => hero.style.opacity = '1', 50);
+                }
+
+                // Restore layout margins
+                if (mainContainer) {
+                    mainContainer.classList.add('-mt-24');
+                    mainContainer.classList.remove('pt-32');
                 }
 
                 const sections = document.querySelectorAll('main section');
