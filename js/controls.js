@@ -82,11 +82,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Play Button Hover Effects
-    const playButtons = document.querySelectorAll('button:has(.material-symbols-outlined:contains("play_arrow"))');
-    // Note: :contains is not valid CSS, using standard iteration
-    document.querySelectorAll('button').forEach(btn => {
+    // Play Button Hover Effects
+    // Fix: :contains is not a valid CSS selector. Use Array.from and filter instead.
+    const buttons = Array.from(document.querySelectorAll('button'));
+    buttons.forEach(btn => {
         const icon = btn.querySelector('.material-symbols-outlined');
-        if (icon && (icon.textContent === 'play_arrow' || icon.textContent === 'play_circle')) {
+        if (icon && (icon.textContent.includes('play_arrow') || icon.textContent.includes('play_circle'))) {
             btn.addEventListener('mouseenter', () => {
                 icon.style.transform = 'scale(1.2)';
                 icon.style.transition = 'transform 0.2s ease';
