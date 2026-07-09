@@ -391,53 +391,77 @@ class MovieApp {
 
             if (isTrending) {
                 return `
-                <div data-movie-id="${movie.id}" data-type="${movie.media_type || 'movie'}" class="${animClass} group relative flex-none w-[180px] md:w-[220px] aspect-[2/3] rounded-lg overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-105 hover:z-10 snap-start">
-                    <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style="background-image: url('${tmdbService.getImageUrl(movie.poster_path)}')"></div>
+                <div data-movie-id="${movie.id}" data-type="${movie.media_type || 'movie'}" class="${animClass} group relative flex-none w-[180px] md:w-[220px] aspect-[2/3] cursor-pointer snap-start">
+                    <div class="movie-card-image absolute inset-0 rounded-lg transition-transform duration-500 group-hover:scale-110" style="background-image: url('${tmdbService.getImageUrl(movie.poster_path)}')"></div>
+                    
+                    <!-- Enhanced Rating Badge -->
+                    <div class="absolute top-3 right-3 bg-black/70 backdrop-blur-md px-2.5 py-1.5 rounded-lg flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+                        <span class="material-symbols-outlined text-[14px] text-yellow-400 filled">star</span>
+                        <span class="text-xs font-bold text-white">${movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'}</span>
+                    </div>
                     
                     <!-- Watchlist Add Button (Trending) -->
-                    <button class="add-to-watchlist-btn absolute top-2 left-2 size-8 rounded-full bg-black/70 hover:bg-primary backdrop-blur-sm flex items-center justify-center text-white transition-all hover:scale-110 z-20 opacity-0 group-hover:opacity-100"
+                    <button class="add-to-watchlist-btn absolute top-3 left-3 size-9 rounded-lg bg-black/70 hover:bg-primary backdrop-blur-md flex items-center justify-center text-white transition-all hover:scale-110 z-20 opacity-0 group-hover:opacity-100 shadow-lg"
                             data-movie-id="${movie.id}"
                             data-movie-title="${(movie.title || '').replace(/"/g, '&quot;')}"
                             title="Add to Watchlist">
                         <span class="material-symbols-outlined text-[18px]">add</span>
                     </button>
 
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                        <h3 class="text-white font-bold text-lg leading-tight truncate">${movie.title}</h3>
-                        <div class="flex items-center justify-between mt-2">
-                            <span class="text-yellow-400 text-sm flex items-center gap-1">
-                                <span class="material-symbols-outlined text-[14px] filled">star</span> ${movie.vote_average.toFixed(1)}
-                            </span>
+                    <!-- Play Button Overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4 z-10">
+                        <div></div>
+                        <div class="flex flex-col gap-2">
+                            <h3 class="text-white font-bold text-sm leading-tight line-clamp-2 drop-shadow-lg">${movie.title}</h3>
+                            <div class="flex items-center justify-between">
+                                <span class="text-yellow-400 text-xs font-semibold flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-[12px] filled">calendar_today</span> ${movie.release_date?.split('-')[0] || 'N/A'}
+                                </span>
+                                <div class="size-10 rounded-lg bg-primary/90 flex items-center justify-center text-white shadow-lg hover:scale-110 transition-transform">
+                                    <span class="material-symbols-outlined text-[18px] filled">play_arrow</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>`;
             } else {
                 return `
-                <div data-movie-id="${movie.id}" data-type="${movie.media_type || 'movie'}" class="${animClass} flex flex-col gap-2 group cursor-pointer" ${style}>
-                    <div class="relative aspect-[2/3] w-full rounded-lg overflow-hidden shadow-lg shadow-black/50 hover-glow">
-                        <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style="background-image: url('${tmdbService.getImageUrl(movie.poster_path)}')"></div>
+                <div data-movie-id="${movie.id}" data-type="${movie.media_type || 'movie'}" class="${animClass} movie-card group" ${style}>
+                    <div class="relative aspect-[2/3] w-full overflow-hidden hover-glow">
+                        <div class="movie-card-image absolute inset-0" style="background-image: url('${tmdbService.getImageUrl(movie.poster_path)}')"></div>
                         
-                        <!-- Watchlist Add Button -->
-                        <button class="add-to-watchlist-btn absolute top-2 left-2 size-8 rounded-full bg-black/70 hover:bg-primary backdrop-blur-sm flex items-center justify-center text-white transition-all hover:scale-110 z-10 opacity-0 group-hover:opacity-100"
+                        <!-- Enhanced Rating Badge -->
+                        <div class="absolute top-3 right-3 bg-black/70 backdrop-blur-md px-2 py-1 rounded-lg flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 shadow-lg">
+                            <span class="material-symbols-outlined text-[12px] text-yellow-400 filled">star</span>
+                            <span class="text-xs font-bold text-white">${movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'}</span>
+                        </div>
+                        
+                        <!-- Enhanced Watchlist Add Button -->
+                        <button class="add-to-watchlist-btn absolute top-3 left-3 size-8 rounded-lg bg-black/70 hover:bg-primary backdrop-blur-md flex items-center justify-center text-white transition-all hover:scale-110 z-20 opacity-0 group-hover:opacity-100 shadow-lg"
                                 data-movie-id="${movie.id}"
                                 data-movie-title="${(movie.title || '').replace(/"/g, '&quot;')}"
                                 title="Add to Watchlist">
                             <span class="material-symbols-outlined text-[18px]">add</span>
                         </button>
                         
-                        <div class="absolute top-2 right-2 bg-black/60 backdrop-blur-md px-1.5 py-0.5 rounded flex items-center gap-1">
-                            <span class="material-symbols-outlined text-[12px] text-[#FFD700] filled">star</span>
-                            <span class="text-xs font-bold text-white">${movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'}</span>
-                        </div>
-                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <div class="size-12 rounded-full bg-primary/90 flex items-center justify-center text-white shadow-lg transform scale-0 group-hover:scale-100 transition-transform duration-300 delay-75">
-                                <span class="material-symbols-outlined filled">play_arrow</span>
+                        <!-- Play Button Overlay -->
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-lg">
+                            <div class="size-12 rounded-lg bg-primary/90 flex items-center justify-center text-white shadow-lg transform scale-0 group-hover:scale-100 transition-transform duration-300 delay-75 hover:scale-110">
+                                <span class="material-symbols-outlined text-[24px] filled">play_arrow</span>
                             </div>
                         </div>
                     </div>
-                    <div class="flex flex-col">
-                        <h3 class="text-main dark:text-white font-semibold truncate group-hover:text-primary transition-colors">${movie.title}</h3>
-                        <span class="text-gray-600 dark:text-gray-500 text-xs">${movie.release_date?.split('-')[0] || 'N/A'}</span>
+                    
+                    <!-- Card Info -->
+                    <div class="flex flex-col gap-2 mt-3">
+                        <h3 class="text-main dark:text-white font-semibold text-sm leading-snug group-hover:text-primary transition-colors line-clamp-2 drop-shadow-sm">${movie.title}</h3>
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="text-gray-600 dark:text-gray-400 font-medium">${movie.release_date?.split('-')[0] || 'N/A'}</span>
+                            <span class="flex items-center gap-1 text-yellow-500 font-semibold">
+                                <span class="material-symbols-outlined text-[12px] filled">star</span>
+                                ${movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'}
+                            </span>
+                        </div>
                     </div>
                 </div>`;
             }
